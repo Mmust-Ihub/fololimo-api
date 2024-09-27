@@ -48,17 +48,17 @@ This is a Django Rest Framework application for the FOLOLIMO API.
 
 # API DOCUMENTATION
 
+> Root url: [https://fololimo-api.onrender.com](https://fololimo-api.onrender.com)
+
 <br>
 <br>
 
-## Accounts
-<!-- ## Accounts
+## Authentication
+
 
 ### Account Login
-POST:https://oops-n5cn.onrender.com/api/v1/account/login/
->
->Check the credentials and return the REST Token if the credentials are valid and authenticated. Calls Django Auth login method to register User ID in Django session framework
->
+POST:https://fololimo-api.onrender.com/api/v1/users/login/
+
 >Accept the following POST parameters: username, password Return the REST Framework Token Object's key.
 >
 > AUTHORIZATIONS:> ***Token***
@@ -84,9 +84,8 @@ POST:https://oops-n5cn.onrender.com/api/v1/account/login/
 ```
 
 ### Account Logout
-GET:https://oops-n5cn.onrender.com/api/v1/account/logout/
->Calls Django logout method and delete the Token object assigned to the current User object.
->
+GET:https://fololimo-api.onrender.com/api/v1/users/logout/
+
 >Accepts/returns nothing
 >
 >AUTHORIZATIONS:> ***Token***
@@ -95,9 +94,8 @@ GET:https://oops-n5cn.onrender.com/api/v1/account/logout/
 >
 >Status: 200
 
-POST:https://oops-n5cn.onrender.com/api/v1/account/logout/
-> Calls Django logout method and delete the Token object assigned to the current User object.
->
+POST:https://fololimo-api.onrender.com/api/v1/users/logout/
+
 >Accepts/Returns nothing.
 >
 >AUTHORIZATIONS:> ***Token***
@@ -108,9 +106,8 @@ POST:https://oops-n5cn.onrender.com/api/v1/account/logout/
 
 ### Password Reset
 
-POST:https://oops-n5cn.onrender.com/api/v1/account/password/reset/
-> Calls Django Auth PasswordResetForm save method.
->
+POST:https://fololimo-api.onrender.com/api/v1/users/password/reset/
+
 >Accepts the following POST parameters: email Returns the success/fail message.
 >
 >AUTHORIZATIONS:>***Token***
@@ -133,7 +130,7 @@ POST:https://oops-n5cn.onrender.com/api/v1/account/password/reset/
   "email": "user@example.com"
 }
 ```
-POST:https://oops-n5cn.onrender.com/api/v1/account/password/reset/confirm/
+POST:https://fololimo-api.onrender.com/api/v1/users/password/reset/confirm/
 >Password reset e-mail link is confirmed, therefore this resets the user's password.
 >
 >Accepts the following POST parameters: token, uid, new_password1, new_password2 Returns the success/fail message.
@@ -166,7 +163,7 @@ POST:https://oops-n5cn.onrender.com/api/v1/account/password/reset/confirm/
 }
 ```
 ### Account Registration.
-POST:https://oops-n5cn.onrender.com/api/v1/account/register/
+POST:https://fololimo-api.onrender.com/api/v1/users/register/
 This is used when one wants to create an account.
 
 >AUTHORIZATIONS: >***Token***
@@ -197,7 +194,7 @@ This is used when one wants to create an account.
 ```
 #### Account Registration Email
 
-POST:https://oops-n5cn.onrender.com/api/v1/account/register/resend-email/
+POST:https://fololimo-api.onrender.com/api/v1/users//register/resend-email/
 Account Register Resend Email
 
 This is for requesting for the Email from the user.
@@ -224,7 +221,7 @@ This is for requesting for the Email from the user.
 ```
 Account Verify Email when Creating an Account
 
-POST:https://oops-n5cn.onrender.com/api/v1/account/register/verify-email/
+POST:https://fololimo-api.onrender.com/api/v1/users//register/verify-email/
 >AUTHORIZATIONS:> ***Token***
 >
 >REQUEST BODY SCHEMA: application/json
@@ -246,6 +243,8 @@ POST:https://oops-n5cn.onrender.com/api/v1/account/register/verify-email/
   "key": "string"
 }
 ```
+
+<!---
 ## PROPOSALS
 
 This allows one to fill the available proposals and also create proposals.This is based on the user it may be the Proposer or the Coordinator.
