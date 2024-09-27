@@ -45,7 +45,7 @@ ROOT_URLCONF = "core.urls"
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:5173",
     "http://localhost:5174",
-    'fololimo-api.onrender.com'
+    'https://fololimo-api.onrender.com'
 ]
 
 TEMPLATES = [
