@@ -1,0 +1,85 @@
+# Environment variables
+.env
+
+# Python cache files
+__pycache__/
+*.py[cod]
+
+# SQLite database files
+*.sqlite3
+db.sqlite3
+
+# Log files
+*.log
+
+# Translation files
+*.pot
+*.mo
+
+# Compiled Python files
+*.pyc
+*.pyo
+*.pyd
+*.so
+
+# Egg files
+*.egg
+*.egg-info/
+
+# Build directories
+dist/
+build/
+
+# Swap files
+*.swp
+*.swo
+*.swn
+
+# Backup files
+*.bak
+*.tmp
+*.orig
+
+# Coverage files
+*.cover
+*.coverage
+.coverage.*
+.cache
+nosetests.xml
+coverage.xml
+
+# Configuration files
+*.coveragerc
+*.pylintrc
+
+# MyPy cache
+*.mypy_cache/
+
+# Pytest cache
+*.pytest_cache/
+
+# Tox environments
+.tox/
+
+# IDE specific files
+.idea/
+.vscode/
+
+# macOS specific files
+*.DS_Store
+*.directory
+
+# Virtual environments
+*.env
+*.venv
+*.virtualenv
+env/
+# Django specific files and directories
+instance/
+htmlcov/
+site/
+staticfiles/
+media/
+local_settings.py
+
+# Add any other files or directories that should be ignored
