@@ -43,10 +43,9 @@ MIDDLEWARE = [
 
 ROOT_URLCONF = "core.urls"
 CORS_ALLOWED_ORIGINS = [
-    "https://opps-frontend.vercel.app",
-    "https://b4p4f8wp-5173.uks1.devtunnels.ms",
     "http://localhost:5173",
     "http://localhost:5174",
+    'fololimo-api.onrender.com'
 ]
 
 TEMPLATES = [

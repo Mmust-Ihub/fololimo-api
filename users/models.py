@@ -2,11 +2,11 @@ from django.db import models
 from django.contrib.auth.models import AbstractBaseUser,BaseUserManager,PermissionsMixin
 
 class UserManager(BaseUserManager):
-    def _create_user(self,username,email,password,role,firstname=None,lastname=None,**extra_fields):
+    def _create_user(self,username,email,password,firstname=None,lastname=None,**extra_fields):
         if not username:
             raise ValueError('Username must be provided')
         email = self.normalize_email(email)
-        user = self.model(username=username,lastname=lastname,firstname=firstname,email=email,role=role,is_staff=extra_fields['is_staff'],is_superuser=extra_fields['is_superuser'])
+        user = self.model(username=username,lastname=lastname,firstname=firstname,email=email,is_staff=extra_fields['is_staff'],is_superuser=extra_fields['is_superuser'])
         user.set_password(password)
         user.save(using=self._db)
         return user
@@ -25,7 +25,7 @@ class UserManager(BaseUserManager):
         if extra_fields.get("is_superuser") is not True:
             raise ValueError("Superuser must have is_superuser=True.")
 
-        return self._create_user(username, email, password,role='admin',**extra_fields)
+        return self._create_user(username, email, password,**extra_fields)
 
 class User(AbstractBaseUser,PermissionsMixin):
     username = models.CharField(max_length=50,unique=True,)
