@@ -83,27 +83,6 @@ POST:https://fololimo-api.onrender.com/api/v1/users/login/
 }
 ```
 
-### Account Logout
-GET:https://fololimo-api.onrender.com/api/v1/users/logout/
-
->Accepts/returns nothing
->
->AUTHORIZATIONS:> ***Token***
-
->Responses
->
->Status: 200
-
-POST:https://fololimo-api.onrender.com/api/v1/users/logout/
-
->Accepts/Returns nothing.
->
->AUTHORIZATIONS:> ***Token***
-
->Responses
->
->Status:201
-
 ### Password Reset
 
 POST:https://fololimo-api.onrender.com/api/v1/users/password/reset/
@@ -241,6 +220,34 @@ POST:https://fololimo-api.onrender.com/api/v1/users//register/verify-email/
 ```python
 {
   "key": "string"
+}
+```
+Get user details
+
+POST:https://fololimo-api.onrender.com/api/v1/users/user/
+>AUTHORIZATIONS:> ***Token***
+>
+>REQUEST BODY SCHEMA: application/json
+
+```python
+{
+  "key": "string"
+}
+```
+
+>Response Samples
+>
+>Status:200
+>
+>RESPONSE SCHEMA: application/json
+
+```python
+{
+  "username": "my username",
+  "email": "email@host.com",
+  "firstname":"my firstname",
+  "lastname":"my lastname",
+
 }
 ```
 
