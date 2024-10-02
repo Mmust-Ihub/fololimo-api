@@ -80,8 +80,10 @@ def ussd_callback(request):
     elif text == "1*3":
         response = "END We are working on this feature. Please check back later"
         
-    elif len(user_input) > 4:
-        pass       
+    elif len(user_input) ==5 and user_input[-1] == "3":
+        response = "END We are working on this feature. Please check back later"      
+    elif len(user_input) == 4 and user_input[-1] == "3":
+        response = "END We are working on this feature. Please check back later"      
     
 
     return HttpResponse(response)
