@@ -82,7 +82,11 @@ def ussd_callback(request):
         
     elif len(user_input) ==5 and user_input[-1] == "3":
         response = "END We are working on this feature. Please check back later"      
+    elif len(user_input) ==5 and user_input[-1] == "4":
+        response = "END We are working on this feature. Please check back later"      
     elif len(user_input) == 4 and user_input[-1] == "3":
+        response = "END We are working on this feature. Please check back later"      
+    elif len(user_input) == 4 and user_input[-1] == "4":
         response = "END We are working on this feature. Please check back later"      
     
 
@@ -107,7 +111,8 @@ def home():
     res = "CON Welcome back to Fololimo.\n"
     res += "1. View Weather Updates\n"
     res += "2. Get Tips\n"
-    res += "3. Get a Loan"
+    res += "3. Get a Loan\n"
+    res += "4. Request an Agrovet\n"
 
     return res
 
