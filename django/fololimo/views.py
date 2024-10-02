@@ -42,6 +42,16 @@ def ussd_callback(request):
         else:
             response = register()
             
+    elif len(user_input) == 2 and user_input[-1] == "1" and client and user_input[0] == "2":
+        response = get_weather_update()
+    
+    elif len(user_input) == 2 and user_input[-1] == "2" and client and user_input[0] == "2":
+        response = getTip()
+    elif len(user_input) == 2 and user_input[-1] == "3" and client and user_input[0] == "2":
+        response = "END We are working on this feature. Please check back later"
+    elif len(user_input) == 2 and user_input[-1] == "4" and client and user_input[0] == "2":
+        response = "END We are working on this feature. Please check back later"
+            
     elif text == "2*1":
         response = register_farmer()
     elif text == "2*2":
@@ -79,6 +89,8 @@ def ussd_callback(request):
         
     elif text == "1*3":
         response = "END We are working on this feature. Please check back later"
+    elif text == "1*4":
+        response = "END We are working on this feature. Please check back later"
         
     elif len(user_input) ==5 and user_input[-1] == "3":
         response = "END We are working on this feature. Please check back later"      
@@ -87,7 +99,8 @@ def ussd_callback(request):
     elif len(user_input) == 4 and user_input[-1] == "3":
         response = "END We are working on this feature. Please check back later"      
     elif len(user_input) == 4 and user_input[-1] == "4":
-        response = "END We are working on this feature. Please check back later"      
+        response = "END We are working on this feature. Please check back later"
+    
     
 
     return HttpResponse(response)
