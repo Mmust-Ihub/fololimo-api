@@ -11,4 +11,5 @@ urlpatterns = [
     path('api/v1/users/register', include("dj_rest_auth.registration.urls")),
     path('api/v1/users/account-confirm-email/', VerifyEmailView.as_view(), name='account_email_verification_sent'),
     path('api/v1/', include('users.urls')),
+    path('api/v1/', include('fololimo.urls')),
 ]+ static(settings.STATIC_URL,document_root=settings.STATIC_ROOT)

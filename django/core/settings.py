@@ -10,7 +10,7 @@ SECRET_KEY = config("SECRET_KEY")
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = config("DEBUG", cast=bool)
 
-ALLOWED_HOSTS = ["fololimo-api.onrender.com", "127.0.0.1"]
+ALLOWED_HOSTS = ["*"]
 
 
 # Application definition
@@ -32,6 +32,7 @@ INSTALLED_APPS = [
     "dj_rest_auth",
     "dj_rest_auth.registration",
     "users",
+    "fololimo",
     # "insights",
     
 ]
@@ -51,11 +52,13 @@ MIDDLEWARE = [
 ]
 
 ROOT_URLCONF = "core.urls"
-CORS_ALLOWED_ORIGINS = [
-    "http://localhost:5173",
-    "http://localhost:5174",
-    "https://fololimo-api.onrender.com",
-]
+# CORS_ALLOWED_ORIGINS = [
+#     "http://localhost:5173",
+#     "http://localhost:5174",
+#     "https://fololimo-api.onrender.com",
+# ]
+
+CORS_ALLOW_ALL_ORIGINS = True
 
 TEMPLATES = [
     {
