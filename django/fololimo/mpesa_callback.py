@@ -3,7 +3,7 @@ import requests
 import base64
 from decouple import config
 from datetime import datetime, timezone, timedelta
-from generate_token import generate_access_token
+from .generate_token import generate_access_token
 
 
 def push_stk():
