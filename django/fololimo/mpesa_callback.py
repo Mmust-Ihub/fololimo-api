@@ -29,7 +29,7 @@ def push_stk():
         "PartyA": 254708374149,
         "PartyB": 174379,
         "PhoneNumber": 254740510778,
-        "CallBackURL": "https://sbktr4dg-8000.uks1.devtunnels.ms/api/v1/mpesa_callback/",
+        "CallBackURL": "https://fololimo-api.onrender.com/api/v1/mpesa_callback/",
         "AccountReference": "Fololimo",
         "TransactionDesc": "Subscription",
     }
