@@ -9,7 +9,7 @@ import createHttpError from "http-errors";
 import morgan from "morgan";
 import router from "./routes/index.js";
 import logger from "./config/logger.js";
-import { createUploadDir} from "./utils/utils.js";
+// import { createUploadDir} from "./utils/utils.js";
 import config from "./config/config.js";
 
 const app = express();
@@ -29,11 +29,9 @@ if (config.env !== "production") {
   app.use(morgan("dev", {stream: {write: message =>logger.http(message)}}));
 }
 
-createUploadDir()
+// createUploadDir()
 
-app.post("/",  async(req, res, next) => {
-    const file = req.file
-    console.log(file)
+app.get("/api/healthcheck",  async(req, res, next) => {
     return res.status(200).json({"message": "Hello world"})
 })
 
