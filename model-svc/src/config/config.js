@@ -18,7 +18,6 @@ const envVarsSchema = joi
     PORT: joi.number().default(3000),
     GEMINI_API_KEY: joi.string().required().description("Gemini api key"),
     LANGUAGE: joi.string().required().description("The default language"),
-    UPLOADS_DIR: joi.string().required(),
   })
   .unknown();
 
@@ -34,5 +33,4 @@ export default {
   port: envVars.PORT,
   gemini_api_key: envVars.GEMINI_API_KEY,
   language: envVars.LANGUAGE,
-  upload_dir: envVars.UPLOADS_DIR
 };

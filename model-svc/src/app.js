@@ -7,12 +7,13 @@ import compression from "compression";
 import xss from "xss-clean";
 import createHttpError from "http-errors";
 import morgan from "morgan";
+import multer from "multer"
 import router from "./routes/index.js";
 import logger from "./config/logger.js";
-import { createUploadDir} from "./utils/utils.js";
 import config from "./config/config.js";
 
 const app = express();
+const upload = multer()
 
 // middlewares
 app.use(express.json());
@@ -24,12 +25,11 @@ app.options("*", cors());
 app.use(xss());
 app.use(mongoSanitize());
 app.use(compression());
+app.use(upload.any())
 
 if (config.env !== "production") {
   app.use(morgan("dev", {stream: {write: message =>logger.http(message)}}));
 }
-
-createUploadDir()
 
 app.post("/",  async(req, res, next) => {
     const file = req.file

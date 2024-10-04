@@ -40,7 +40,7 @@ const safetySettings = [
   },
 ];
 
-export const modelPredict = async (filepath, mimeType, prompt) => {
+export const modelPredict = async (file, mimeType, prompt) => {
   try {
     const chatSession = model.startChat({
       generationConfig,
@@ -59,7 +59,7 @@ export const modelPredict = async (filepath, mimeType, prompt) => {
           parts: [
             {
               inlineData: {
-                data: Buffer.from(fs.readFileSync(filepath)).toString("base64"),
+                data: Buffer.from(file).toString("base64"),
                 mimeType,
               },
             },
