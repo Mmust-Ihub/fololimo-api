@@ -37,27 +37,7 @@ Majibu yanapaswa kuundwa katika umbizo la JSON lifuatalo:
   "post_harvest_handling": ["Ushauri kuhusu usimamizi na uhifadhi baada ya mavuno"]
 }
 `;
-// export const diseaseInSwahili = `
-// Chambua picha ya mmea na tambua maelezo yafuatayo, hasa kama yanahusiana na kilimo (kama vile mazao au mimea inayojulikana katika kilimo). Ikiwa sio mmea unaohusiana na kilimo, rudisha JSON tupu {}. Ikiwa ni mmea unaohusiana na kilimo, tambua zao (mfano, 'mahindi'), wadudu au ugonjwa uliopo (ikiwa kuna wowote), na toa mapendekezo ya tiba
-// Majibu yanapaswa kutolewa kwa lugha ya Kiswahili.
-// Pia, toa maelezo yafuatayo:
 
-
-// Majibu yanapaswa kuundwa katika umbizo la JSON lifuatalo:
-// {
-//   "zao": "Aina ya zao",
-//   "ugonjwa": "Jina la ugonjwa au mdudu",
-//   "mazao_mengine_yanayoathiriwa": ["Orodha ya mazao mengine yanayoweza kuathiriwa"],
-//   "sababu": ["Wadudu, vijidudu, au hali za mazingira zinazoweza kusababisha ugonjwa"],
-//   "mzunguko_wa_maisha": ["Taarifa kuhusu mzunguko wa maisha wa mdudu au ugonjwa"],
-//   "tiba": ["Njia za matibabu, kipimo, marudio, na tahadhari za usalama"],
-//   "hatua_za_kinga": ["Hatua za kuzuia kutokea tena siku zijazo"],
-//   "mazingira_bora": ["Hali bora za ukuaji kama vile pH ya udongo, unyevunyevu, na joto"],
-//   "upungufu_wa_virutubisho": ["Upungufu wowote wa virutubisho unaoonekana"],
-//   "kupanda_pamoja": ["Mimea inayoweza kupandwa pamoja kusaidia kudhibiti wadudu/ugonjwa"],
-//   "uhifadhi_baada_ya_mavuno": ["Ushauri kuhusu usimamizi na uhifadhi baada ya mavuno"]
-// }
-// `;
 export const pestInEnglish = `
 Analyze the image of the pest and identify it. If the image is not related to a pest, return an empty JSON '{}'. If the pest is identified, provide the following information in English:
 
@@ -93,23 +73,6 @@ Majibu yanapaswa kuundwa katika umbizo la JSON lifuatalo:
   "post_harvest_handling": ["Ushauri wa usimamizi baada ya mavuno ili kuepuka uharibifu au uvamizi wakati wa kuhifadhi"]
 }
 `;
-// export const pestInSwahili = `
-// Chambua picha ya mdudu na utambue. Ikiwa picha haihusiani na mdudu, rudisha JSON tupu '{}'. Ikiwa mdudu umetambuliwa, toa maelezo yafuatayo kwa Kiswahili:
-
-// Majibu yanapaswa kuundwa katika umbizo la JSON lifuatalo:
-// {
-//   "jina_la_mdudu": "Jina la kawaida la mdudu",
-//   "jina_la_kisayansi": "Jina la kisayansi la mdudu",
-//   "mazao_yanayoathiriwa": ["Orodha ya mazao yanayoathiriwa na mdudu huyu"],
-//   "mzunguko_wa_maisha": ["Maelezo ya mzunguko wa maisha ya mdudu na hatua za kuingilia"],
-//   "tiba": ["Njia za matibabu ikiwa ni pamoja na kipimo na marudio kwa njia za asili na zisizo za asili"],
-//   "hatua_za_kinga": ["Hatua za kuzuia kutokea tena kwa mdudu siku zijazo"],
-//   "mazingira_bora": ["Hali za mazingira bora ambapo mdudu huyu hukua, mfano, joto, unyevunyevu"],
-//   "kupanda_pamoja": ["Mimea inayoweza kupandwa pamoja kupunguza uwezekano wa mdudu"],
-//   "upungufu_wa_virutubisho": ["Upungufu wa virutubisho unaoweza kuvutia mdudu"],
-//   "uhifadhi_baada_ya_mavuno": ["Ushauri wa usimamizi baada ya mavuno ili kuepuka uharibifu au uvamizi wakati wa kuhifadhi"]
-// }
-// `;
 
 export const diseaseObject = {
   "en": diseaseInEnglish,
