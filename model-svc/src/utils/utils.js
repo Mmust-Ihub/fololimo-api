@@ -1,16 +1,24 @@
-import fs from "fs";
 import config from "../config/config.js";
-import logger from "../config/logger.js";
+import { v2 as cloudinary } from "cloudinary";
 
+// Configuration
+cloudinary.config({
+  cloud_name: config.cloud_name,
+  api_key: config.cloud_api_key,
+  api_secret: config.cloud_api_secret,
+});
 
-export const convertToBase = async(filepath) => {
-  const base64 = Buffer.from(fs.readFileSync(filepath)).toString("base64")
-  return base64
-}
-export const deletePath = async(filepath) => {
-
-}
-
-export const uploadImage = (filepath) => {
-
-}
+export const uploadImage = async (imageFile) => {
+  try {
+    const imageBuffer = imageFile?.buffer?.toString("base64");
+    const response = await cloudinary.uploader.upload(
+      `data:${imageFile?.mimetype};base64,${imageBuffer}`,
+      {
+        folder: "fololimo",
+      }
+    );
+    return response.secure_url;
+  } catch (error) {
+    throw error;
+  }
+};

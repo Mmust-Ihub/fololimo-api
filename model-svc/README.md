@@ -51,7 +51,8 @@
     "environment_conditions": ["Optimal growing conditions such as soil pH, moisture, and temperature"],
     "nutrient_deficiency": ["Any nutrient deficiencies observed"],
     "companion_planting": ["Suggested c+ompanion plants for pest/disease control"],
-    "post_harvest_handling": ["Advice on post-harvest management and storage"]
+    "post_harvest_handling": ["Advice on post-harvest management and storage"],
+    "image_url": ["The link to the image"]
   }
   ```
 
@@ -71,7 +72,9 @@
     "environment_conditions": ["Hali bora za ukuaji kama vile pH ya udongo, unyevunyevu, na joto"],
     "nutrient_deficiency": ["Upungufu wowote wa virutubisho unaoonekana"],
     "companion_planting": ["Mimea inayoweza kupandwa pamoja kusaidia kudhibiti wadudu/ugonjwa"],
-    "post_harvest_handling": ["Ushauri kuhusu usimamizi na uhifadhi baada ya mavuno"]
+    "post_harvest_handling": ["Ushauri kuhusu usimamizi na uhifadhi baada ya mavuno"],
+        "image_url": ["The link to the image"]
+
   }
   ```
 ## Predict Disease
@@ -112,7 +115,8 @@
   "environment_conditions": ["Environmental conditions where this pest thrives, e.g., temperature, moisture"],
   "companion_planting": ["Companion plants to reduce pest occurrences"],
   "nutrient_deficiencies": ["Nutrient deficiencies that may attract the pest"],
-  "post_harvest_handling": ["Post-harvest management advice to avoid spoilage or infestation"]
+  "post_harvest_handling": ["Post-harvest management advice to avoid spoilage or infestation"],
+  "image_url": "The image of the url .."
   }
   ```
 
@@ -130,6 +134,7 @@
   "environment_conditions": ["Hali za mazingira bora ambapo mdudu huyu hukua, mfano, joto, unyevunyevu"],
   "companion_planting": ["Mimea inayoweza kupandwa pamoja kupunguza uwezekano wa mdudu"],
   "nutrient_deficiencies": ["Upungufu wa virutubisho unaoweza kuvutia mdudu"],
-  "post_harvest_handling": ["Ushauri wa usimamizi baada ya mavuno ili kuepuka uharibifu au uvamizi wakati wa kuhifadhi"]
+  "post_harvest_handling": ["Ushauri wa usimamizi baada ya mavuno ili kuepuka uharibifu au uvamizi wakati wa kuhifadhi"],
+  "image_url": "The image url"
   }
   ```

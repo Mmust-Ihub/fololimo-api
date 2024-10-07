@@ -1,6 +1,6 @@
-export const diseaseInEnglish = `
+const diseaseInEnglish = `
 Analyze the image of the plant and determine the following details, specifically if it's related to farming (such as crops or common plants in agriculture). If not, return an empty JSON {}. If it is a farming-related plant, identify the crop (e.g., 'maize'), the pest or disease present (if applicable), and suggest remedies. Additionally, provide the following insights:
-The response should be structured in the following JSON format:
+The response should be STRICTLY structured in the following JSON format:
 {
   "crop": "Type of crop",
   "disease": "Name of the disease or pest",
@@ -16,13 +16,13 @@ The response should be structured in the following JSON format:
 }
 `;
 
-export const diseaseInSwahili = `
+const diseaseInSwahili = `
 Chambua picha ya mmea na tambua maelezo yafuatayo, hasa kama yanahusiana na kilimo (kama vile mazao au mimea inayojulikana katika kilimo). Ikiwa sio mmea unaohusiana na kilimo, rudisha JSON tupu {}. Ikiwa ni mmea unaohusiana na kilimo, tambua zao (mfano, 'mahindi'), wadudu au ugonjwa uliopo (ikiwa kuna wowote), na toa mapendekezo ya tiba
 Majibu yanapaswa kutolewa kwa lugha ya Kiswahili.
 Pia, toa maelezo yafuatayo:
 
 
-Majibu yanapaswa kuundwa katika umbizo la JSON lifuatalo:
+Jibu linapaswa kuundwa STRICTLY katika umbizo lifuatalo la JSON
 {
   "crop": "Aina ya zao",
   "disease": "Jina la ugonjwa au mdudu",
@@ -38,13 +38,12 @@ Majibu yanapaswa kuundwa katika umbizo la JSON lifuatalo:
 }
 `;
 
-export const pestInEnglish = `
+const pestInEnglish = `
 Analyze the image of the pest and identify it. If the image is not related to a pest, return an empty JSON '{}'. If the pest is identified, provide the following information in English:
 
-The response should be structured in the following JSON format:
+The response should STRICLY be structured in the following JSON format:
 {
   "pest_name": "Common name of the pest",
-  "scientific_name": "Scientific name of the pest",
   "affected_crops": ["List of crops affected by this pest"],
   "life_cycle": ["Description of the pest's life cycle and intervention points"],
   "treatment": ["Treatment methods including dosage and frequency for organic and non-organic solutions"],
@@ -56,13 +55,12 @@ The response should be structured in the following JSON format:
 }
 
 `;
-export const pestInSwahili = `
+const pestInSwahili = `
 Chambua picha ya mdudu na utambue. Ikiwa picha haihusiani na mdudu, rudisha JSON tupu '{}'. Ikiwa mdudu umetambuliwa, toa maelezo yafuatayo kwa Kiswahili:
 
-Majibu yanapaswa kuundwa katika umbizo la JSON lifuatalo:
+Jibu linapaswa kuundwa STRICTLY katika umbizo lifuatalo la JSON:
 {
   "pest_name": "Jina la kawaida la mdudu",
-  "scientific_name": "Jina la kisayansi la mdudu",
   "affected_crops": ["Orodha ya mazao yanayoathiriwa na mdudu huyu"],
   "life_cycle": ["Maelezo ya mzunguko wa maisha ya mdudu na hatua za kuingilia"],
   "treatment": ["Njia za matibabu ikiwa ni pamoja na kipimo na marudio kwa njia za asili na zisizo za asili"],
@@ -74,12 +72,16 @@ Majibu yanapaswa kuundwa katika umbizo la JSON lifuatalo:
 }
 `;
 
+export const queryPrompt = `You are a knowledgeable farming assistant, capable of answering farmers' questions in either Swahili or English. Your responses should be brief, factual, and relevant to the topics of farm diseases, pests, or any other agricultural questions.
+            If a question is unclear, ask for clarification. Always keep your answers short but informative. Make sure to include brief curative measures.`;
+export const modelPrompt = `You are a knowledgeable farming assistant.If the user asks a question that is not related to farming, respond with: 'Sorry, I can only help with farming-related questions.'.`;
+
 export const diseaseObject = {
-  "en": diseaseInEnglish,
-  "sw": diseaseInSwahili
-}
+  en: diseaseInEnglish,
+  sw: diseaseInSwahili,
+};
 
 export const pestObject = {
-  "en": pestInEnglish,
-  "sw": pestInSwahili
-}
+  en: pestInEnglish,
+  sw: pestInSwahili,
+};
