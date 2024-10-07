@@ -1,16 +1,16 @@
 import {
-  ChatSession,
   GoogleGenerativeAI,
   HarmBlockThreshold,
-  HarmCategory
+  HarmCategory,
 } from "@google/generative-ai";
-import fs from "fs"
+import fs from "fs";
 import config from "../config/config.js";
-import logger from "../config/logger.js"
+import logger from "../config/logger.js";
+import { modelPrompt, queryPrompt } from "./prompt.js";
 
 const genAI = new GoogleGenerativeAI(config.gemini_api_key);
 const model = genAI.getGenerativeModel({
-  model: "gemini-1.5-flash",
+  model: config.model,
 });
 
 const generationConfig = {
@@ -70,15 +70,47 @@ export const modelPredict = async (file, mimeType, prompt) => {
     const result = await chatSession.sendMessage("Analyze this image");
     let responseText = result.response.text();
     const jsonMatch = responseText.match(/{.*}/s); // Match the JSON structure
-    if (jsonMatch){
-        responseText = jsonMatch[0]
-    }else{
-        logger.info("Invalid response format, no JSON found")
-        return {}
+    if (jsonMatch) {
+      responseText = jsonMatch[0];
+    } else {
+      logger.info("Invalid response format, no JSON found");
+      return {};
     }
-    return JSON.parse(responseText)
+    return JSON.parse(responseText);
   } catch (error) {
     logger.error("Error during model prediction or JSON parsing:", error);
     return {};
+  }
+};
+
+export const chatModel = async (userQuery) => {
+  const chatSession = model.startChat({
+    generationConfig,
+    safetySettings,
+    history: [
+      {
+        role: "user",
+        parts: [
+          {
+            text: queryPrompt,
+          },
+        ],
+      },
+      {
+        role: "model",
+        parts: [
+          {
+            text: modelPrompt,
+          },
+        ],
+      },
+    ],
+  });
+  try {
+    const resp = await chatSession.sendMessage(userQuery);
+    return resp.response.text();
+  } catch (error) {
+    logger.error(`Error during user query processing: ${error.message}`);
+    return "Sorry, I can only help with farming-related questions.";
   }
 };
