@@ -2,6 +2,7 @@ from pathlib import Path
 from decouple import config
 import sys
 import os
+from celery import Celery
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -33,6 +34,7 @@ INSTALLED_APPS = [
     "dj_rest_auth.registration",
     "users",
     "fololimo",
+    'django_celery_results',
     # "insights",
     
 ]
@@ -191,3 +193,9 @@ STATIC_ROOT = os.path.join(BASE_DIR, "static")
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 AUTH_USER_MODEL = "users.User"
+
+CELERY_BROKER_URL = 'redis://localhost:6379/0'  # Adjust based on your Redis URL
+CELERY_ACCEPT_CONTENT = ['json']
+CELERY_TASK_SERIALIZER = 'json'
+CELERY_RESULT_SERIALIZER = 'json'
+CELERY_TIMEZONE = 'Africa/Nairobi'
