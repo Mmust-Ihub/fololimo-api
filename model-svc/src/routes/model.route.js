@@ -1,12 +1,13 @@
 import {Router} from "express"
-import {  chatWithModel, predictDisease, predictPest } from "../controllers/model.controller.js"
+import {  chatWithModel, chatWithModelSms, predictDisease, predictPest } from "../controllers/model.controller.js"
+import { validateUser } from "../middlewares/authenticateUser.js"
 
 const modelRouter = Router()
-// const upload = multer({storage: storage})
 
-modelRouter.post("/disease", predictDisease)
-modelRouter.post("/pest", predictPest)
-modelRouter.post("/chat", chatWithModel)
+modelRouter.post("/disease", validateUser, predictDisease)
+modelRouter.post("/pest",validateUser, predictPest)
+modelRouter.post("/chat",validateUser, chatWithModel)
+modelRouter.post("/chat/sms", chatWithModelSms)
 
 export default modelRouter
 
