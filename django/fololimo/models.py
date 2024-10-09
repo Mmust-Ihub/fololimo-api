@@ -34,3 +34,12 @@ class Transaction(models.Model):
     
     def __str__(self):
         return self.client.name
+    
+class City(models.Model):
+    city = models.CharField(max_length=30)
+
+class Weather(models.Model):
+    temperature = models.FloatField()
+    description = models.CharField()
+    city = models.CharField(max_length=30)
+    
