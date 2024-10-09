@@ -15,10 +15,7 @@ export const sendSMS = async (phoneNumbers, message, from="AFRICASTKNG") => {
     to: phoneNumbers.split(","),
     from: from
   });
-  const response = await axios.post(config.url, body, { headers });
+  const response = await axios.post(config.sms_url, body, { headers });
   const resp = await response.data.SMSMessageData.Recipients
   return resp;
 };
-
-
-sendSMS("+254743596183", "Hello there",)
