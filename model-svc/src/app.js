@@ -31,10 +31,8 @@ if (config.env !== "production") {
   app.use(morgan("dev", {stream: {write: message =>logger.http(message)}}));
 }
 
-app.post("/",  async(req, res, next) => {
-    const file = req.file
-    console.log(file)
-    return res.status(200).json({"message": "Hello world"})
+app.get("/api/healthcheck",  async(req, res, next) => {
+    return res.status(200).json({"status": "success", "message": "Api running smoothly" })
 })
 
 app.use("/api/v1",  router);
