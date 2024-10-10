@@ -4,9 +4,9 @@ import { validateUser } from "../middlewares/authenticateUser.js"
 
 const modelRouter = Router()
 
-modelRouter.post("/disease", validateUser, predictDisease)
-modelRouter.post("/pest",validateUser, predictPest)
-modelRouter.post("/chat",validateUser, chatWithModel)
+modelRouter.post("/disease", predictDisease)
+modelRouter.post("/pest", predictPest)
+modelRouter.post("/chat",chatWithModel)
 modelRouter.post("/chat/sms", chatWithModelSms)
 
 export default modelRouter
