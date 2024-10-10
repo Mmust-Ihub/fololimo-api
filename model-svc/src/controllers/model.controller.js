@@ -13,7 +13,7 @@ export const predictDisease = catchAsync(async(req, res, next) => {
     const file = req.files[0]
     const [imageResponse, predictResponse] = await Promise.all([uploadImage(file), modelPredict(file.buffer, file.mimetype, diseaseObject[language])])
     if (Object.keys(predictResponse).length > 0) {
-      const data = {...predictResponse, image_url: imageResponse, user_id: req.payload._id}
+      const data = {...predictResponse, image_url: imageResponse, user_id: "req.payload._id"}
       // await diseaseModel.create(data)
         return res.status(httpStatus.OK).json(data);
       } else {
@@ -26,7 +26,7 @@ export const predictPest = catchAsync(async(req, res) => {
     const file = req.files[0]
     const [imageResponse, predictResponse] = await Promise.all([uploadImage(file), modelPredict(file.buffer, file.mimetype, pestObject[language])])
     if (Object.keys(predictResponse).length > 0) {
-      const data = {...predictResponse, image_url: imageResponse, user_id: req.payload._id}
+      const data = {...predictResponse, image_url: imageResponse, user_id: "req.payload._id"}
       // await pestModel.create(data)
         return res.status(httpStatus.OK).json(data);
       } else {
