@@ -22,5 +22,13 @@ class FarmViewSet(ModelViewSet):
         queryset = Farm.objects.filter(user=user)
         serializer = FarmSerializer(queryset, many=True)
         return Response(serializer.data)
+    
+    def create(self, request):
+        user = request.user
+        serializer = FarmSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save(user=user)
+            return Response(serializer.data, status=201)
+        return Response(serializer.errors, status=400)
 
 
