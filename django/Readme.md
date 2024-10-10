@@ -48,7 +48,7 @@ This is a Django Rest Framework application for the FOLOLIMO API.
 
 # API DOCUMENTATION
 
-> Root url: [https://fololimo-api.onrender.com](https://fololimo-api.onrender.com)
+> Root url: [https://fololimo-api-eight.vercel.app](https://fololimo-api-eight.vercel.app)
 
 <br>
 <br>
@@ -57,12 +57,10 @@ This is a Django Rest Framework application for the FOLOLIMO API.
 
 
 ### Account Login
-POST:https://fololimo-api.onrender.com/api/v1/users/login/
+POST:/api/v1/users/login/
 
 >Accept the following POST parameters: username, password Return the REST Framework Token Object's key.
->
-> AUTHORIZATIONS:> ***Token***
->
+
 > REQUEST BODY SCHEMA: ***application/json***
 
 ```python
@@ -85,7 +83,7 @@ POST:https://fololimo-api.onrender.com/api/v1/users/login/
 
 ### Password Reset
 
-POST:https://fololimo-api.onrender.com/api/v1/users/password/reset/
+POST:/api/v1/users/password/reset/
 
 >Accepts the following POST parameters: email Returns the success/fail message.
 >
@@ -109,7 +107,7 @@ POST:https://fololimo-api.onrender.com/api/v1/users/password/reset/
   "email": "user@example.com"
 }
 ```
-POST:https://fololimo-api.onrender.com/api/v1/users/password/reset/confirm/
+POST:/api/v1/users/password/reset/confirm/
 >Password reset e-mail link is confirmed, therefore this resets the user's password.
 >
 >Accepts the following POST parameters: token, uid, new_password1, new_password2 Returns the success/fail message.
@@ -142,7 +140,7 @@ POST:https://fololimo-api.onrender.com/api/v1/users/password/reset/confirm/
 }
 ```
 ### Account Registration.
-POST:https://fololimo-api.onrender.com/api/v1/users/register/
+POST:/api/v1/users/register/
 This is used when one wants to create an account.
 
 >AUTHORIZATIONS: >***Token***
@@ -173,7 +171,7 @@ This is used when one wants to create an account.
 ```
 #### Account Registration Email
 
-POST:https://fololimo-api.onrender.com/api/v1/users//register/resend-email/
+POST:/api/v1/users//register/resend-email/
 Account Register Resend Email
 
 This is for requesting for the Email from the user.
@@ -200,7 +198,7 @@ This is for requesting for the Email from the user.
 ```
 Account Verify Email when Creating an Account
 
-POST:https://fololimo-api.onrender.com/api/v1/users//register/verify-email/
+POST:/api/v1/users//register/verify-email/
 >AUTHORIZATIONS:> ***Token***
 >
 >REQUEST BODY SCHEMA: application/json
@@ -224,7 +222,7 @@ POST:https://fololimo-api.onrender.com/api/v1/users//register/verify-email/
 ```
 Get user details
 
-POST:https://fololimo-api.onrender.com/api/v1/users/user/
+POST:/api/v1/users/user/
 >AUTHORIZATIONS:> ***Token***
 >
 >REQUEST BODY SCHEMA: application/json
