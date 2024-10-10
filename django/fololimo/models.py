@@ -11,7 +11,7 @@ class Client(models.Model):
     phone = models.CharField(max_length=100)
     email = models.EmailField(blank=True, null=True)
     location = models.CharField(max_length=100, blank=True, null=True)
-    type = models.CharField(max_length=100, choices=TYPES)
+    type = models.CharField(max_length=100, choices=TYPES,default='farmer')
     
     # def __str__(self):
     #     return str(self.pk)
@@ -34,12 +34,38 @@ class Transaction(models.Model):
     
     def __str__(self):
         return self.client.name
+
+
+class Region(models.Model):
+    region = models.CharField(max_length=30)
     
+    def __str__(self):
+        return self.region   
 class City(models.Model):
+    region = models.ForeignKey(Region, on_delete=models.CASCADE,blank=True, null=True)
     city = models.CharField(max_length=30)
+    
+    def __str__(self):
+        return self.city
+    
+class SubCounty(models.Model):
+    city = models.ForeignKey(City, on_delete=models.CASCADE)
+    sub_county = models.CharField(max_length=30)
+    
+    def __str__(self):
+        return self.sub_county
 
 class Weather(models.Model):
     temperature = models.FloatField()
     description = models.CharField()
     city = models.CharField(max_length=30)
+    
+class Farm(models.Model):
+    name = models.CharField(max_length=100)
+    location = models.CharField(max_length=100)
+    size = models.FloatField()
+    owner = models.ForeignKey(Client, on_delete=models.CASCADE)
+    
+    def __str__(self):
+        return self.name
     

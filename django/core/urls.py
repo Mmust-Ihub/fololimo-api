@@ -12,4 +12,5 @@ urlpatterns = [
     path('api/v1/users/account-confirm-email/', VerifyEmailView.as_view(), name='account_email_verification_sent'),
     path('api/v1/', include('users.urls')),
     path('api/v1/fololimo/', include('fololimo.urls')),
+    path('api/v1/insights/', include('insights.urls')),
 ]+ static(settings.STATIC_URL,document_root=settings.STATIC_ROOT)
