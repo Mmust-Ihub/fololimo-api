@@ -114,7 +114,7 @@ if "test" in sys.argv:
         "NAME": ":memory:",
     }
 
-ACCOUNT_EMAIL_VERIFICATION = "mandatory"
+ACCOUNT_EMAIL_VERIFICATION = "optional"
 ACCOUNT_EMAIL_REQUIRED = True
 ACCOUNT_EMAIL_VERIFICATION_BY_CODE_ENABLED = True
 
