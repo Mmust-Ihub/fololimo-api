@@ -257,32 +257,31 @@ def select_sub_county_swahili(sub_counties) -> str:
     return res
 
 def get_agrovet(location) -> str:
-    agrovet = Client.objects.filter(type="agrovet").filter(location=location)
-    random_number = random.randint(0, len(agrovet)-1)
-    if not agrovet:
+    agrovets = Client.objects.filter(type="agrovet").filter(location=location)
+    random_number = random.randint(0, len(agrovets)-1)
+    
+    if len(agrovets)==0:
         return "END No agrovet found in your location"
-    res = f"END Find {agrovet.name} located at {agrovet.location}. Phone: {agrovet.phone}"
+    agrovet = agrovets[random_number]
+    res = f"END Agrovet: {agrovet.name} \nLocation {agrovet.location}.\n Phone: {agrovet.phone}"
     return res
 
 def get_agrovet_swahili(location) -> str:
-    agrovet = Client.objects.filter(type="agrovet").filter(location=location).first()
-    res = f"END Agrovet wako ni {agrovet.name} aliye katika {agrovet.location}"
-    return res
-
-def about() -> str:
-    res = "END Fololimo is a platform that connects farmers to agrovets"
-    return res
-
-def about_swahili() -> str:
-    res = "END Fololimo ni jukwaa linalounganisha wakulima na agrovets"
+    agrovets = Client.objects.filter(type="agrovet").filter(location=location)
+    random_number = random.randint(0, len(agrovets)-1)
+    
+    if len(agrovets) == 0:
+        return "END Agrovet hajapatikana katika eneo lako."
+    agrovet = agrovets[random_number]
+    res = f"END Agrovet: {agrovet.name}\nEneo: {agrovet.location}. \nNumbari ya simu: {agrovet.phone}"
     return res
 
 def success() -> str:
-    res = "END Your subscription was successful. You will receive a confirmation message shortly!!"
+    res = "END Your subscription was successful.\n You will receive a confirmation message shortly!!"
     return res
 
 def success_swahili() -> str:
-    res = "END Usajili wako umekamilika. Utapokea ujumbe wa uthibitisho hivi karibuni!!"
+    res = "END Usajili wako umekamilika.\n Utapokea ujumbe wa uthibitisho hivi karibuni!!"
     return res
 
 def help() -> str:
