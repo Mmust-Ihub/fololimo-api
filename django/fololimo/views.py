@@ -41,16 +41,16 @@ def ussd_callback(request):
         client.save()
         return HttpResponse(success_swahili())
         
-    if len(user_input) >= 2 and user_input[1] == "1":
+    elif len(user_input) >= 2 and user_input[1] == "1":
         if client.location or client.name:
             
             response = "END Umeshajiandikisha!!"
             return HttpResponse(response)
-    if len(user_input) >= 1 and user_input[1] == "1":
-        if client.location or client.name:
+    # elif len(user_input) > 1 and user_input[1] == "1":
+    #     if client.location or client.name:
             
-            response = "END You are already registered"
-            return HttpResponse(response)
+    #         response = "END You are already registered"
+    #         return HttpResponse(response)
     if len(user_input) >= 2 and user_input[1] != "1" and user_input[0] == "1":
         if client.location:
             location = client.location
