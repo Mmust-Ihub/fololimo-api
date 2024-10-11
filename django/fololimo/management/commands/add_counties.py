@@ -68,6 +68,7 @@ PROVINCE_DATA = {
 }
 
 
+
 class Command(BaseCommand):
     help = 'Populate the database with Kenyan provinces, counties, and sub-counties'
 
@@ -89,4 +90,7 @@ class Command(BaseCommand):
                     sub_county_obj, sub_county_created = SubCounty.objects.get_or_create(city=county_city, sub_county=sub_county)
                     if sub_county_created:
                         self.stdout.write(f'Created sub-county: {sub_county} in county: {county_name}')
+    
+    
+    
 
