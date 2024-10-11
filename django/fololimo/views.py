@@ -1,3 +1,4 @@
+import random
 from django.http import HttpResponse
 from rest_framework.response import Response
 from rest_framework import status
@@ -7,7 +8,6 @@ from .serializers import ClientSerializer, TipSerializer
 from rest_framework import viewsets
 from rest_framework.permissions import IsAuthenticated
 from .mpesa_callback import push_stk
-
 
 class ClientViewSet(viewsets.ModelViewSet):
     queryset = Client.objects.all()
@@ -32,9 +32,18 @@ def ussd_callback(request):
     if not client:
         client = Client(phone=phone_number)
         client.save()
+    if user_input[0] == "1" and len(user_input) == 6 and user_input[1] == "1":
+        client.name = user_input[5]
+        client.save()
+        return HttpResponse(success())
+    elif user_input[0] == "2" and len(user_input) == 6 and user_input[1] == "1":
+        client.name = user_input[5]
+        client.save()
+        return HttpResponse(success_swahili())
         
     if len(user_input) >= 2 and user_input[1] == "1":
         if client.location or client.name:
+            
             response = "END you are already registered"
             return HttpResponse(response)
     if len(user_input) >= 2 and user_input[1] != "1":
@@ -101,14 +110,7 @@ def ussd_callback(request):
         return HttpResponse(subscribe())
     elif user_input[0] == "2" and len(user_input) == 5 and user_input[1] == "1":
         return HttpResponse(subscribe_swahili())
-    elif user_input[0] == "1" and len(user_input) == 6 and user_input[1] == "1":
-        client.name = user_input[5]
-        client.save()
-        return HttpResponse(success())
-    elif user_input[0] == "2" and len(user_input) == 6 and user_input[1] == "1":
-        client.name = user_input[5]
-        client.save()
-        return HttpResponse(success_swahili())
+    
     elif user_input[0] == "1" and len(user_input) == 2 and user_input[1] == "2":
         response = get_agrovet(location)
         return HttpResponse(response)
@@ -234,7 +236,8 @@ def select_sub_county_swahili(sub_counties) -> str:
     return res
 
 def get_agrovet(location) -> str:
-    agrovet = Client.objects.filter(type="agrovet").filter(location=location).first()
+    agrovet = Client.objects.filter(type="agrovet").filter(location=location)
+    random_number = random.randint(0, len(agrovet)-1)
     if not agrovet:
         return "END No agrovet found in your location"
     res = f"END Find {agrovet.name} located at {agrovet.location}. Phone: {agrovet.phone}"

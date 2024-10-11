@@ -13,8 +13,8 @@ class Client(models.Model):
     location = models.CharField(max_length=100, blank=True, null=True)
     type = models.CharField(max_length=100, choices=TYPES,default='farmer')
     
-    # def __str__(self):
-    #     return str(self.pk)
+    def __str__(self):
+        return f"{self.name} - {self.phone} - {self.type} - {self.location}"    
     
 class Tip(models.Model):
     title = models.CharField(max_length=100)
@@ -48,17 +48,27 @@ class City(models.Model):
     def __str__(self):
         return self.city
     
+    class Meta:
+        verbose_name_plural = 'Cities'
+    
 class SubCounty(models.Model):
     city = models.ForeignKey(City, on_delete=models.CASCADE)
     sub_county = models.CharField(max_length=30)
     
     def __str__(self):
         return self.sub_county
+    
+    class Meta:
+        verbose_name_plural = 'Sub Counties'
 
 class Weather(models.Model):
     temperature = models.FloatField()
     description = models.CharField()
     city = models.CharField(max_length=30)
+    
+    class Meta:
+        verbose_name_plural = 'Weather'
+        
     
 class Farm(models.Model):
     name = models.CharField(max_length=100)
