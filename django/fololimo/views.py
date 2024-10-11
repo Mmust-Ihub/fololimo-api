@@ -32,7 +32,7 @@ def ussd_callback(request):
     if not client:
         client = Client(phone=phone_number)
         client.save()
-    elif user_input[0] == "1" and len(user_input) == 6 and user_input[1] == "1":
+    if user_input[0] == "1" and len(user_input) == 6 and user_input[1] == "1":
         client.name = user_input[5]
         client.save()
         return HttpResponse(success())
