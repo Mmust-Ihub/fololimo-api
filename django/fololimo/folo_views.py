@@ -3,6 +3,8 @@ from requests import Response
 from .models import Client, Tip, Transaction, Region, City, SubCounty, Weather
 from rest_framework import viewsets
 from .serializers import ClientSerializer, TipSerializer, TransactionSerializer, RegionSerializer, CitySerializer, SubCountySerializer, WeatherSerializer
+from django.http import JsonResponse
+from django.core.management import call_command
 
 class ClientViewSet(viewsets.ModelViewSet):
     queryset = Client.objects.all()
@@ -46,6 +48,17 @@ class WeatherViewSet(viewsets.ModelViewSet):
         queryset = Weather.objects.filter(city=pk)
         serializer = WeatherSerializer(queryset, many=True)
         return Response(serializer.data)
+
+from django.http import JsonResponse
+from django.core.management import call_command
+
+def update_db(request):
+    try:
+        # Run the management command to update the database
+        call_command('update_weather')
+        return JsonResponse({"status": "success", "message": "Database updated"})
+    except Exception as e:
+        return JsonResponse({"status": "error", "message": str(e)})
 
 
     

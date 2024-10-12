@@ -15,5 +15,6 @@ router.register(r"weathers", folo_views.WeatherViewSet, basename="weather")
 urlpatterns = [
     path("ussd_callback/", ussd_callback, name="ussd_callback"),
     path("mpesa_callback/", mpesa_callback, name="mpesa_callback"),
+    path('cron/update-db/', folo_views.update_db, name='update_db'),
     path("", include(router.urls)),
 ]
