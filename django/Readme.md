@@ -66,7 +66,6 @@ POST:/api/v1/users/login/
 ```python
 {
   "username": "string",
-  "email": "user@example.com",
   "password": "string"
 }
 ```
@@ -75,9 +74,7 @@ POST:/api/v1/users/login/
 > Status:201
 ```python
 {
-  "username": "string",
-  "email": "user@example.com",
-  "password": "string"
+  "key":"token"
 }
 ```
 
