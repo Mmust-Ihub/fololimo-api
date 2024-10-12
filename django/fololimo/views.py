@@ -40,18 +40,18 @@ def ussd_callback(request):
         client.name = user_input[5]
         client.save()
         return HttpResponse(success_swahili())
-    if len(user_input) >= 2 and user_input[1] == "2" and user_input[0] == "1":
-        if client.location:
-            location = client.location
-        else:
-            response = "END you are not registered. Please subscribe first"
-            return HttpResponse(response)
-    if len(user_input) >= 2 and user_input[1] == "2" and user_input[0] == "2":
-        if client.location:
-            location = client.location
-        else:
-            response = "END Haujajiandikisha. Tafadhali jiandikise kwanza."
-            return HttpResponse(response)
+    # if len(user_input) >= 2 and user_input[1] == "2" and user_input[0] == "1":
+    #     if client.location:
+    #         location = client.location
+    #     else:
+    #         response = "END you are not registered. Please subscribe first"
+    #         return HttpResponse(response)
+    # if len(user_input) >= 2 and user_input[1] == "2" and user_input[0] == "2":
+    #     if client.location:
+    #         location = client.location
+    #     else:
+    #         response = "END Haujajiandikisha. Tafadhali jiandikise kwanza."
+    #         return HttpResponse(response)
         
     if len(user_input) >= 3 and user_input[1] == "1":
         region = Region.objects.all()[int(user_input[2])-1]
@@ -118,21 +118,47 @@ def ussd_callback(request):
         return HttpResponse(subscribe_swahili())
     
     elif user_input[0] == "1" and len(user_input) == 2 and user_input[1] == "2":
+        if client.location:
+            location = client.location
+        else:
+            response = "END you are not registered. Please subscribe first"
+            return HttpResponse(response)
         response = get_agrovet(location)
         return HttpResponse(response)
     elif user_input[0] == "2" and len(user_input) == 2 and user_input[1] == "2":
+        if client.location:
+            location = client.location
+        else:
+            response = "END Haujajiandikisha. Tafadhali jiandikise kwanza."
+            return HttpResponse(response)
         response = get_agrovet_swahili(location)
         return HttpResponse(response)
-    elif user_input[0] == "2" and len(user_input) == 2 and user_input[1] == "3":
-        response = about_swahili()
-        return HttpResponse(response)
     elif user_input[0] == "1" and len(user_input) == 2 and user_input[1] == "3":
-        response = about()
+        if client.location:
+            location = client.location
+        else:
+            response = "END you are not registered. Please subscribe first"
+            return HttpResponse(response)
+        response = get_weather_updates(location)
         return HttpResponse(response)
-    elif user_input[0] == "1" and len(user_input) == 2 and user_input[1] == "4":
-        response = help()
+    elif user_input[0] == "2" and len(user_input) == 2 and user_input[1] == "3":
+        if client.location:
+            location = client.location
+        else:
+            response = "END Haujajiandikisha. Tafadhali jiandikise kwanza."
+            return HttpResponse(response)
+        response = get_weather_update_swahili(location)
         return HttpResponse(response)
     elif user_input[0] == "2" and len(user_input) == 2 and user_input[1] == "4":
+        response = about_swahili()
+        return HttpResponse(response)
+    elif user_input[0] == "1" and len(user_input) == 2 and user_input[1] == "4":
+        response = about()
+        return HttpResponse(response)
+    elif user_input[0] == "1" and len(user_input) == 2 and user_input[1] == "5":
+        response = help()
+        return HttpResponse(response)
+    elif user_input[0] == "2" and len(user_input) == 2 and user_input[1] == "5":
         response = help_swahili()
         return HttpResponse(response)
     response = "END Invalid choice"
@@ -151,8 +177,9 @@ def home() -> str:
     res = f"CON What do yo\n"
     res += "1. Subscribe to Fololimo.\n"
     res += "2. Get an Agrovet\n"
-    res += "3. About\n"
-    res += "4. Help\n"
+    res += "3. Get weather updates\n"
+    res += "4. About\n"
+    res += "5. Help\n"
     res += "0. Back\n"
     return res
 
@@ -294,6 +321,30 @@ def help_swahili() -> str:
     res += "3. Fuata maagizo kwenye menyu ili Jiandikishe kwa Fololimo, kupata Agrovet, au kupata taarifa zaidi.\n"
     res += "Kwa msaada zaidi wasiliana na 0712345678"
     
+    return res
+
+def get_weather_updates(location) -> str:
+    updates = Weather.objects.filter(city=location)
+    res = "END Weather updates\n"
+    for update in updates:
+        res += f"Temperature: {update.temperature}\n"
+        res += f"Description: {update.description}\n"
+        res += f"Humidity: {update.humidity}\n"
+        res += f"Min Temp: {update.min_temp}\n"
+        res += f"Max Temp: {update.max_temp}\n"
+        res += f"Pressure: {update.pressure}\n"
+    return res
+
+def get_weather_update_swahili(location) -> str:
+    updates = Weather.objects.filter(city=location)
+    res = "END Taarifa za hali ya hewa\n"
+    for update in updates:
+        res += f"Joto: {update.temperature}\n"
+        res += f"Maelezo: {update.description}\n"
+        res += f"Unyevu: {update.humidity}\n"
+        res += f"Joto la chini: {update.min_temp}\n"
+        res += f"Joto la juu: {update.max_temp}\n"
+        res += f"Shinikizo: {update.pressure}\n"
     return res
 
 @api_view(["POST"])
