@@ -40,24 +40,13 @@ def ussd_callback(request):
         client.name = user_input[5]
         client.save()
         return HttpResponse(success_swahili())
-        
-    elif len(user_input) >= 2 and user_input[1] == "1":
-        if client.location or client.name:
-            
-            response = "END Umeshajiandikisha!!"
-            return HttpResponse(response)
-    # elif len(user_input) > 1 and user_input[1] == "1":
-    #     if client.location or client.name:
-            
-    #         response = "END You are already registered"
-    #         return HttpResponse(response)
-    if len(user_input) >= 2 and user_input[1] != "1" and user_input[0] == "1":
+    if len(user_input) >= 2 and user_input[1] == "2" and user_input[0] == "1":
         if client.location:
             location = client.location
         else:
             response = "END you are not registered. Please subscribe first"
             return HttpResponse(response)
-    if len(user_input) >= 2 and user_input[1] != "1" and user_input[0] == "2":
+    if len(user_input) >= 2 and user_input[1] == "2" and user_input[0] == "2":
         if client.location:
             location = client.location
         else:
@@ -88,9 +77,15 @@ def ussd_callback(request):
         response = home_swahili()
         return HttpResponse(response)
     elif text == "1*1":
+        if client.location or client.name:
+            response = "END You are already registered"
+            return HttpResponse(response)
         response = select_region()
         return HttpResponse(response)
     elif text == "2*1":
+        if client.location or client.name:
+            response = "END Umeshajiandikisha!!"
+            return HttpResponse(response)
         response = select_region_swahili()
         return HttpResponse(response)
     elif user_input[0] == "1" and len(user_input) == 3 and user_input[1] == "1":
