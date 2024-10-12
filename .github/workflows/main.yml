@@ -1,0 +1,67 @@
+name: Daily Weather updates for each county
+
+on:
+  schedule:
+    - cron: '*/5 * * * *'  # Runs every day at midnight UTC
+
+jobs:
+  update-db:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v2
+
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: '3.x'
+          
+      - name: Install dependencies
+        run: |
+          cd django
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt  # Install project dependencies
+          
+      - name: Set environment variables
+        run: echo "Environment variables set"
+        env:
+          DB_NAME: ${{ secrets.DB_NAME }}
+          DB_USER: ${{ secrets.DB_USER }}
+          DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
+          DB_HOST: ${{ secrets.DB_HOST }}
+          DB_PORT: ${{ secrets.DB_PORT }}
+          SECRET_KEY: ${{ secrets.SECRET_KEY }}
+          EMAIL_HOST_USER: ${{ secrets.EMAIL_HOST_USER }}
+          EMAIL_HOST_PASSWORD: ${{ secrets.EMAIL_HOST_PASSWORD }}
+          DARAJA_CONSUMER_KEY: ${{ secrets.DARAJA_CONSUMER_KEY }}
+          DARAJA_CONSUMER_SECRET: ${{ secrets.DARAJA_CONSUMER_SECRET }}
+          REDIS_URL: ${{ secrets.REDIS_URL }}
+          WEATHER_API: ${{ secrets.WEATHER_API }}
+          DARAJA_PASSKEY: ${{ secrets.DARAJA_PASSKEY }}
+          DEVELOPMENT: ${{ secrets.DEVELOPMENT }}
+          DEBUG: ${{ secrets.DEBUG }}
+          DARAJA_SHORTCODE: ${{ secrets.DARAJA_SHORTCODE }}
+
+      
+      - name: Run DB update command
+        run: |
+          cd django
+          python manage.py update_weather
+        env:
+          DB_NAME: ${{ secrets.DB_NAME }}
+          DB_USER: ${{ secrets.DB_USER }}
+          DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
+          DB_HOST: ${{ secrets.DB_HOST }}
+          DB_PORT: ${{ secrets.DB_PORT }}
+          SECRET_KEY: ${{ secrets.SECRET_KEY }}
+          EMAIL_HOST_USER: ${{ secrets.EMAIL_HOST_USER }}
+          EMAIL_HOST_PASSWORD: ${{ secrets.EMAIL_HOST_PASSWORD }}
+          DARAJA_CONSUMER_KEY: ${{ secrets.DARAJA_CONSUMER_KEY }}
+          DARAJA_CONSUMER_SECRET: ${{ secrets.DARAJA_CONSUMER_SECRET }}
+          REDIS_URL: ${{ secrets.REDIS_URL }}
+          WEATHER_API: ${{ secrets.WEATHER_API }}
+          DARAJA_PASSKEY: ${{ secrets.DARAJA_PASSKEY }}
+          DEVELOPMENT: ${{ secrets.DEVELOPMENT }}
+          DEBUG: ${{ secrets.DEBUG }}
+          DARAJA_SHORTCODE: ${{ secrets.DARAJA_SHORTCODE }}
