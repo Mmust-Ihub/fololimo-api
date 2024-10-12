@@ -431,7 +431,7 @@ Example Response
 
 ### GET Subcounties
 
->GET : https://fololimo-api-eight.vercel.app/api/v1/fololimo//subcouties/?city={id}<br>
+>GET : https://fololimo-api-eight.vercel.app/api/v1/fololimo/subcounties/?city={id}<br>
 >id is the id of the region.<br>
 >Return a list of subcounties in a County.<br>
 >REQUEST BODY SCHEMA: ***application/json***<br>
