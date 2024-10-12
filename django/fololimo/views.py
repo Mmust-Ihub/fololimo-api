@@ -180,16 +180,17 @@ def home() -> str:
     res += "3. Get weather updates\n"
     res += "4. About\n"
     res += "5. Help\n"
-    res += "0. Back\n"
+    res += "0. Back"
     return res
 
 def home_swahili() -> str:
     res = f"CON Unataka kufanya nini?\n"
     res += "1. Jiandikishe kwa Fololimo.\n"
     res += "2. Pata Agrovet\n"
-    res += "3. Kuhusu\n"
-    res += "4. Usaidizi\n"
-    # res += "0. Rudi\n"
+    res += "3. Pata taarifa za hali ya hewa\n"
+    res += "4. Kuhusu\n"
+    res += "5. Usaidizi\n"
+    res += "0. Rudi"
     return res
 
 def subscribe() -> str:
