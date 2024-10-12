@@ -4,5 +4,5 @@ from .models import Farm
 class FarmSerializer(serializers.ModelSerializer):
     class Meta:
         model = Farm
-        fields =["name","location","size","longitude","latitude","user"]
+        fields =["name","location","size","longitude","latitude","id"]
         

@@ -19,15 +19,19 @@ class FarmViewSet(ModelViewSet):
     
     def list(self, request):
         user = request.user
-        queryset = Farm.objects.filter(user=user)
+        print("User: ", user.id)
+        queryset = Farm.objects.filter(user__id=user.id)
         serializer = FarmSerializer(queryset, many=True)
         return Response(serializer.data)
     
     def create(self, request):
         user = request.user
+        data = request.data
+        data["user"] = user.id
+        print("Data: ", data)
         serializer = FarmSerializer(data=request.data)
         if serializer.is_valid():
-            serializer.save(user=user)
+            serializer.save()
             return Response(serializer.data, status=201)
         return Response(serializer.errors, status=400)
 
