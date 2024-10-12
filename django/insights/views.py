@@ -20,7 +20,7 @@ class FarmViewSet(ModelViewSet):
     def list(self, request):
         user = request.user
         print("User: ", user.id)
-        queryset = Farm.objects.filter(user__id=user.id)
+        queryset = Farm.objects.filter(user=user)
         serializer = FarmSerializer(queryset, many=True)
         return Response(serializer.data)
     
