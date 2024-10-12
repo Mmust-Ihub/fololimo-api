@@ -336,3 +336,177 @@ GET: /api/v1/insights/farms/{id}
   "id": int,
 }
 ```
+
+## Locations
+
+### Get Regions
+>GET : https://fololimo-api-eight.vercel.app/api/v1/fololimo/regions/
+>Return a list of all the regions.<br>
+>REQUEST BODY SCHEMA: ***application/json***<br>
+>AUTHORIZATIONS:> ***Token***
+ 
+ Response: 
+ ```
+ [
+  {
+    "id": 7,
+    "region": "Central"
+  },
+  {
+    "id": 8,
+    "region": "Rift Valley"
+  },
+  {
+    "id": 9,
+    "region": "Eastern"
+  },
+  {
+    "id": 10,
+    "region": "Nyanza"
+  },
+  {
+    "id": 11,
+    "region": "Western"
+  },
+  {
+    "id": 12,
+    "region": "Coast"
+  },
+  {
+    "id": 13,
+    "region": "North Eastern"
+  },
+  {
+    "id": 14,
+    "region": "Nairobi"
+  }
+]
+```
+
+### Get Counties
+
+>GET : https://fololimo-api-eight.vercel.app/api/v1/fololimo/cities/?region={id}<br>
+>id is the id of the region.<br>
+>Return a list of counties in a region.<br>
+>REQUEST BODY SCHEMA: ***application/json***<br>
+>AUTHORIZATIONS:> ***Token***
+
+Example Request 
+```
+https://fololimo-api-eight.vercel.app/api/v1/fololimo/cities/?region=12
+```
+
+Example Response
+```
+[
+    {
+        "id": 39,
+        "city": "Kilifi",
+        "region": 12
+    },
+    {
+        "id": 40,
+        "city": "Kwale",
+        "region": 12
+    },
+    {
+        "id": 41,
+        "city": "Lamu",
+        "region": 12
+    },
+    {
+        "id": 42,
+        "city": "Mombasa",
+        "region": 12
+    },
+    {
+        "id": 43,
+        "city": "Taita-Taveta",
+        "region": 12
+    },
+    {
+        "id": 44,
+        "city": "Tana River",
+        "region": 12
+    }
+]
+```
+
+### GET Subcounties
+
+>GET : https://fololimo-api-eight.vercel.app/api/v1/fololimo//subcouties/?city={id}<br>
+>id is the id of the region.<br>
+>Return a list of subcounties in a County.<br>
+>REQUEST BODY SCHEMA: ***application/json***<br>
+>AUTHORIZATIONS:> ***Token***
+
+Example Request 
+```
+https://fololimo-api-eight.vercel.app/api/v1/fololimo/subcouties/?city=12
+```
+Example Response
+```
+[
+  {
+    "id": 77,
+    "sub_county": "Bomet Central",
+    "city": 12
+  },
+  {
+    "id": 78,
+    "sub_county": "Bomet East",
+    "city": 12
+  },
+  {
+    "id": 79,
+    "sub_county": "Chepalungu",
+    "city": 12
+  },
+  {
+    "id": 80,
+    "sub_county": "Konoin",
+    "city": 12
+  },
+  {
+    "id": 81,
+    "sub_county": "Sotik",
+    "city": 12
+  }
+]
+```
+
+##Weather
+
+### Get city's weather
+
+>GET : https://fololimo-api-eight.vercel.app/api/v1/fololimo/weathers/{id}<br>
+>id is the id of the city.<br>
+>Return the weather condition for a city.<br>
+>REQUEST BODY SCHEMA: ***application/json***<br>
+>AUTHORIZATIONS:> ***Token***
+
+
+example request
+
+```
+https://fololimo-api-eight.vercel.app/api/v1/fololimo/weathers/12/
+```
+
+Example response
+
+```
+{
+  "id": 8,
+  "temperature": 24.52,
+  "description": "clear sky",
+  "city": "Bomet",
+  "humidity": 34.0,
+  "min_temp": 24.52,
+  "max_temp": 24.52,
+  "pressure": 1015.0
+}
+```
+
+
+
+
