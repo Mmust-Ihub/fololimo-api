@@ -210,20 +210,12 @@ def get_agrovet_swahili() -> str:
 
 def about() -> str:
     res = """
-    END Fololimo is a platform that connects 
-    farmers to agrovets. Through this service,
-    farmers can receive agricultural information through SMS,
-    access agrovet services, and learn more 
-    about best farming practices."""
+    END Fololimo is a platform that connects farmers to agrovets. Through this service, farmers can receive agricultural information through SMS, access agrovet services, and learn more about best farming practices."""
     return res
 
 def about_swahili() -> str:
     res = """
-    END Fololimo ni jukwaa linalounganisha 
-    wakulima na agrovets. Kupitia huduma hii,
-    wakulima wanaweza kupokea taarifa za kilimo kupitia SMS,
-    kupata huduma za agrovets, na kujifunza zaidi 
-    kuhusu mbinu bora za kilimo."""
+    END Fololimo ni jukwaa linalounganisha wakulima na agrovets. Kupitia huduma hii, wakulima wanaweza kupokea taarifa za kilimo kupitia SMS, kupata huduma za agrovets, na kujifunza zaidi kuhusu mbinu bora za kilimo."""
     return res
 
 def select_region() -> str:
@@ -310,7 +302,7 @@ def help() -> str:
     res = "END For more help on how to use USSD, please follow these steps:\n"
     res += "1. Dial *384*5307# on your phone.\n"
     res += "2. Select the language you want to use.\n"
-    res += "3. Follow the instructions on the menu to register, get services, or get more information.\n"
+    res += "3. Follow the instructions on the menu to register.\n"
     res += "For more help, contact 0712345678"
     
     return res
@@ -318,7 +310,7 @@ def help_swahili() -> str:
     res = "END Kwa msaada zaidi kuhusu jinsi ya kutumia USSD, tafadhali fuata hatua hizi:\n"
     res += "1. Piga *384*5307# kwenye simu yako.\n"
     res += "2. Chagua lugha unayotaka kutumia.\n"
-    res += "3. Fuata maagizo kwenye menyu ili Jiandikishe kwa Fololimo, kupata Agrovet, au kupata taarifa zaidi.\n"
+    res += "3. Fuata maagizo kwenye menyu ili ujiandikishe.\n"
     res += "Kwa msaada zaidi wasiliana na 0712345678"
     
     return res
