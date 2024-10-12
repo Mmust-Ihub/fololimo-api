@@ -29,7 +29,7 @@ class FarmViewSet(ModelViewSet):
         data = request.data
         data["user"] = user.id
         print("Data: ", data)
-        serializer = FarmSerializer(data=request.data)
+        serializer = FarmSerializer(data=data)
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data, status=201)
