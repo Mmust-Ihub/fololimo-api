@@ -263,7 +263,7 @@ POST: /api/v1/insights/farms/
 ```python
 {
   "name": "string",
-  "location": "user@example.com",
+  "location": "location",
   "size": float,
   "longitude":float,
   "latitude":float
