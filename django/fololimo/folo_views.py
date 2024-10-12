@@ -1,5 +1,5 @@
 from django.shortcuts import get_object_or_404
-from requests import Response
+from rest_framework.response import Response
 from .models import Client, Tip, Transaction, Region, City, SubCounty, Weather
 from rest_framework import viewsets
 from .serializers import ClientSerializer, TipSerializer, TransactionSerializer, RegionSerializer, CitySerializer, SubCountySerializer, WeatherSerializer
@@ -27,7 +27,8 @@ class CityViewSet(viewsets.ModelViewSet):
     serializer_class = CitySerializer
     
     def list(self, request, *args, **kwargs):
-        queryset = City.objects.filter(region__region=request.query_params['region'])
+        region = get_object_or_404(Region, pk=request.query_params['region'])
+        queryset = City.objects.filter(region=region)
         serializer = CitySerializer(queryset, many=True)
         return Response(serializer.data)
 
@@ -36,21 +37,21 @@ class SubCountyViewSet(viewsets.ModelViewSet):
     serializer_class = SubCountySerializer
     
     def list(self, request, *args, **kwargs):
-        queryset = SubCounty.objects.filter(city__city=request.query_params['city'])
+        region = get_object_or_404(City, pk=request.query_params['city'])
+        queryset = SubCounty.objects.filter(city=request.query_params['city'])
         serializer = SubCountySerializer(queryset, many=True)
         return Response(serializer.data)
     
 class WeatherViewSet(viewsets.ModelViewSet):
     queryset = Weather.objects.all()
     serializer_class = WeatherSerializer
-    
     def retrieve(self, request, pk=None):
-        queryset = Weather.objects.filter(city=pk)
-        serializer = WeatherSerializer(queryset, many=True)
+        city = get_object_or_404(City, pk=pk)
+        queryset = get_object_or_404(Weather,city=city)
+        serializer = WeatherSerializer(queryset)
         return Response(serializer.data)
 
-from django.http import JsonResponse
-from django.core.management import call_command
+
 
 def update_db(request):
     try:
