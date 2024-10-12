@@ -324,27 +324,37 @@ def help_swahili() -> str:
     return res
 
 def get_weather_updates(location) -> str:
-    updates = Weather.objects.filter(city=location)
-    res = "END Weather updates\n"
-    for update in updates:
-        res += f"Temperature: {update.temperature}\n"
-        res += f"Description: {update.description}\n"
-        res += f"Humidity: {update.humidity}\n"
-        res += f"Min Temp: {update.min_temp}\n"
-        res += f"Max Temp: {update.max_temp}\n"
-        res += f"Pressure: {update.pressure}\n"
+    
+    subcounty = SubCounty.objects.get(sub_county=location)
+    county = subcounty.city
+    try:
+        updates = Weather.objects.get(city=county)
+    except Weather.DoesNotExist:
+        return "END Can't get weather updates"
+    res = f"END Weather updates for {county}\n"
+    res += f"Temperature: {updates.temperature}  °C\n"
+    res += f"Description: {updates.description}\n"
+    res += f"Humidity: {updates.humidity}\n"
+    res += f"Min Temp: {updates.min_temp}  °C\n"
+    res += f"Max Temp: {updates.max_temp}  °C\n"
+    res += f"Pressure: {updates.pressure}\n"     
     return res
 
 def get_weather_update_swahili(location) -> str:
-    updates = Weather.objects.filter(city=location)
-    res = "END Taarifa za hali ya hewa\n"
-    for update in updates:
-        res += f"Joto: {update.temperature}\n"
-        res += f"Maelezo: {update.description}\n"
-        res += f"Unyevu: {update.humidity}\n"
-        res += f"Joto la chini: {update.min_temp}\n"
-        res += f"Joto la juu: {update.max_temp}\n"
-        res += f"Shinikizo: {update.pressure}\n"
+    subcounty = SubCounty.objects.get(sub_county=location)
+    county = subcounty.city
+    print("getting weather updates for",county)
+    try:
+        updates = Weather.objects.get(city=county)
+    except Weather.DoesNotExist:
+        return "END Taarifa za hali ya hewa hazipatikani"
+    res = f"END Taarifa za hali ya hewa {county}\n"
+    res += f"Joto: {updates.temperature}  °C\n"
+    res += f"Maelezo: {updates.description}\n"
+    res += f"Unyevu: {updates.humidity}\n"
+    res += f"Joto la chini: {updates.min_temp}  °C\n"
+    res += f"Joto la juu: {updates.max_temp}  °C\n"
+    res += f"Shinikizo: {updates.pressure}\n"
     return res
 
 @api_view(["POST"])
