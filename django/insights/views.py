@@ -28,6 +28,10 @@ class FarmViewSet(ModelViewSet):
     def create(self, request):
         try:
             user = request.user
+            if user.is_anonymous:
+            
+                return Response({"error": "Authentication credentials were not provided."}, status=status.HTTP_403_FORBIDDEN)
+
             data = request.data
             data["user"] = user.id
             print("Data: ", data)
