@@ -23,19 +23,19 @@ class FarmViewSet(ModelViewSet):
         print("User: ", user.id)
         queryset = Farm.objects.filter(user__id=user.id)
         serializer = FarmSerializer(queryset, many=True)
-        return Response(serializer.data)
+        return Response(serializer.data,status=status.HTTP_200_OK)
     
     def create(self, request):
         try:
             user = request.user
             data = request.data
-            data["user"] = user
+            data["user"] = user.id
             print("Data: ", data)
             serializer = FarmSerializer(data=data)
             if serializer.is_valid():
                 serializer.save()
-                return Response(serializer.data, status=201)
-            return Response(serializer.errors, status=400)
+                return Response(serializer.data, status=status.HTTP_201_CREATED)
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
         except Exception as e:
             return Response({
                 "message": "something went wrong"
