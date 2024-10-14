@@ -8,12 +8,6 @@ from rest_framework.permissions import IsAuthenticated
 from .models import Farm,Activity
 from .serializers import FarmSerializer,ActivitySerializer
 
-@api_view(["GET"])
-def index(request):
-    return Response({
-        "message": "Insights endpoint"
-    })
-    
     
 class FarmViewSet(ModelViewSet):
     queryset = Farm.objects.all()
@@ -22,7 +16,6 @@ class FarmViewSet(ModelViewSet):
     
     def list(self, request):
         user = request.user
-        print("User: ", user.id)
         queryset = Farm.objects.filter(user__id=user.id)
         serializer = FarmSerializer(queryset, many=True)
         return Response(serializer.data,status=status.HTTP_200_OK)
@@ -45,25 +38,7 @@ class FarmViewSet(ModelViewSet):
             return Response({
                 "message": "something went wrong"
             }, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
-
-@api_view(["POST"])
-@permission_classes([IsAuthenticated])
-def create(request):
-    
-    try:
-        user = request.user
-        serializer = FarmSerializer(data=request.data)
-        
-        if serializer.is_valid():
-            serializer.save(user=user)
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
-        
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-    except Exception as e:
-        return Response({
-            "message": "something went wrong"
-        }, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
-    
+ 
 
 @api_view(["GET"])
 def get_farm(request,id):
