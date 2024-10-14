@@ -3,6 +3,8 @@ from rest_framework.response import Response
 from rest_framework.viewsets import ModelViewSet
 from rest_framework import status
 from rest_framework.permissions import IsAuthenticated
+from rest_framework.decorators import api_view, permission_classes
+from rest_framework.permissions import IsAuthenticated
 from .models import Farm
 from .serializers import FarmSerializer
 
@@ -34,10 +36,9 @@ class FarmViewSet(ModelViewSet):
 
             data = request.data
             data["user"] = user.id
-            print("Data: ", data)
             serializer = FarmSerializer(data=data)
             if serializer.is_valid():
-                serializer.save()
+                serializer.save(user=user)
                 return Response(serializer.data, status=status.HTTP_201_CREATED)
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
         except Exception as e:
@@ -45,4 +46,34 @@ class FarmViewSet(ModelViewSet):
                 "message": "something went wrong"
             }, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
+@api_view(["POST"])
+@permission_classes([IsAuthenticated])
+def create(request):
+    
+    try:
+        user = request.user
+        serializer = FarmSerializer(data=request.data)
+        
+        if serializer.is_valid():
+            serializer.save(user=user)
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    except Exception as e:
+        return Response({
+            "message": "something went wrong"
+        }, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+    
 
+@api_view(["GET"])
+def get_farm(request,id):
+    try:
+        farm = Farm.objects.get(id=id)
+        serializer = FarmSerializer(farm)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+    except Farm.DoesNotExist:
+        return Response({"error": "Farm not found"}, status=status.HTTP_404_NOT_FOUND)
+    except Exception as e:
+        return Response({
+            "message": "something went wrong"
+        }, status=status.HTTP_500_INTERNAL_SERVER_ERROR)

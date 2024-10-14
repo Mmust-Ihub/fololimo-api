@@ -63,7 +63,7 @@ class SubCounty(models.Model):
 
 class Weather(models.Model):
     temperature = models.FloatField()
-    description = models.CharField()
+    description = models.CharField(max_length=100)
     city = models.CharField(max_length=30)
     humidity = models.FloatField(blank=True, null=True)
     min_temp = models.FloatField(blank=True, null=True)
