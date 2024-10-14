@@ -3,47 +3,52 @@
 This is a Django Rest Framework application for the FOLOLIMO API.
 
 # Project Setup
+
 1. ## Clone this repository
 
-    ```
-    git clone https://github.com/Mmust-Ihub/fololimo-api.git
-    ```
+   ```
+   git clone https://github.com/Mmust-Ihub/fololimo-api.git
+   ```
+
 2. ## Create a virtual environment
-    ```
-    python -m venv env
-    env\Scripts\activate #for windows
-    ```
+   ```
+   python -m venv env
+   env\Scripts\activate #for windows
+   ```
 3. ## Install dependencies
-    ```
-    pip install requirements.txt
-    ```
+   ```
+   pip install requirements.txt
+   ```
 4. ### Create a .env fle in the root of the project and add the following configurations
 
-    ```
-    DB_NAME =
-    DB_PASSWORD =
-    DB_HOST =
-    DB_PORT = 5432
-    DB_USER =
-    ```
+   ```
+   DB_NAME =
+   DB_PASSWORD =
+   DB_HOST =
+   DB_PORT = 5432
+   DB_USER =
+   ```
 
-5. ### After installing the packages you run the following to   create migrations for the database: 
+5. ### After installing the packages you run the following to create migrations for the database:
 
-    ```
-    python manage.py makemigrations
-    ```
-5. ### Run this to migrate the database: 
+   ```
+   python manage.py makemigrations
+   ```
 
-    ```
-    python manage.py migrate
-    ```
+6. ### Run this to migrate the database:
 
-5. ### After installing the packages you can now run: 
+   ```
+   python manage.py migrate
+   ```
 
-    ```
-    python manage.py runserver
-    ```
+7. ### After installing the packages you can now run:
+
+   ```
+   python manage.py runserver
+   ```
+
 #
+
 <br>
 
 # API DOCUMENTATION
@@ -55,13 +60,13 @@ This is a Django Rest Framework application for the FOLOLIMO API.
 
 ## Authentication
 
-
 ### Account Login
+
 POST:/api/v1/users/login/
 
->Accept the following POST parameters: username, password Return the REST Framework Token Object's key.
+> Accept the following POST parameters: username, password Return the REST Framework Token Object's key.
 
-> REQUEST BODY SCHEMA: ***application/json***
+> REQUEST BODY SCHEMA: **_application/json_**
 
 ```python
 {
@@ -69,9 +74,11 @@ POST:/api/v1/users/login/
   "password": "string"
 }
 ```
+
 > Responses
 >
 > Status:201
+
 ```python
 {
   "key":"token"
@@ -82,36 +89,39 @@ POST:/api/v1/users/login/
 
 POST:/api/v1/users/password/reset/
 
->Accepts the following POST parameters: email Returns the success/fail message.
+> Accepts the following POST parameters: email Returns the success/fail message.
 >
->AUTHORIZATIONS:>***Token***
+> AUTHORIZATIONS:>**_Token_**
 >
->REQUEST BODY SCHEMA: application/json
+> REQUEST BODY SCHEMA: application/json
 
 ```python
 {
   "email": "user@example.com"
 }
 ```
->Response Samples
+
+> Response Samples
 >
->Status:201
+> Status:201
 >
->RESPONSE SCHEMA: application/json
+> RESPONSE SCHEMA: application/json
 
 ```python
 {
   "email": "user@example.com"
 }
 ```
+
 POST:/api/v1/users/password/reset/confirm/
->Password reset e-mail link is confirmed, therefore this resets the user's password.
+
+> Password reset e-mail link is confirmed, therefore this resets the user's password.
 >
->Accepts the following POST parameters: token, uid, new_password1, new_password2 Returns the success/fail message.
+> Accepts the following POST parameters: token, uid, new_password1, new_password2 Returns the success/fail message.
 >
->AUTHORIZATIONS>***Token***
+> AUTHORIZATIONS>**_Token_**
 >
->REQUEST BODY SCHEMA: application/json
+> REQUEST BODY SCHEMA: application/json
 
 ```python
 {
@@ -122,11 +132,11 @@ POST:/api/v1/users/password/reset/confirm/
 }
 ```
 
->Reponse Samples
+> Reponse Samples
 >
->Status:201
+> Status:201
 >
->RESPONSE SCHEMA: application/json
+> RESPONSE SCHEMA: application/json
 
 ```python
 {
@@ -136,13 +146,15 @@ POST:/api/v1/users/password/reset/confirm/
   "token": "string"
 }
 ```
+
 ### Account Registration.
+
 POST:/api/v1/users/register/
 This is used when one wants to create an account.
 
->AUTHORIZATIONS: >***Token***
+> AUTHORIZATIONS: >**_Token_**
 >
->REQUEST BODY SCHEMA: application/json
+> REQUEST BODY SCHEMA: application/json
 
 ```python
 {
@@ -152,11 +164,12 @@ This is used when one wants to create an account.
   "password2": "string"
 }
 ```
->Response Samples
+
+> Response Samples
 >
->Status:201
+> Status:201
 >
->RESPONSE SCHEMA: application/json
+> RESPONSE SCHEMA: application/json
 
 ```python
 {
@@ -166,6 +179,7 @@ This is used when one wants to create an account.
   "password2": "string"
 }
 ```
+
 #### Account Registration Email
 
 POST:/api/v1/users//register/resend-email/
@@ -173,32 +187,35 @@ Account Register Resend Email
 
 This is for requesting for the Email from the user.
 
->AUTHORIZATIONS:> ***Token***
+> AUTHORIZATIONS:> **_Token_**
 >
->REQUEST BODY SCHEMA: application/json
+> REQUEST BODY SCHEMA: application/json
 
 ```python
 {
   "email": "user@example.com"
 }
 ```
->Response Samples
+
+> Response Samples
 >
->Status:201
+> Status:201
 >
->RESPONSE SCHEMA: application/json
+> RESPONSE SCHEMA: application/json
 
 ```python
 {
   "email": "user@example.com"
 }
 ```
+
 Account Verify Email when Creating an Account
 
 POST:/api/v1/users//register/verify-email/
->AUTHORIZATIONS:> ***Token***
+
+> AUTHORIZATIONS:> **_Token_**
 >
->REQUEST BODY SCHEMA: application/json
+> REQUEST BODY SCHEMA: application/json
 
 ```python
 {
@@ -206,23 +223,25 @@ POST:/api/v1/users//register/verify-email/
 }
 ```
 
->Response Samples
+> Response Samples
 >
->Status:201
+> Status:201
 >
->RESPONSE SCHEMA: application/json
+> RESPONSE SCHEMA: application/json
 
 ```python
 {
   "key": "string"
 }
 ```
+
 Get user details
 
 POST:/api/v1/users/user/
->AUTHORIZATIONS:> ***Token***
+
+> AUTHORIZATIONS:> **_Token_**
 >
->REQUEST BODY SCHEMA: application/json
+> REQUEST BODY SCHEMA: application/json
 
 ```python
 {
@@ -230,11 +249,11 @@ POST:/api/v1/users/user/
 }
 ```
 
->Response Samples
+> Response Samples
 >
->Status:200
+> Status:200
 >
->RESPONSE SCHEMA: application/json
+> RESPONSE SCHEMA: application/json
 
 ```python
 {
@@ -248,14 +267,14 @@ POST:/api/v1/users/user/
 
 ## Farm
 
-
 ### Farm create
+
 POST: /api/v1/insights/farms/
 
->Accept the following POST parameters: name,location,size,longitude,latitude Returns the created farm object.
+> Accept the following POST parameters: name,location,size,longitude,latitude Returns the created farm object.
 
-> REQUEST BODY SCHEMA: ***application/json***
->AUTHORIZATIONS:> ***Token***
+> REQUEST BODY SCHEMA: **_application/json_**
+> AUTHORIZATIONS:> **_Token_**
 
 ```python
 {
@@ -267,9 +286,11 @@ POST: /api/v1/insights/farms/
 
 }
 ```
+
 > Responses
 >
 > Status:201
+
 ```python
 {
   "name": "string",
@@ -280,18 +301,20 @@ POST: /api/v1/insights/farms/
   "id": int,
 }
 ```
+
 ### Farms GET
+
 GET: /api/v1/insights/farms/
 
->Returns a list of farms for the user making the request.
+> Returns a list of farms for the user making the request.
 
-> REQUEST BODY SCHEMA: ***application/json***
->AUTHORIZATIONS:> ***Token***
-
+> REQUEST BODY SCHEMA: **_application/json_**
+> AUTHORIZATIONS:> **_Token_**
 
 > Responses
 >
 > Status:200
+
 ```python
 [{
   "name": "string",
@@ -310,18 +333,20 @@ GET: /api/v1/insights/farms/
   "id": int,
 },....]
 ```
+
 ### Farm GET
+
 GET: /api/v1/insights/farms/{id}
 
->Return the farm with the specified id.
+> Return the farm with the specified id.
 
-> REQUEST BODY SCHEMA: ***application/json***
->AUTHORIZATIONS:> ***Token***
-
+> REQUEST BODY SCHEMA: **_application/json_**
+> AUTHORIZATIONS:> **_Token_**
 
 > Responses
 >
 > Status:200
+
 ```python
 
 {
@@ -337,63 +362,67 @@ GET: /api/v1/insights/farms/{id}
 ## Locations
 
 ### Get Regions
->GET : https://fololimo-api-eight.vercel.app/api/v1/fololimo/regions/
->Return a list of all the regions.<br>
->REQUEST BODY SCHEMA: ***application/json***<br>
->AUTHORIZATIONS:> ***Token***
- 
- Response: 
- ```
- [
-  {
-    "id": 7,
-    "region": "Central"
-  },
-  {
-    "id": 8,
-    "region": "Rift Valley"
-  },
-  {
-    "id": 9,
-    "region": "Eastern"
-  },
-  {
-    "id": 10,
-    "region": "Nyanza"
-  },
-  {
-    "id": 11,
-    "region": "Western"
-  },
-  {
-    "id": 12,
-    "region": "Coast"
-  },
-  {
-    "id": 13,
-    "region": "North Eastern"
-  },
-  {
-    "id": 14,
-    "region": "Nairobi"
-  }
+
+> GET : https://fololimo-api-eight.vercel.app/api/v1/fololimo/regions/
+> Return a list of all the regions.<br>
+> REQUEST BODY SCHEMA: **_application/json_**<br>
+> AUTHORIZATIONS:> **_Token_**
+
+Response:
+
+```
+[
+ {
+   "id": 7,
+   "region": "Central"
+ },
+ {
+   "id": 8,
+   "region": "Rift Valley"
+ },
+ {
+   "id": 9,
+   "region": "Eastern"
+ },
+ {
+   "id": 10,
+   "region": "Nyanza"
+ },
+ {
+   "id": 11,
+   "region": "Western"
+ },
+ {
+   "id": 12,
+   "region": "Coast"
+ },
+ {
+   "id": 13,
+   "region": "North Eastern"
+ },
+ {
+   "id": 14,
+   "region": "Nairobi"
+ }
 ]
 ```
 
 ### Get Counties
 
->GET : https://fololimo-api-eight.vercel.app/api/v1/fololimo/cities/?region={id}<br>
->id is the id of the region.<br>
->Return a list of counties in a region.<br>
->REQUEST BODY SCHEMA: ***application/json***<br>
->AUTHORIZATIONS:> ***Token***
+> GET : https://fololimo-api-eight.vercel.app/api/v1/fololimo/cities/?region={id}<br>
+> id is the id of the region.<br>
+> Return a list of counties in a region.<br>
+> REQUEST BODY SCHEMA: **_application/json_**<br>
+> AUTHORIZATIONS:> **_Token_**
 
-Example Request 
+Example Request
+
 ```
 https://fololimo-api-eight.vercel.app/api/v1/fololimo/cities/?region=12
 ```
 
 Example Response
+
 ```
 [
     {
@@ -431,17 +460,20 @@ Example Response
 
 ### GET Subcounties
 
->GET : https://fololimo-api-eight.vercel.app/api/v1/fololimo/subcounties/?city={id}<br>
->id is the id of the region.<br>
->Return a list of subcounties in a County.<br>
->REQUEST BODY SCHEMA: ***application/json***<br>
->AUTHORIZATIONS:> ***Token***
+> GET : https://fololimo-api-eight.vercel.app/api/v1/fololimo/subcounties/?city={id}<br>
+> id is the id of the region.<br>
+> Return a list of subcounties in a County.<br>
+> REQUEST BODY SCHEMA: **_application/json_**<br>
+> AUTHORIZATIONS:> **_Token_**
 
-Example Request 
+Example Request
+
 ```
 https://fololimo-api-eight.vercel.app/api/v1/fololimo/subcouties/?city=12
 ```
+
 Example Response
+
 ```
 [
   {
@@ -476,12 +508,11 @@ Example Response
 
 ### Get city's weather
 
->GET : https://fololimo-api-eight.vercel.app/api/v1/fololimo/weathers/{id}<br>
->id is the id of the city.<br>
->Return the weather condition for a city.<br>
->REQUEST BODY SCHEMA: ***application/json***<br>
->AUTHORIZATIONS:> ***Token***
-
+> GET : https://fololimo-api-eight.vercel.app/api/v1/fololimo/weathers/{id}<br>
+> id is the id of the city.<br>
+> Return the weather condition for a city.<br>
+> REQUEST BODY SCHEMA: **_application/json_**<br>
+> AUTHORIZATIONS:> **_Token_**
 
 example request
 
@@ -504,6 +535,97 @@ Example response
 }
 ```
 
+## Activity
 
+### POST Activity
 
+POST: /api/v1/insights/activities/
 
+> Accept the following POST parameters: activity, date, cost, duration, id, farm, status Returns the created farm object.
+
+> REQUEST BODY SCHEMA: **_application/json_**
+> AUTHORIZATIONS:> **_Token_**
+
+Example Request
+
+```
+{
+    "activity": "Planting",
+    "date": "2024-10-25",
+    "cost": 20000.0,
+    "duration": 12,
+    "farm": 1 #farm's id
+  }
+```
+
+Example Response
+<br>
+status_code = 201
+
+```
+{
+"activity": "Planting",
+"date": "2024-10-25",
+"cost": 20000.0,
+"duration": 12,
+"id": 1,
+"status":"pending",
+"farm": "Kariosh"
+}
+```
+
+### GET Activities
+
+GET: /api/v1/insights/activities/
+
+> Returns list of activities for the requesting user object.<BR>
+> REQUEST BODY SCHEMA: **_application/json_**<BR>
+> AUTHORIZATIONS:> **_Token_**
+
+Example Response<br>
+>status_code = 200
+
+```
+[
+  {
+"activity": "Planting",
+"date": "2024-10-25",
+"cost": 20000.0,
+"duration": 12,
+"status":"pending",
+"id": 1,
+"farm": "Kariosh"
+},
+{
+"activity": "Weeding",
+"date": "2024-12-2",
+"cost": 20000.0,
+"duration": 12, # in days
+"status":"pending",
+"id": 2,
+"farm": "My Farm"
+}
+]
+```
+### GET Activities
+
+GET: /api/v1/insights/activities/{id}/
+
+> Returns the activity with the specified name.<BR>
+> REQUEST BODY SCHEMA: **_application/json_**<BR>
+> AUTHORIZATIONS:> **_Token_**
+
+Example Response
+ /api/v1/insights/activities/2/<br>
+ status_code = 200
+```
+{
+"activity": "Weeding",
+"date": "2024-12-2",
+"cost": 20000.0,
+"status":"pending",
+"duration": 12, # in days
+"id": 1,
+"farm": "My Farm"
+}
+```
