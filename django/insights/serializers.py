@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Farm
+from .models import Farm,Activity
 from fololimo.models import City,SubCounty
 
 class FarmSerializer(serializers.ModelSerializer):
@@ -23,3 +23,10 @@ class FarmSerializer(serializers.ModelSerializer):
         farm = Farm.objects.create(**validated_data)
         return farm
         
+class ActivitySerializer(serializers.ModelSerializer):
+    farm = serializers.SerializerMethodField()
+    class Meta:
+        model = Activity
+        fields = ["activity","date","cost","duration","id","farm","status"]   
+    def get_farm(self,obj):
+        return obj.farm.name
