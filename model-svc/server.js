@@ -5,10 +5,22 @@ import config from "./src/config/config.js";
 import logger from "./src/config/logger.js";
 
 
-let server = app.listen(config.port, () => {
-//   connectToMongoDB()
-  logger.info(`app is running on http://localhost:${config.port}`)
-})
+let server;
+// mongoose.connect(config.mongoose.url, {dbName: config.mongoose.name})
+// .then(() => {
+//   logger.info("Connected to mongodb successfully .")
+//   server = app.listen(config.port, () => {
+//       logger.info(`app is running on http://localhost:${config.port}`)
+//     })
+// })
+// .catch((error) => {
+//   logger.error(`The app failed to`)
+// })
+
+logger.info("Connected to mongodb successfully .")
+server = app.listen(config.port, () => {
+    logger.info(`app is running on http://localhost:${config.port}`)
+  })
 
 const exitHandler = () => {
   if (server){
@@ -31,7 +43,6 @@ process.on('unhandledRejection', unexpectedErrorHandler);
 
 process.on('SIGTERM', () => {
   logger.info('SIGTERM received');
-  disconnectFromMongoDB()
   if (server) {
     server.close();
   }

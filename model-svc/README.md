@@ -21,7 +21,7 @@
 - **_Headers:_**
 
   - `Content-Type: application/json`
-  - `Authorization: Bearer <token>`
+  - `Authorization: Token <token>`
 
 - **_Optional query parameters:_**
 

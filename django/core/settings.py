@@ -2,6 +2,7 @@ from pathlib import Path
 from decouple import config
 import sys
 import os
+from celery import Celery
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -12,7 +13,7 @@ DEBUG = config("DEBUG", cast=bool)
 
 ALLOWED_HOSTS = ["*"]
 
-
+APPEND_SLASH=False
 # Application definition
 
 INSTALLED_APPS = [
@@ -33,7 +34,8 @@ INSTALLED_APPS = [
     "dj_rest_auth.registration",
     "users",
     "fololimo",
-    # "insights",
+    'django_celery_results',
+    "insights",
     
 ]
 
@@ -78,7 +80,7 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = "core.wsgi.application"
+WSGI_APPLICATION = "core.wsgi.app"
 
 
 # Database
@@ -112,9 +114,9 @@ if "test" in sys.argv:
         "NAME": ":memory:",
     }
 
-ACCOUNT_EMAIL_VERIFICATION = "mandatory"
+ACCOUNT_EMAIL_VERIFICATION = "optional"
 ACCOUNT_EMAIL_REQUIRED = True
-ACCOUNT_EMAIL_VERIFICATION_BY_CODE_ENABLED = True
+ACCOUNT_EMAIL_VERIFICATION_BY_CODE_ENABLED = False
 
 if DEVELOPMENT_MODE:
     EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
@@ -151,6 +153,23 @@ AUTH_PASSWORD_VALIDATORS = [
 ]
 
 
+REST_FRAMEWORK = {
+    "DEFAULT_AUTHENTICATION_CLASSES":[
+        'rest_framework.authentication.TokenAuthentication',
+        'rest_framework.authentication.BasicAuthentication',
+    ],
+    'DEFAULT_PERMISSION_CLASSES':[
+        'rest_framework.permissions.AllowAny',
+    ],
+    'USER_DETAILS_SERIALIZER':'users.serializers.UserDetailsSerializer',
+    'REST_AUTH_SERIALIZERS':'users.serializers.CustomLoginSerializer',
+    'DEFAULT_SCHEMA_CLASS': 'rest_framework.schemas.coreapi.AutoSchema',
+}
+
+REST_AUTH_SERIALIZERS = {
+    "LOGIN_SERIALIZER": 'users.serializers.CustomLoginSerializer'
+}
+
 # Internationalization
 # https://docs.djangoproject.com/en/5.1/topics/i18n/
 
@@ -174,3 +193,9 @@ STATIC_ROOT = os.path.join(BASE_DIR, "static")
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 AUTH_USER_MODEL = "users.User"
+
+CELERY_BROKER_URL = config("REDIS_URL")
+CELERY_ACCEPT_CONTENT = ['json']
+CELERY_TASK_SERIALIZER = 'json'
+CELERY_RESULT_SERIALIZER = 'json'
+CELERY_TIMEZONE = 'Africa/Nairobi'

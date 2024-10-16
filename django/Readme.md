@@ -3,120 +3,125 @@
 This is a Django Rest Framework application for the FOLOLIMO API.
 
 # Project Setup
+
 1. ## Clone this repository
 
-    ```
-    git clone https://github.com/Mmust-Ihub/fololimo-api.git
-    ```
+   ```
+   git clone https://github.com/Mmust-Ihub/fololimo-api.git
+   ```
+
 2. ## Create a virtual environment
-    ```
-    python -m venv env
-    env\Scripts\activate #for windows
-    ```
+   ```
+   python -m venv env
+   env\Scripts\activate #for windows
+   ```
 3. ## Install dependencies
-    ```
-    pip install requirements.txt
-    ```
+   ```
+   pip install requirements.txt
+   ```
 4. ### Create a .env fle in the root of the project and add the following configurations
 
-    ```
-    DB_NAME =
-    DB_PASSWORD =
-    DB_HOST =
-    DB_PORT = 5432
-    DB_USER =
-    ```
+   ```
+   DB_NAME =
+   DB_PASSWORD =
+   DB_HOST =
+   DB_PORT = 5432
+   DB_USER =
+   ```
 
-5. ### After installing the packages you run the following to   create migrations for the database: 
+5. ### After installing the packages you run the following to create migrations for the database:
 
-    ```
-    python manage.py makemigrations
-    ```
-5. ### Run this to migrate the database: 
+   ```
+   python manage.py makemigrations
+   ```
 
-    ```
-    python manage.py migrate
-    ```
+6. ### Run this to migrate the database:
 
-5. ### After installing the packages you can now run: 
+   ```
+   python manage.py migrate
+   ```
 
-    ```
-    python manage.py runserver
-    ```
+7. ### After installing the packages you can now run:
+
+   ```
+   python manage.py runserver
+   ```
+
 #
+
 <br>
 
 # API DOCUMENTATION
 
-> Root url: [https://fololimo-api.onrender.com](https://fololimo-api.onrender.com)
+> Root url: [https://fololimo-api-eight.vercel.app](https://fololimo-api-eight.vercel.app)
 
 <br>
 <br>
 
 ## Authentication
 
-
 ### Account Login
-POST:https://fololimo-api.onrender.com/api/v1/users/login/
 
->Accept the following POST parameters: username, password Return the REST Framework Token Object's key.
->
-> AUTHORIZATIONS:> ***Token***
->
-> REQUEST BODY SCHEMA: ***application/json***
+POST:/api/v1/users/login/
+
+> Accept the following POST parameters: username, password Return the REST Framework Token Object's key.
+
+> REQUEST BODY SCHEMA: **_application/json_**
 
 ```python
 {
   "username": "string",
-  "email": "user@example.com",
   "password": "string"
 }
 ```
+
 > Responses
 >
 > Status:201
+
 ```python
 {
-  "username": "string",
-  "email": "user@example.com",
-  "password": "string"
+  "key":"token"
 }
 ```
 
 ### Password Reset
 
-POST:https://fololimo-api.onrender.com/api/v1/users/password/reset/
+POST:/api/v1/users/password/reset/
 
->Accepts the following POST parameters: email Returns the success/fail message.
+> Accepts the following POST parameters: email Returns the success/fail message.
 >
->AUTHORIZATIONS:>***Token***
+> AUTHORIZATIONS:>**_Token_**
 >
->REQUEST BODY SCHEMA: application/json
-
-```python
-{
-  "email": "user@example.com"
-}
-```
->Response Samples
->
->Status:201
->
->RESPONSE SCHEMA: application/json
+> REQUEST BODY SCHEMA: application/json
 
 ```python
 {
   "email": "user@example.com"
 }
 ```
-POST:https://fololimo-api.onrender.com/api/v1/users/password/reset/confirm/
->Password reset e-mail link is confirmed, therefore this resets the user's password.
+
+> Response Samples
 >
->Accepts the following POST parameters: token, uid, new_password1, new_password2 Returns the success/fail message.
+> Status:201
 >
->AUTHORIZATIONS>***Token***
+> RESPONSE SCHEMA: application/json
+
+```python
+{
+  "email": "user@example.com"
+}
+```
+
+POST:/api/v1/users/password/reset/confirm/
+
+> Password reset e-mail link is confirmed, therefore this resets the user's password.
 >
->REQUEST BODY SCHEMA: application/json
+> Accepts the following POST parameters: token, uid, new_password1, new_password2 Returns the success/fail message.
+>
+> AUTHORIZATIONS>**_Token_**
+>
+> REQUEST BODY SCHEMA: application/json
 
 ```python
 {
@@ -127,11 +132,11 @@ POST:https://fololimo-api.onrender.com/api/v1/users/password/reset/confirm/
 }
 ```
 
->Reponse Samples
+> Reponse Samples
 >
->Status:201
+> Status:201
 >
->RESPONSE SCHEMA: application/json
+> RESPONSE SCHEMA: application/json
 
 ```python
 {
@@ -141,13 +146,15 @@ POST:https://fololimo-api.onrender.com/api/v1/users/password/reset/confirm/
   "token": "string"
 }
 ```
+
 ### Account Registration.
-POST:https://fololimo-api.onrender.com/api/v1/users/register/
+
+POST:/api/v1/users/register/
 This is used when one wants to create an account.
 
->AUTHORIZATIONS: >***Token***
+> AUTHORIZATIONS: >**_Token_**
 >
->REQUEST BODY SCHEMA: application/json
+> REQUEST BODY SCHEMA: application/json
 
 ```python
 {
@@ -157,11 +164,12 @@ This is used when one wants to create an account.
   "password2": "string"
 }
 ```
->Response Samples
+
+> Response Samples
 >
->Status:201
+> Status:201
 >
->RESPONSE SCHEMA: application/json
+> RESPONSE SCHEMA: application/json
 
 ```python
 {
@@ -171,39 +179,43 @@ This is used when one wants to create an account.
   "password2": "string"
 }
 ```
+
 #### Account Registration Email
 
-POST:https://fololimo-api.onrender.com/api/v1/users//register/resend-email/
+POST:/api/v1/users//register/resend-email/
 Account Register Resend Email
 
 This is for requesting for the Email from the user.
 
->AUTHORIZATIONS:> ***Token***
+> AUTHORIZATIONS:> **_Token_**
 >
->REQUEST BODY SCHEMA: application/json
+> REQUEST BODY SCHEMA: application/json
 
 ```python
 {
   "email": "user@example.com"
 }
 ```
->Response Samples
+
+> Response Samples
 >
->Status:201
+> Status:201
 >
->RESPONSE SCHEMA: application/json
+> RESPONSE SCHEMA: application/json
 
 ```python
 {
   "email": "user@example.com"
 }
 ```
+
 Account Verify Email when Creating an Account
 
-POST:https://fololimo-api.onrender.com/api/v1/users//register/verify-email/
->AUTHORIZATIONS:> ***Token***
+POST:/api/v1/users//register/verify-email/
+
+> AUTHORIZATIONS:> **_Token_**
 >
->REQUEST BODY SCHEMA: application/json
+> REQUEST BODY SCHEMA: application/json
 
 ```python
 {
@@ -211,23 +223,25 @@ POST:https://fololimo-api.onrender.com/api/v1/users//register/verify-email/
 }
 ```
 
->Response Samples
+> Response Samples
 >
->Status:201
+> Status:201
 >
->RESPONSE SCHEMA: application/json
+> RESPONSE SCHEMA: application/json
 
 ```python
 {
   "key": "string"
 }
 ```
+
 Get user details
 
-POST:https://fololimo-api.onrender.com/api/v1/users/user/
->AUTHORIZATIONS:> ***Token***
+POST:/api/v1/users/user/
+
+> AUTHORIZATIONS:> **_Token_**
 >
->REQUEST BODY SCHEMA: application/json
+> REQUEST BODY SCHEMA: application/json
 
 ```python
 {
@@ -235,11 +249,11 @@ POST:https://fololimo-api.onrender.com/api/v1/users/user/
 }
 ```
 
->Response Samples
+> Response Samples
 >
->Status:200
+> Status:200
 >
->RESPONSE SCHEMA: application/json
+> RESPONSE SCHEMA: application/json
 
 ```python
 {
@@ -251,279 +265,367 @@ POST:https://fololimo-api.onrender.com/api/v1/users/user/
 }
 ```
 
-<!---
-## PROPOSALS
+## Farm
 
-This allows one to fill the available proposals and also create proposals.This is based on the user it may be the Proposer or the Coordinator.
+### Farm create
 
->#### Create Proposals
-POST:https://oops-n5cn.onrender.com/api/v1/proposal/add_proposal/
->
->This allows the user to select the desired proposal that they would want to fill.
->
->AUTHORIZATIONS: > ***Token***
->
->Responses
->
->Status:201
+POST: /api/v1/insights/farms/
 
->#### Proposal Responses
+> Accept the following POST parameters: name,location,size,longitude,latitude Returns the created farm object.
 
-POST:https://oops-n5cn.onrender.com/api/v1/proposal/add_proposal/answer/
->This allows one to create answers to the selected proposal.
->
->AUHORIZATIONS:> ***Token***
->
->REQUEST BODY SCHEMA: application/json
+> REQUEST BODY SCHEMA: **_application/json_**
+> AUTHORIZATIONS:> **_Token_**
 
 ```python
 {
-  "answer": "string",
-  "proposal": 0,
-  "question": 0
+  "name": "string",
+  "location": "location",
+  "size": float,
+  "longitude":float,
+  "latitude":float
+
 }
 ```
->Response Samples
+
+> Responses
 >
->Status:201
->
->RESPONSE SCHEMA: application/json
+> Status:201
 
 ```python
 {
-  "id": 0,
-  "answer": "string",
-  "proposal": 0,
-  "question": 0
+  "name": "string",
+  "location": "string",
+  "size": float,
+  "longitude":float,
+  "latitude":float
+  "id": int,
 }
 ```
->#### Proposal Assignment
 
-POST:https://oops-n5cn.onrender.com/api/v1/proposal/assign/
->This allows assigning proposals to reviewers.
+### Farms GET
+
+GET: /api/v1/insights/farms/
+
+> Returns a list of farms for the user making the request.
+
+> REQUEST BODY SCHEMA: **_application/json_**
+> AUTHORIZATIONS:> **_Token_**
+
+> Responses
 >
->AUTHORIZATIONS:> ***Token***
->
->REQUEST BODY SCHEMA: application/json
+> Status:200
 
 ```python
+[{
+  "name": "string",
+  "location": "string",
+  "size": float,
+  "longitude":float,
+  "latitude":float
+  "id": int,
+},
 {
-  "proposal": 0,
-  "reviewer": 0
-}
+  "name": "string",
+  "location": "string",
+  "size": float,
+  "longitude":float,
+  "latitude":float
+  "id": int,
+},....]
 ```
->Response Samples
+
+### Farm GET
+
+GET: /api/v1/insights/farms/{id}
+
+> Return the farm with the specified id.
+
+> REQUEST BODY SCHEMA: **_application/json_**
+> AUTHORIZATIONS:> **_Token_**
+
+> Responses
 >
->Status:201
->
->RESPONSE SCHEMA: application/json
+> Status:200
 
 ```python
+
 {
-  "id": 0,
-  "proposal": 0,
-  "reviewer": 0
+  "name": "string",
+  "location": "string",
+  "size": float,
+  "longitude":float,
+  "latitude":float
+  "id": int,
 }
 ```
 
->#### Assigned Proposals.
+## Locations
 
-GET:https://oops-n5cn.onrender.com/api/v1/proposal/assignments/
->Returns the assigned proposals to the respective reviewer.
->
->AUTHORIZATIONS:> ***Token***
->
->Responses
->
->Status: 200
+### Get Regions
 
->#### Proposal Questions
+> GET : https://fololimo-api-eight.vercel.app/api/v1/fololimo/regions/
+> Return a list of all the regions.<br>
+> REQUEST BODY SCHEMA: **_application/json_**<br>
+> AUTHORIZATIONS:> **_Token_**
 
-GET:https://oops-n5cn.onrender.com/api/v1/proposal/get_questions/{id}/
->Returns the questions available for the selected Template identified by the id .
->
->AUTHORIZATIONS:> ***Token***
->
->Responses
->
->Status:200
+Response:
 
->#### Proposal List
+```
+[
+ {
+   "id": 7,
+   "region": "Central"
+ },
+ {
+   "id": 8,
+   "region": "Rift Valley"
+ },
+ {
+   "id": 9,
+   "region": "Eastern"
+ },
+ {
+   "id": 10,
+   "region": "Nyanza"
+ },
+ {
+   "id": 11,
+   "region": "Western"
+ },
+ {
+   "id": 12,
+   "region": "Coast"
+ },
+ {
+   "id": 13,
+   "region": "North Eastern"
+ },
+ {
+   "id": 14,
+   "region": "Nairobi"
+ }
+]
+```
 
-GET:https://oops-n5cn.onrender.com/api/v1/proposal/my_proposal/
->Returns a list of all submitted proposals from the user making the request.
->
->AUTHORIZATIONS:> ***Token***
->
->Responses
->
->Status:200
+### Get Counties
 
->#### Proposal Preview
+> GET : https://fololimo-api-eight.vercel.app/api/v1/fololimo/cities/?region={id}<br>
+> id is the id of the region.<br>
+> Return a list of counties in a region.<br>
+> REQUEST BODY SCHEMA: **_application/json_**<br>
+> AUTHORIZATIONS:> **_Token_**
 
-GET:https://oops-n5cn.onrender.com/api/v1/proposal/preview_proposal/{id}/
->This allows the user to view the questions and the responses given to each question.
->
->AUTHORIZATIONS:> ***Token***
->
->Responses
->
->Status:200
+Example Request
 
->#### Proposal Review.
+```
+https://fololimo-api-eight.vercel.app/api/v1/fololimo/cities/?region=12
+```
 
-GET:https://oops-n5cn.onrender.com/api/v1/proposal/review/{id}
->Returns the review of a proposal identified by ID.
->
->AUTHORIZATIONS:> ***Token***
->
->Responses
->
->Status:200
+Example Response
 
->#### Proposal Reviewer List
+```
+[
+    {
+        "id": 39,
+        "city": "Kilifi",
+        "region": 12
+    },
+    {
+        "id": 40,
+        "city": "Kwale",
+        "region": 12
+    },
+    {
+        "id": 41,
+        "city": "Lamu",
+        "region": 12
+    },
+    {
+        "id": 42,
+        "city": "Mombasa",
+        "region": 12
+    },
+    {
+        "id": 43,
+        "city": "Taita-Taveta",
+        "region": 12
+    },
+    {
+        "id": 44,
+        "city": "Tana River",
+        "region": 12
+    }
+]
+```
 
-GET:https://oops-n5cn.onrender.com/api/v1/proposal/reviewers/
->This is used to list all the reviewers in the system.
->
->AUTHORIZATIONS:> ***Token***
->
->Responses
->
->Status:200
+### GET Subcounties
 
->#### Proposal Template List
+> GET : https://fololimo-api-eight.vercel.app/api/v1/fololimo/subcounties/?city={id}<br>
+> id is the id of the region.<br>
+> Return a list of subcounties in a County.<br>
+> REQUEST BODY SCHEMA: **_application/json_**<br>
+> AUTHORIZATIONS:> **_Token_**
 
-GET:https://oops-n5cn.onrender.com/api/v1/proposal/template/
->It shows the specific proposals created based on their ids.
->
->AUTHORIZATIONS:> ***Token***
->
->Responses
->
->Status:200
-```python
+Example Request
+
+```
+https://fololimo-api-eight.vercel.app/api/v1/fololimo/subcouties/?city=12
+```
+
+Example Response
+
+```
 [
   {
-    "id": 0,
-    "title": "string",
-    "category": "string"
+    "id": 77,
+    "sub_county": "Bomet Central",
+    "city": 12
+  },
+  {
+    "id": 78,
+    "sub_county": "Bomet East",
+    "city": 12
+  },
+  {
+    "id": 79,
+    "sub_county": "Chepalungu",
+    "city": 12
+  },
+  {
+    "id": 80,
+    "sub_county": "Konoin",
+    "city": 12
+  },
+  {
+    "id": 81,
+    "sub_county": "Sotik",
+    "city": 12
   }
 ]
 ```
->#### Create Proposal
 
-POST:https://oops-n5cn.onrender.com/api/v1/proposal/template/
->This is to create proposals.
->
->AUTHORIZATIONS:> ***Token***
->
->REQUEST BODY SCHEMA: application/json
-```python
+##Weather
+
+### Get city's weather
+
+> GET : https://fololimo-api-eight.vercel.app/api/v1/fololimo/weathers/{id}<br>
+> id is the id of the city.<br>
+> Return the weather condition for a city.<br>
+> REQUEST BODY SCHEMA: **_application/json_**<br>
+> AUTHORIZATIONS:> **_Token_**
+
+example request
+
+```
+https://fololimo-api-eight.vercel.app/api/v1/fololimo/weathers/12/
+```
+
+Example response
+
+```
 {
-  "title": "string",
-  "category": "string"
+  "id": 8,
+  "temperature": 24.52,
+  "description": "clear sky",
+  "city": "Bomet",
+  "humidity": 34.0,
+  "min_temp": 24.52,
+  "max_temp": 24.52,
+  "pressure": 1015.0
 }
 ```
->Responses
->
->Status:201
->
->RESPONSE SCHEMA: application/json
 
-```python
+## Activity
+
+### POST Activity
+
+POST: /api/v1/insights/activities/
+
+> Accept the following POST parameters: activity, date, cost, duration, id, farm, status Returns the created farm object.
+
+> REQUEST BODY SCHEMA: **_application/json_**
+> AUTHORIZATIONS:> **_Token_**
+
+Example Request
+
+```
 {
-  "id": 0,
-  "title": "string",
-  "category": "string"
+    "activity": "Planting",
+    "date": "2024-10-25",
+    "cost": 20000.0,
+    "duration": 12,
+    "farm": 1 #farm's id
+  }
+```
+
+Example Response
+<br>
+status_code = 201
+
+```
+{
+"activity": "Planting",
+"date": "2024-10-25",
+"cost": 20000.0,
+"duration": 12,
+"id": 1,
+"status":"pending",
+"farm": "Kariosh"
 }
 ```
->#### Proposal Template Read
 
-GET:https://oops-n5cn.onrender.com/api/v1/proposal/template/{id}/
->This is to view a specific template that has been created.
->
->AUTHORIZATIONS:> ***Token***
->
->Responses
->
->Status:200
->
->RESPONSE SCHEMA: application/json
+### GET Activities
 
-```python
+GET: /api/v1/insights/activities/
+
+> Returns list of activities for the requesting user object.<BR>
+> REQUEST BODY SCHEMA: **_application/json_**<BR>
+> AUTHORIZATIONS:> **_Token_**
+
+Example Response<br>
+>status_code = 200
+
+```
+[
+  {
+"activity": "Planting",
+"date": "2024-10-25",
+"cost": 20000.0,
+"duration": 12,
+"status":"pending",
+"id": 1,
+"farm": "Kariosh"
+},
 {
-  "id": 0,
-  "title": "string",
-  "category": "string"
+"activity": "Weeding",
+"date": "2024-12-2",
+"cost": 20000.0,
+"duration": 12, # in days
+"status":"pending",
+"id": 2,
+"farm": "My Farm"
+}
+]
+```
+### GET Activities
+
+GET: /api/v1/insights/activities/{id}/
+
+> Returns the activity with the specified name.<BR>
+> REQUEST BODY SCHEMA: **_application/json_**<BR>
+> AUTHORIZATIONS:> **_Token_**
+
+Example Response
+ /api/v1/insights/activities/2/<br>
+ status_code = 200
+```
+{
+"activity": "Weeding",
+"date": "2024-12-2",
+"cost": 20000.0,
+"status":"pending",
+"duration": 12, # in days
+"id": 1,
+"farm": "My Farm"
 }
 ```
->#### Update Proposal Template.
-
-PUT:https://oops-n5cn.onrender.com/api/v1/proposal/template/{id}/
->AUTHORIZATIONS:> ***Token***
-```python
-{
-  "title": "string",
-  "category": "string"
-}
-```
->Responses
->
->Status:200
->
->RESPONSE SCHEMA: application/json
-```python
-{
-  "id": 0,
-  "title": "string",
-  "category": "string"
-}
-```
->#### Proposal Template Partial Update
-
-PATCH:https://oops-n5cn.onrender.com/api/v1/proposal/template/{id}/
->This is to help in updating a proposal Template.
->
->AUTHORIZATIONS:> ***Token***
->
->REQUEST BODY SCHEMA: application/json
-```python
-{
-  "title": "string",
-  "category": "string"
-}
-```
->Responses
->
->Status:200
->
->RESPONSE SCHEMA: application/json
-```python
-{
-  "id": 0,
-  "title": "string",
-  "category": "string"
-}
-```
->#### Proposal Template Delete
-
-DELETE:https://oops-n5cn.onrender.com/api/v1/proposal/template/{id}/
->This is to help in deleting the proposal Templates.
->
->AUTHORIZATIONS:> ***Token***
->
->Responses
->
->Status:204
-
->#### Proposal Template Read
-
-GET:https://oops-n5cn.onrender.com/api/v1/proposal/templates/{cat}/
->return a list of templates from the selected category.
->
->AUTHORIZATIONS:> ***Token***
->
->Responses
->
->Status:200 -->

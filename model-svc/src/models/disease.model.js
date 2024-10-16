@@ -50,7 +50,12 @@ const diseaseSchema = new mongoose.Schema({
     type: String,
     required: true,
     trim: true
+  },
+  user_id: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "User",
+    required: true,
   }
-});
+}, {timestamps: true});
 
 export const diseaseModel = mongoose.model("Disease", diseaseSchema)
