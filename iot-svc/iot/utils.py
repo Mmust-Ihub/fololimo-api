@@ -1,7 +1,6 @@
 import requests, json
 from decouple import config
 import google.generativeai as genai
-from google.generativeai.types import HarmCategory, HarmBlockThreshold
 from iot.weather import OpenWeather
 from iot.prompt import crop_prompt, model_prompt
 
@@ -17,7 +16,9 @@ generation_config = {
 def get_farm_data(farm_id):
     url = f'{config("FARM_URL")}{farm_id}/'
     resp = requests.get(url)
-    return resp.json()
+    if resp.status_code == 200:
+        return resp.json()
+    return False
 
 def get_weather_data(location):
     data = OpenWeather(location)
@@ -34,14 +35,10 @@ def aggregate_the_data(iot_data, farm_data, weather_data):
         "weather_data": weather_data
     }
 
-def chat_model(data, farm_id):
+def chat_model(data, user_id, farm_id):
     model = genai.GenerativeModel(
         model_name=config("MODEL"),
-        generation_config=generation_config,
-        safety_settings={
-        HarmCategory.HARM_CATEGORY_HATE_SPEECH: HarmBlockThreshold.BLOCK_LOW_AND_ABOVE,
-        HarmCategory.HARM_CATEGORY_HARASSMENT: HarmBlockThreshold.BLOCK_LOW_AND_ABOVE,
-    }
+        generation_config=generation_config
     )
     chat_session = model.start_chat(
         history=[
@@ -61,6 +58,6 @@ def chat_model(data, farm_id):
     )
     response = chat_session.send_message(str(data))
     response = json.loads(response.text)
+    response["user_id"] = user_id
     response["farm_id"] = farm_id
-    # return response
-    return json.dumps(response, indent=4)
+    return response
