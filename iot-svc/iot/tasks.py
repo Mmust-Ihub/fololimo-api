@@ -10,7 +10,7 @@ def process_data(self, iot_data, farm_data):
     self.update_state(state="PROGRESS", meta={"remaining": 1, "completed": 0, "message": "task started successfully"})
     weather_data = get_weather_data(farm_data.get("location"))
     model_data = aggregate_the_data(iot_data, farm_data, weather_data)
-    model_output = chat_model(model_data, farm_data.get("user"), farm_data.get("id"))
+    model_output = chat_model(model_data, farm_data, iot_data)
     upload_to_firebase(model_output)
     print("The data was successfully uploaded to firebase ..")
     return {"remaining": 0,"completed": 1, "result": "All tasks completed"}

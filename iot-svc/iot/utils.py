@@ -35,7 +35,7 @@ def aggregate_the_data(iot_data, farm_data, weather_data):
         "weather_data": weather_data
     }
 
-def chat_model(data, user_id, farm_id):
+def chat_model(data, farm_data, iot_data):
     model = genai.GenerativeModel(
         model_name=config("MODEL"),
         generation_config=generation_config
@@ -58,6 +58,8 @@ def chat_model(data, user_id, farm_id):
     )
     response = chat_session.send_message(str(data))
     response = json.loads(response.text)
-    response["user_id"] = user_id
-    response["farm_id"] = farm_id
+    del iot_data["farm_id"]
+    response["user_id"] = farm_data.get("user")
+    response["farm_id"] = farm_data.get("id")
+    response["soil_data"] = iot_data
     return response
