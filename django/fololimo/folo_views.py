@@ -63,6 +63,7 @@ class WeatherViewSet(viewsets.ModelViewSet):
 
 
 def update_db(request):
+    print(request)
     try:
         # Run the management command to update the database
         call_command('update_weather')
