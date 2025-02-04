@@ -16,7 +16,7 @@ services:
       - test
   worker:
     image: banditantony9/fololimo-iot:latest
-    container_name: worker
+    container_name: iot-worker
     env_file:
       - .env.prod
     environment:
