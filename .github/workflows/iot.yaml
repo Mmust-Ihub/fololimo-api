@@ -66,10 +66,14 @@ jobs:
             if [ -d "$REPO_DIR" ]; then
               cd "$REPO_DIR"
               git pull origin main
+              for i in {1..10}; do
+                echo "working dir: $pwd"
+                sleep 0.5
+              done
             else
               git clone "https://${{ github.actor }}:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git" "$REPO_DIR"
             fi
 
-            cd "$IOT_DIR"  # Change to the cloned repo directory
+            cd "iot-svc"  # Change to the cloned repo directory
             chmod u+x deploy.sh
             ./deploy.sh
