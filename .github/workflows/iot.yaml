@@ -72,6 +72,6 @@ jobs:
               pwd
               sleep 1
             done
-            # cd "$REPO_DIR/iot-svc" # Change to the correct relative path
-            # chmod u+x deploy.sh
-            # ./deploy.sh
+            cd "./iot-svc" # Change to the correct relative path
+            chmod u+x deploy.sh
+            ./deploy.sh
