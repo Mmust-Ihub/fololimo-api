@@ -70,10 +70,12 @@ jobs:
                 pwd
                 sleep 0.5
               done
+              cd $IOT_DIR
+              chmod u+x deploy.sh
+              ./deploy.sh
             else
               git clone "https://${{ github.actor }}:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git" "$REPO_DIR"
+              cd "$REPO_DIR/iot-svc"  # Change to the cloned repo directory
+              chmod u+x deploy.sh
+              ./deploy.sh
             fi
-            pwd
-            cd "$REPO_DIR/iot-svc"  # Change to the cloned repo directory
-            chmod u+x deploy.sh
-            ./deploy.sh
