@@ -22,34 +22,34 @@ env:
   IOT_CONTEXT: iot-svc
 
 jobs:
-  build-artifact:
-    runs-on: [ubuntu-latest]
-    steps:
-      - name: checkout the repository
-        uses: actions/checkout@v4
+  # build-artifact:
+  #   runs-on: [ubuntu-latest]
+  #   steps:
+  #     - name: checkout the repository
+  #       uses: actions/checkout@v4
 
-      - name: login to docker registry
-        uses: docker/login-action@v3
-        with:
-          username: ${{secrets.DOCKERHUB_USERNAME}}
-          password: ${{secrets.DOCKERHUB_PASSWORD}}
+  #     - name: login to docker registry
+  #       uses: docker/login-action@v3
+  #       with:
+  #         username: ${{secrets.DOCKERHUB_USERNAME}}
+  #         password: ${{secrets.DOCKERHUB_PASSWORD}}
 
-      - name: Set up QEMU
-        uses: docker/setup-qemu-action@v3
+  #     - name: Set up QEMU
+  #       uses: docker/setup-qemu-action@v3
 
-      - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v3
+  #     - name: Set up Docker Buildx
+  #       uses: docker/setup-buildx-action@v3
 
-      - name: build and push server image to registry
-        uses: docker/build-push-action@v6
-        with:
-          context: "{{defaultContext}}:${{ env.IOT_CONTEXT }}"
-          file: ${{env.IOT_FILE}}
-          push: true
-          tags: ${{secrets.DOCKERHUB_USERNAME}}/${{env.IOT_IMAGE}}
+  #     - name: build and push server image to registry
+  #       uses: docker/build-push-action@v6
+  #       with:
+  #         context: "{{defaultContext}}:${{ env.IOT_CONTEXT }}"
+  #         file: ${{env.IOT_FILE}}
+  #         push: true
+  #         tags: ${{secrets.DOCKERHUB_USERNAME}}/${{env.IOT_IMAGE}}
 
   deploy:
-    needs: ["build-artifact"]
+    # needs: ["build-artifact"]
     runs-on: ubuntu-latest
     steps:
       - name: ssh to remote server
@@ -67,13 +67,13 @@ jobs:
               cd "$REPO_DIR"
               git pull origin main
               for i in {1..10}; do
-                echo "working dir: $pwd"
+                pwd
                 sleep 0.5
               done
             else
               git clone "https://${{ github.actor }}:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git" "$REPO_DIR"
             fi
-
-            cd "iot-svc"  # Change to the cloned repo directory
+            pwd
+            cd "~/$REPO_DIR/iot-svc"  # Change to the cloned repo directory
             chmod u+x deploy.sh
             ./deploy.sh
