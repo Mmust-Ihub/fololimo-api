@@ -61,21 +61,13 @@ jobs:
           port: "${{ secrets.IOT_REMOTE_PORT }}"
           script: |
             REPO_DIR="fololimo-api"
-            IOT_DIR="iot-svc"
 
             if [ -d "$REPO_DIR" ]; then
               cd "$REPO_DIR"
               git pull origin main
-              for i in {1..10}; do
-                pwd
-                sleep 0.5
-              done
-              cd $IOT_DIR
-              chmod u+x deploy.sh
-              ./deploy.sh
             else
               git clone "https://${{ github.actor }}:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git" "$REPO_DIR"
-              cd "$REPO_DIR/iot-svc"  # Change to the cloned repo directory
-              chmod u+x deploy.sh
-              ./deploy.sh
             fi
+            cd "$REPO_DIR/iot-svc" # Change to the correct relative path
+            chmod u+x deploy.sh
+            ./deploy.sh
