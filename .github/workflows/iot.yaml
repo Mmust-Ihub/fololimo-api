@@ -74,6 +74,6 @@ jobs:
               git clone "https://${{ github.actor }}:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git" "$REPO_DIR"
             fi
             pwd
-            cd "~/$REPO_DIR/iot-svc"  # Change to the cloned repo directory
+            cd "$REPO_DIR/iot-svc"  # Change to the cloned repo directory
             chmod u+x deploy.sh
             ./deploy.sh
