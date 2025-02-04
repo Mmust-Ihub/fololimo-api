@@ -2,5 +2,6 @@ __pycache__/
 .env/
 venv
 env
+.env.prod
 rough.py
 fololimo.json

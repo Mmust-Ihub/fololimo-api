@@ -1,0 +1,15 @@
+setup:
+  addons:
+    - plan: heroku-postgresql
+      as: DATABASE
+    - plan: heroku-redis
+build:
+  docker:
+    iot: iot-svc/Dockerfile
+
+run:
+  iot: server.sh
+  worker:
+    image: iot
+    command:
+      - celery.sh

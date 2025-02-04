@@ -16,32 +16,59 @@ on:
       - closed
   workflow_dispatch:
 
-jobs:
-  test:
-    runs-on: [ubuntu-latest]
-    strategy:
-      fail-fast: false
-      matrix:
-        python-version: [3.10.x]
-    defaults:
-      run:
-        shell: bash
-        working-directory: ./iot-svc
+env:
+  IOT_FILE: Dockerfile
+  IOT_IMAGE: fololimo-iot:latest
+  IOT_CONTEXT: iot-svc
 
+jobs:
+  build-artifact:
+    runs-on: [ubuntu-latest]
     steps:
       - name: checkout the repository
         uses: actions/checkout@v4
 
-      - name: setup python ${{matrix.python-version}}
-        uses: actions/setup-python@v5
+      - name: login to docker registry
+        uses: docker/login-action@v3
         with:
-          python-version: ${{matrix.python-version}}
-          cache: "pip"
-      - name: install dependecies
-        shell: bash
-        run: |
-          pip install --upgrade pip
-          pip install --no-cache-dir -r requirements.txt
-      - name: run tests
-        shell: bash
-        run: echo "running tests ....."
+          username: ${{secrets.DOCKERHUB_USERNAME}}
+          password: ${{secrets.DOCKERHUB_PASSWORD}}
+
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v3
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: build and push server image to registry
+        uses: docker/build-push-action@v6
+        with:
+          context: "{{defaultContext}}:${{ env.IOT_CONTEXT }}"
+          file: ${{env.IOT_FILE}}
+          push: true
+          tags: ${{secrets.DOCKERHUB_USERNAME}}/${{env.IOT_IMAGE}}
+
+  deploy:
+    needs: ["build-artifact"]
+    runs-on: ubuntu-latest
+    steps:
+      - name: ssh to remote server
+        uses: appleboy/ssh-action@v1.2.0
+        with:
+          host: "${{ secrets.IOT_REMOTE_HOST }}"
+          username: "${{ secrets.IOT_REMOTE_USERNAME }}"
+          key: "${{ secrets.IOT_REMOTE_KEY }}"
+          port: "${{ secrets.IOT_REMOTE_PORT }}"
+          script: |
+            REPO_DIR="fololimo-api"
+
+            if [ -d "$REPO_DIR" ]; then
+              cd "$REPO_DIR"
+              git pull origin main
+            else
+              git clone "https://${{ github.actor }}:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git" "$REPO_DIR"
+              cd "$REPO_DIR"
+            fi
+
+            chmod u+x ./deploy-iot.sh
+            ./deploy-iot.sh
