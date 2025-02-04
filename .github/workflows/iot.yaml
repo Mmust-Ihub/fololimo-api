@@ -67,8 +67,8 @@ jobs:
               git pull origin main
             else
               git clone "https://${{ github.actor }}:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git" "$REPO_DIR"
+              cd "$REPO_DIR"
             fi
 
-            cd "$REPO_DIR"  # Change to the cloned repo directory
-            chmod u+x deploy.sh
-            ./deploy.sh
+            chmod u+x ./deploy-iot.sh
+            ./deploy-iot.sh

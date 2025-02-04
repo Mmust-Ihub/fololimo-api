@@ -2,7 +2,7 @@
 
 : '---- CONSTANTS ----'
 COMPOSE_FILE="docker-compose.yaml"
-IOT_PATH=/iot-svc
+IOT_PATH=iot-svc
 
 set -e
 
@@ -39,5 +39,4 @@ function main() {
     stop_running_containers
     deploy
 }
-
 main
