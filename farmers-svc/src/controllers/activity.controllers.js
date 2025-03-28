@@ -90,7 +90,7 @@ export const getActivities = async (req, res) => {
 export const getActivity = async (req, res) => {
   const { id } = req.params;
   try {
-    const activity = await Activity.findOne({ _id: id });
+    const activity = await Activity.getActivityByIdAndUser(req.userId,id);
     if (!activity) {
       res.status(404).json({ message: `activity with ${id} does not exist` });
       return;
