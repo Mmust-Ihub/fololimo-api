@@ -1,3 +1,5 @@
+import { User } from "../models/user.model.js";
+
 export const getAgrovets = async (req, res) => {
   if (req.query) {
     if (req.query.location) {
@@ -14,6 +16,15 @@ export const getAgrovets = async (req, res) => {
   }
   res.status(200).json([]);
 };
+
+export const getAllAgrovets = async (req,res) => {
+  try {
+    const  vets = await User.find().getAgrovets()
+    
+  } catch (error) {
+    
+  }
+}
 
 export const notifyAgrovet = async (req, res) => {
   console.log("argrovet:", req.body);

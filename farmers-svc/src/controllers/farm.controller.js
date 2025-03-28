@@ -1,15 +1,5 @@
 import { Farm } from "../models/farm.model.js";
-
-const farmResponse = (farm) => {
-  return {
-    id: farm._id,
-    name: farm.name,
-    owner: farm.owner,
-    location: farm.location,
-    size: farm.size,
-    geolocation: farm.geolocation,
-  };
-};
+import { farmResponse } from "../utils/responses.js";
 
 export const createFarm = async (req, res) => {
   try {
@@ -28,7 +18,7 @@ export const createFarm = async (req, res) => {
 export const getFarm = async (req, res) => {
   const farmId = req.params.id;
   try {
-    const farm = await Farm.findOne({ _id: farmId });
+    const farm = await Farm.findOne({ _id: farmId, owner: req.userId });
     res.status(200).json(farmResponse(farm._doc));
   } catch (err) {
     res.status(400).json({ message: err.message });

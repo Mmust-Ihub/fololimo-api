@@ -7,7 +7,7 @@ import logger from "morgan";
 import { farmerRouter } from "./routes/farmer.routes.js";
 import { farmRouter } from "./routes/farm.routes.js";
 import { inventoryRouter } from "./routes/inventory.routes.js";
-import { userRouter } from "./routes/user.route.js";
+import { userRouter } from "./routes/auth.routes.js";
 import { aiRouter } from "./routes/suggest.routes.js";
 import { weatherRouter } from "./routes/weather.routes.js";
 import { agrovetRouter } from "./routes/agrovet.routes.js";

@@ -40,6 +40,11 @@ UserSchema.pre("save", async function (next) {
   next();
 });
 
+
+UserSchema.query.getAgrovets = function(){
+  return this.where({role:"agrovet"})
+}
+
 UserSchema.methods.comparePassword = async function (candidatePassword) {
   return bcrypt.compare(candidatePassword, this.password);
 };
