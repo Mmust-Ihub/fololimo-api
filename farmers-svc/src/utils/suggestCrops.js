@@ -23,10 +23,10 @@ function generateCropPrompt(
     }
     ### **Farm Location:** ${location}
     ### **Soil Properties:**
-    - **Moisture Level:** ${moisture}
-    - **Nitrogen (N) Level:** ${nitrogen}
-    - **Phosphorus (P) Level:** ${phosphorus}
-    - **Potassium (K) Level:** ${potassium}
+    - **Moisture Level:** ${moisture || "moderate"}
+    - **Nitrogen (N) Level:** ${nitrogen || "moderate"}
+    - **Phosphorus (P) Level:** ${phosphorus || "moderate"}
+    - **Potassium (K) Level:** ${potassium || "moderate"}
   
     **Guidelines:**
     - Recommend crops that align with the farmer’s goal (${farmingPurpose} farming).
@@ -63,8 +63,8 @@ export async function suggestCrop(
       moisture,
       nitrogen,
       phosphorus,
-      potasium,
-      reason
+      potassium,
+      farmingPurpose
     );
     const response = await ai.models.generateContent({
       model: "gemini-2.0-flash",

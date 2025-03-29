@@ -11,10 +11,10 @@ const inventorySchema = Schema(
       type: Number,
       required: true,
     },
-    category: {
+    transactionType: {
       type: String,
       required: true,
-      enum: ["debit", "credit"],
+      enum: ["income", "expense"],
     },
   },
   { timestamps: true }
@@ -36,6 +36,21 @@ inventorySchema.statics.getInventoryByUserId = async function (
   const farmIds = await getFarmIdsByUserId(userId);
   return this.find({
     farmId: { $in: farmIds },
+  })
+    .populate("farmId", "name")
+    .skip((page - 1) * limit)
+    .limit(limit);
+};
+inventorySchema.statics.getInventoryByType = async function (
+  userId,
+  type,
+  page = 1,
+  limit = 10
+) {
+  const farmIds = await getFarmIdsByUserId(userId);
+  return this.find({
+    farmId: { $in: farmIds },
+    transactionType: type
   })
     .populate("farmId", "name")
     .skip((page - 1) * limit)
