@@ -1,6 +1,7 @@
 import { validationResult } from "express-validator";
 import { Activity } from "../models/Activity.js";
 import mongoose from "mongoose";
+import { activityResponse } from "../utils/responses.js";
 
 export const createActivity = async (req, res) => {
   const errors = validationResult(req);
@@ -31,8 +32,15 @@ export const getActivities = async (req, res) => {
 
   try {
     if (!type) {
-      const activities = await Activity.find().skip(skip).limit(limit);
-      const total = await Activity.countDocuments();
+      const activityModels = await Activity.getActivitiesByUserId(
+        req.user.id,
+        page,
+        limit
+      );
+      const activities = activityModels.map((activity) =>
+        activityResponse(activity)
+      );
+      const total = await Activity.getUserActivityCount(req.user.id);
       const pages = Math.ceil(total / limit);
       res.status(200).json({
         pages,
@@ -42,14 +50,17 @@ export const getActivities = async (req, res) => {
         activities,
       });
     } else if (type === "past") {
-      const activities = await Activity.getPastActivitiesByUser(
-        req.userId,
+      const activityModels = await Activity.getPastActivitiesByUser(
+        req.user.id,
         page,
         limit
       );
+      const activities = activityModels.map((activity) =>
+        activityResponse(activity)
+      );
 
       const total = await Activity.countDocuments({
-        farmId: { $in: await getFarmIdsByUserId(req.userId) },
+        farmId: { $in: await getFarmIdsByUserId(req.user.id) },
         endDate: { $lt: new Date() },
       });
       const pages = Math.ceil(total / limit);
@@ -63,13 +74,16 @@ export const getActivities = async (req, res) => {
         activities,
       });
     } else if (type === "upcoming") {
-      const activities = await Activity.getUpcomingActivitiesByUser(
-        req.userId,
+      const activityModels = await Activity.getUpcomingActivitiesByUser(
+        req.user.id,
         page,
         limit
       );
+      const activities = activityModels.map((activity) =>
+        activityResponse(activity)
+      );
       const total = await Activity.countDocuments({
-        farmId: { $in: await getFarmIdsByUserId(req.userId) },
+        farmId: { $in: await getFarmIdsByUserId(req.user.id) },
         endDate: { $gt: new Date() },
       });
       const pages = Math.ceil(total / limit);
@@ -89,13 +103,14 @@ export const getActivities = async (req, res) => {
 
 export const getActivity = async (req, res) => {
   const { id } = req.params;
+  console.log("id:  ", req.user.id);
   try {
-    const activity = await Activity.getActivityByIdAndUser(req.userId,id);
+    const activity = await Activity.getActivityByIdAndUser(req.user.id, id);
     if (!activity) {
       res.status(404).json({ message: `activity with ${id} does not exist` });
       return;
     }
-    res.status(200).json(activity);
+    res.status(200).json(activityResponse(activity));
   } catch (error) {
     res.status(500).json({ error: error.message });
   }

@@ -17,3 +17,16 @@ export const userResponse = (user) => {
     lastName: user.lastName,
   };
 };
+
+export const activityResponse = (activity) => {
+  return {
+    id: activity._id,
+    farm: activity.farmId.name,
+    title: activity.title,
+    description: activity.description,
+    startDate: activity.startDate,
+    endDate: activity.endDate,
+    status: activity.status,
+    color: activity.color,
+  };
+};

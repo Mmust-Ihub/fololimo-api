@@ -4,7 +4,7 @@ import { config } from "dotenv";
 import cors from "cors";
 import logger from "morgan";
 
-import { farmerRouter } from "./routes/farmer.routes.js";
+import { farmScheduleRouter } from "./routes/farmSchedule.routes.js";
 import { farmRouter } from "./routes/farm.routes.js";
 import { inventoryRouter } from "./routes/inventory.routes.js";
 import { userRouter } from "./routes/auth.routes.js";
@@ -13,6 +13,7 @@ import { weatherRouter } from "./routes/weather.routes.js";
 import { agrovetRouter } from "./routes/agrovet.routes.js";
 import { activityRouter } from "./routes/activities.routes.js";
 import { auth } from "./middleware/auth.js";
+import cookieParser from "cookie-parser";
 config();
 const app = express();
 const PORT = process.env.PORT;
@@ -22,6 +23,7 @@ const MONGO_URI = process.env.MONGO_URI;
 app.use(cors());
 app.use(logger("tiny"));
 app.use(express.json());
+app.use(cookieParser());
 
 app.get("", (req, res) => {
   res.status(200).json({
@@ -29,7 +31,7 @@ app.get("", (req, res) => {
   });
 });
 app.use("/api/auth", userRouter);
-app.use("/api/farmer", auth, farmerRouter);
+app.use("/api/schedule", auth, farmScheduleRouter);
 app.use("/api/farm", auth, farmRouter);
 app.use("/api/inventory", auth, inventoryRouter);
 app.use("/api/ai", auth, aiRouter);

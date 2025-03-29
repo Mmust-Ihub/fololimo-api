@@ -1,77 +1,94 @@
 import { User } from "../models/user.model.js";
 import jwt from "jsonwebtoken";
 
+const generateAccessToken = (user) => {
+  return jwt.sign({ id: user._id }, process.env.ACCESS_TOKEN_SECRET, {
+    expiresIn: process.env.JWT_ACCESS_EXPIRY,
+  });
+};
+
+// Generate Refresh Token
+const generateRefreshToken = (user) => {
+  return jwt.sign({ id: user._id }, process.env.REFRESH_TOKEN_SECRET, {
+    expiresIn: process.env.JWT_REFRESH_EXPIRY,
+  });
+};
+
+export const register = async (req, res) => {
+  try {
+    const { username, email } = req.body;
+
+    let user = await User.findOne({ email });
+    if (user) return res.status(400).json({ message: "Email already taken" });
+
+    user = await User.findOne({ username });
+    if (user)
+      return res.status(400).json({ message: "Username already taken" });
+
+    user = new User(req.body);
+    await user.save();
+
+    res.status(201).json({ message: "User registered successfully" });
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+};
+
 export const login = async (req, res) => {
-  const { username, email, password } = req.body;
   let user;
   try {
+    const { email, username, password } = req.body;
     if (username) {
       user = await User.findOne({ username });
     }
     if (email) {
       user = await User.findOne({ email });
     }
-    if (user) {
-      if (await user.comparePassword(password)) {
-        const expiresAt = Date.now() + 3600 * 24 * 1000;
-        const accessToken = jwt.sign(
-          { userId: user._id, role: user.role, expiresAt },
-          process.env.JWT_SECRET
-        );
-        const expiresOn = Date.now() + 3600 * 24 * 30 * 1000;
-        const refreshToken = jwt.sign(
-          { userId: user._id, role: user.role, expiresOn },
-          process.env.JWT_SECRET
-        );
-        res.json({ accessToken, refreshToken });
-      }
-    } else {
-      res.status(400).json({
-        message: "username or password is wrong",
-      });
-    }
-  } catch (error) {
-    res.status(400).json({ error: error.message });
-  }
-};
-export const register = async (req, res) => {
-  try {
-    // const { email, password } = req.body;
-    const user = new User(req.body);
+    if (!user) return res.status(400).json({ message: "Invalid credentials" });
+
+    if (!(await user.comparePassword(password)))
+      return res.status(400).json({ message: "Invalid credentials" });
+
+    const accessToken = generateAccessToken(user);
+    const refreshToken = generateRefreshToken(user);
+
+    user.refreshToken = refreshToken;
     await user.save();
 
-    res.status(201).json({ message: "user registered successfully" });
-  } catch (error) {
-    res.status(400).json({ error: error.message });
+    res.cookie("refreshToken", refreshToken, {
+      httpOnly: true,
+      secure: true,
+      sameSite: "Strict",
+    });
+
+    res.json({ accessToken });
+  } catch (err) {
+    res.status(500).json({ message: err.message });
   }
 };
+
 export const refreshToken = async (req, res) => {
-  const { refreshToken: token } = req.body;
-  let user;
+  const { refreshToken } = req.body;
+  if (!refreshToken)
+    return res.status(403).json({ message: "Refresh token required" });
+
   try {
-    if (!token) {
-      throw new Error("authentication credentials missing");
-    }
-    const decoded = jwt.verify(token, process.env.JWT_SECRET);
-    if (Date.now() > decoded.expiresOn) {
-      throw new Error("the token provided has expired");
-    }
-    user = await User.find({ _id: decoded.userId });
-    if (!user) {
-      throw new Error("Invalid refresh token");
-    }
-    const expiresAt = Date.now() + 3600 * 24;
-    const accessToken = jwt.sign(
-      { userId: user._id, role: user.role, expiresAt },
-      process.env.JWT_SECRET
+    const user = await User.findOne({ refreshToken });
+    if (!user)
+      return res.status(403).json({ message: "Invalid refresh token" });
+
+    jwt.verify(
+      refreshToken,
+      process.env.REFRESH_TOKEN_SECRET,
+      (err, decoded) => {
+        if (err)
+          return res.status(403).json({ message: "Invalid refresh token" });
+
+        const newAccessToken = generateAccessToken(user);
+        res.json({ accessToken: newAccessToken });
+      }
     );
-    const expiresOn = Date.now() + 3600 * 24 * 30;
-    const refreshToken = jwt.sign(
-      { userId: user._id, role: user.role, expiresOn },
-      process.env.JWT_SECRET
-    );
-    res.status(200).json({ accessToken, refreshToken });
-  } catch (error) {
-    res.status(401).json({ error: error.message });
+  } catch (err) {
+    res.status(500).json({ message: err.message });
   }
 };

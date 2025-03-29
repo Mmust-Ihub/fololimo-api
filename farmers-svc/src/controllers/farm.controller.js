@@ -3,7 +3,7 @@ import { farmResponse } from "../utils/responses.js";
 
 export const createFarm = async (req, res) => {
   try {
-    const newFarm = { ...req.body, owner: req.userId };
+    const newFarm = { ...req.body, owner: req.user.id };
     const farm = new Farm(newFarm);
     await farm.save();
     res.status(201).json({
@@ -18,7 +18,8 @@ export const createFarm = async (req, res) => {
 export const getFarm = async (req, res) => {
   const farmId = req.params.id;
   try {
-    const farm = await Farm.findOne({ _id: farmId, owner: req.userId });
+    const farm = await Farm.findOne({ _id: farmId, owner: req.user.id });
+    if (!farm) return res.status(404).json({ message: "farm not found" });
     res.status(200).json(farmResponse(farm._doc));
   } catch (err) {
     res.status(400).json({ message: err.message });
@@ -27,7 +28,7 @@ export const getFarm = async (req, res) => {
 
 export const getFarms = async (req, res) => {
   try {
-    const farms = await Farm.find({ owner: req.userId });
+    const farms = await Farm.find({ owner: req.user.id });
     res.status(200).json(farms.map((farm) => farmResponse(farm)));
   } catch (err) {
     res.status(400).json({ message: err.message });

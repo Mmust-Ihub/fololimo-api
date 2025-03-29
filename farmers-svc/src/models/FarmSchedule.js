@@ -1,35 +1,35 @@
-import mongoose, { Schema, Types, model } from "mongoose";
-
-const activitySchema = new Schema({
+import mongoose from "mongoose";
+const farmingActivitySchema = new mongoose.Schema({
   farmId: {
-    type: Types.ObjectId,
-    required: true,
+    type: mongoose.Schema.Types.ObjectId,
     ref: "Farm",
+    required: true,
+    description: "Reference to the farm associated with this activity",
   },
-  title: {
+  name: {
     type: String,
     required: true,
-  },
-  description: {
-    type: String,
-    required: true,
+    description: "Name of the farming activity",
   },
   startDate: {
     type: Date,
     required: true,
+    description: "Start date of the activity in ISO 8601 format",
   },
-  endDate: {
-    type: Date,
+  duration: {
+    type: String,
     required: true,
+    description: "Duration of the activity in days",
   },
-  status: {
+  cost: {
     type: String,
-    enum: ["pending", "completed", "cancelled"],
-    default: "pending",
+    required: true,
+    description: "Estimated cost range for the activity",
   },
-  color: {
+  description: {
     type: String,
-    default: "blue-500",
+    required: true,
+    description: "Brief explanation of the activity",
   },
 });
 
@@ -41,7 +41,7 @@ async function getFarmIdsByUserId(userId) {
   return farms.map((farm) => farm._id);
 }
 
-activitySchema.statics.getUpcomingActivitiesByUser = async function (
+farmingActivitySchema.statics.getUpcomingActivitiesByUser = async function (
   userId,
   page = 1,
   limit = 10
@@ -49,14 +49,14 @@ activitySchema.statics.getUpcomingActivitiesByUser = async function (
   const farmIds = await getFarmIdsByUserId(userId);
   return this.find({
     farmId: { $in: farmIds },
-    endDate: { $gt: new Date() },
+    startDate: { $gt: new Date() },
   })
     .populate("farmId", "name")
     .skip((page - 1) * limit)
     .limit(limit);
 };
 
-activitySchema.statics.getPastActivitiesByUser = async function (
+farmingActivitySchema.statics.getPastActivitiesByUser = async function (
   userId,
   page = 1,
   limit = 10
@@ -64,21 +64,21 @@ activitySchema.statics.getPastActivitiesByUser = async function (
   const farmIds = await getFarmIdsByUserId(userId);
   return this.find({
     farmId: { $in: farmIds },
-    endDate: { $lt: new Date() },
+    startDate: { $lt: new Date() },
   })
     .populate("farmId", "name")
     .skip((page - 1) * limit)
     .limit(limit);
 };
 
-activitySchema.statics.getUserActivityCount = async function (
+farmingActivitySchema.statics.getUserActivityCount = async function (
   userId
 ) {
   const farmIds = await getFarmIdsByUserId(userId);
   return this.find({ farmId: { $in: farmIds } })
     .countDocuments()
 };
-activitySchema.statics.getActivitiesByUserId = async function (
+farmingActivitySchema.statics.getActivitiesByUserId = async function (
   userId,
   page = 1,
   limit = 10
@@ -90,7 +90,7 @@ activitySchema.statics.getActivitiesByUserId = async function (
     .limit(limit);
 };
 
-activitySchema.statics.getActivitiesByFarmIdAndUser = async function (
+farmingActivitySchema.statics.getActivitiesByFarmIdAndUser = async function (
   userId,
   farmId
 ) {
@@ -99,7 +99,7 @@ activitySchema.statics.getActivitiesByFarmIdAndUser = async function (
   return this.find({ farmId }).populate("farmId", "name");
 };
 
-activitySchema.statics.getActivityByIdAndUser = async function (
+farmingActivitySchema.statics.getActivityByIdAndUser = async function (
   userId,
   activityId
 ) {
@@ -110,4 +110,8 @@ activitySchema.statics.getActivityByIdAndUser = async function (
   );
 };
 
-export const Activity = model("Activity", activitySchema);
+
+export const FarmingActivity = mongoose.model(
+  "FarmingActivity",
+  farmingActivitySchema
+);

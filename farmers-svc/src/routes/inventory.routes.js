@@ -1,7 +1,14 @@
 import express from "express";
-import { createInventory, getInventories } from "../controllers/inventory.controllers.js";
+import {
+  createInventory,
+  getFarmInventories,
+  getInventoryById,
+  getMyInventories,
+} from "../controllers/inventory.controllers.js";
 
 export const inventoryRouter = express.Router();
 
 inventoryRouter.post("", createInventory);
-inventoryRouter.get("", getInventories);
+inventoryRouter.get("/my", getMyInventories);
+inventoryRouter.get("/my/:farmId", getFarmInventories);
+inventoryRouter.get(":id", getInventoryById);

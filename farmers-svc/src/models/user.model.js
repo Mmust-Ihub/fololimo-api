@@ -32,6 +32,9 @@ const UserSchema = new mongoose.Schema({
   lastName: {
     type: String,
   },
+  refreshToken: {
+    type: String,
+  },
 });
 
 UserSchema.pre("save", async function (next) {
@@ -40,10 +43,9 @@ UserSchema.pre("save", async function (next) {
   next();
 });
 
-
-UserSchema.query.getAgrovets = function(){
-  return this.where({role:"agrovet"})
-}
+UserSchema.query.getAgrovets = function () {
+  return this.where({ role: "agrovet" });
+};
 
 UserSchema.methods.comparePassword = async function (candidatePassword) {
   return bcrypt.compare(candidatePassword, this.password);
