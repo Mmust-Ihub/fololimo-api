@@ -21,8 +21,7 @@ const inventorySchema = Schema(
 );
 
 async function getFarmIdsByUserId(userId) {
-  const farms = await mongoose
-    .model("Farm")
+  const farms = await model("Farm")
     .find({ owner: userId })
     .select("_id");
   return farms.map((farm) => farm._id);
