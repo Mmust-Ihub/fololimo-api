@@ -105,6 +105,7 @@ export const getUser = async (req, res) => {
         refreshToken: undefined,
         __v: undefined,
         _id: undefined,
+        password:undefined
       });
   } catch (error) {
     res.status(500).json({ error: error.message });
