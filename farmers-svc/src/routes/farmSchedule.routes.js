@@ -4,9 +4,10 @@ import {
   getFarmSchedule,
   getSchedule,
 } from "../controllers/farmSchedule.controllers.js";
+import { paginate } from "../middleware/paginate.js";
 
 export const farmScheduleRouter = express.Router();
 
 farmScheduleRouter.post("", createSchedule);
-farmScheduleRouter.get("", getFarmSchedule);
+farmScheduleRouter.get("",paginate, getFarmSchedule);
 farmScheduleRouter.get("/:id", getSchedule);

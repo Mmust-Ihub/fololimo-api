@@ -25,6 +25,8 @@ export const validateActivity = [
     .custom((value, { req }) => {
       if (new Date(value) >= new Date(req.body.endDate)) {
         throw new Error("Start date must be before end date");
+      }if(new Date(value) < new Date()){
+        throw new Error("Start date must be after today")
       }
       return true;
     }),

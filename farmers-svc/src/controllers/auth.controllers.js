@@ -7,7 +7,6 @@ const generateAccessToken = (user) => {
   });
 };
 
-// Generate Refresh Token
 const generateRefreshToken = (user) => {
   return jwt.sign({ id: user._id }, process.env.REFRESH_TOKEN_SECRET, {
     expiresIn: process.env.JWT_REFRESH_EXPIRY,
@@ -61,7 +60,7 @@ export const login = async (req, res) => {
       sameSite: "Strict",
     });
 
-    res.json({ accessToken });
+    res.json({ accessToken, refreshToken });
   } catch (err) {
     res.status(500).json({ message: err.message });
   }
@@ -90,5 +89,24 @@ export const refreshToken = async (req, res) => {
     );
   } catch (err) {
     res.status(500).json({ message: err.message });
+  }
+};
+
+export const getUser = async (req, res) => {
+  try {
+    const user = await User.findOne({ _id: req.user.id });
+    if (!user) {
+      return res.status(400).json({ error: "invalid user id" });
+    }
+    res
+      .status(200)
+      .json({
+        ...user._doc,
+        refreshToken: undefined,
+        __v: undefined,
+        _id: undefined,
+      });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
   }
 };
