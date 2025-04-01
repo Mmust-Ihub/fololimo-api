@@ -18,6 +18,8 @@ export const userResponse = (user) => {
   };
 };
 
+// helllo
+
 export const activityResponse = (activity) => {
   return {
     id: activity._id,
