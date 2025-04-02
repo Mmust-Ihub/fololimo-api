@@ -16,14 +16,16 @@ const inventorySchema = Schema(
       required: true,
       enum: ["income", "expense"],
     },
+    description: {
+      type: String,
+      required: true,
+    },
   },
   { timestamps: true }
 );
 
 async function getFarmIdsByUserId(userId) {
-  const farms = await model("Farm")
-    .find({ owner: userId })
-    .select("_id");
+  const farms = await model("Farm").find({ owner: userId }).select("_id");
   return farms.map((farm) => farm._id);
 }
 
@@ -49,7 +51,7 @@ inventorySchema.statics.getInventoryByType = async function (
   const farmIds = await getFarmIdsByUserId(userId);
   return this.find({
     farmId: { $in: farmIds },
-    transactionType: type
+    transactionType: type,
   })
     .populate("farmId", "name")
     .skip((page - 1) * limit)

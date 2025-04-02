@@ -14,6 +14,7 @@ import { agrovetRouter } from "./routes/agrovet.routes.js";
 import { activityRouter } from "./routes/activities.routes.js";
 import { auth } from "./middleware/auth.js";
 import cookieParser from "cookie-parser";
+import { locatioRrouter } from "./routes/location.routes.js";
 config();
 const app = express();
 const PORT = process.env.PORT;
@@ -35,9 +36,10 @@ app.use("/api/schedule", auth, farmScheduleRouter);
 app.use("/api/farm", auth, farmRouter);
 app.use("/api/inventory", auth, inventoryRouter);
 app.use("/api/ai", auth, aiRouter);
-app.use("/api/weather", auth, weatherRouter);
+app.use("/api/weather", weatherRouter);
 app.use("/api/agrovet", auth, agrovetRouter);
 app.use("/api/activity", auth, activityRouter);
+app.use("/api/location", locatioRrouter);
 
 mongoose
   .connect(MONGO_URI)
