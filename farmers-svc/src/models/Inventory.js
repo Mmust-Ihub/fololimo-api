@@ -1,6 +1,6 @@
 import { model, Schema, Types } from "mongoose";
 
-const inventorySchema = Schema(
+const inventorySchema = new Schema(
   {
     farmId: {
       type: Schema.Types.ObjectId,
