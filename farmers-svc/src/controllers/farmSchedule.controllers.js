@@ -7,7 +7,7 @@ export const createSchedule = async (req, res) => {
     const { farmId, crops } = req.body;
     const farm = await Farm.findOne({ _id: farmId });
     if (!farm) {
-      return res.status.json({ message: "Farm does not  exist." });
+      return res.status(400).json({ message: "Farm does not  exist." });
     }
     const schedules = await generateSchedule(farm.location, farm.size, crops);
     if (schedules.error) {
