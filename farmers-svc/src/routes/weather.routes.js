@@ -1,5 +1,10 @@
 import express from "express";
-import { getWeather } from "../controllers/weather.controller.js";
+import {
+  createWeather,
+  getWeather,
+} from "../controllers/weather.controller.js";
+import { auth } from "../middleware/auth.js";
 
 export const weatherRouter = express.Router();
-weatherRouter.get("", getWeather);
+weatherRouter.get("", auth, getWeather);
+weatherRouter.get("/update", createWeather);
