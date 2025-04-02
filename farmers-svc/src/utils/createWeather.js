@@ -1,28 +1,11 @@
 import mongoose from "mongoose";
 import { Weather } from "../models/Weather.js";
 
-// // Connect to MongoDB
-// const connectDB = async () => {
-//   try {
-//     await mongoose.connect("mongodb://localhost:27017/fololimo", {
-//       useNewUrlParser: true,
-//       useUnifiedTopology: true,
-//       connectTimeoutMS: 30000, // Prevent timeout errors
-//     });
-//     console.log("✅ MongoDB Connected");
-//   } catch (error) {
-//     console.error("❌ MongoDB connection error:", error);
-//     process.exit(1);
-//   }
-// };
-
-// await connectDB(); // Ensure DB connection before queries
-// mongoose.set("bufferCommands", false); // Prevent query buffering
 const createWeather = async (city) => {
+  const appid = process.env.APP_ID
   try {
-    // console.info(`🌍 Fetching weather data for: ${city}`);
     const res = await fetch(
-      `https://api.openweathermap.org/data/2.5/forecast?q=${city}&appid=b1c935d0e5a691ed0a9fd863b39e9783&units=metric`
+      `https://api.openweathermap.org/data/2.5/forecast?q=${city}&appid=${appid}&units=metric`
     );
 
     if (!res.ok) {
@@ -42,7 +25,7 @@ const createWeather = async (city) => {
 
     const weather = new Weather(weatherData);
     await weather.save();
-    // console.info(`✅ Weather data saved for ${city}`);
+    console.info(`✅ Weather data saved for ${city}`);
   } catch (error) {
     console.error(`❌ Error creating weather for ${city}:`, error.message);
   }
@@ -122,5 +105,3 @@ export const updateAllCountiesWeather = async () => {
   return "✅ Finished updating weather for all counties!";
 };
 
-// await updateAllCountiesWeather();
-// mongoose.disconnect(); // Close DB connection when done

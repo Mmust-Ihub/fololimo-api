@@ -1,4 +1,3 @@
-
 import mongoose from "mongoose";
 import { Region, City, SubCounty } from "../models/Location.js";
 const PROVINCE_DATA = {
@@ -298,14 +297,10 @@ const PROVINCE_DATA = {
   },
 };
 
-
-
+const mongoUrl = "mongodb://localhost:27017/fololimo";
 const connectDB = async () => {
   try {
-    await mongoose.connect("mongodb://localhost:27017/fololimo", {
-      useNewUrlParser: true,
-      useUnifiedTopology: true,
-    });
+    await mongoose.connect(mongoUrl);
     console.log("✅ MongoDB Connected");
   } catch (error) {
     console.error("❌ MongoDB connection error:", error);
@@ -331,7 +326,9 @@ const populateProvincesCountiesAndSubCounties = async () => {
           { city: countyName, region: province._id },
           { upsert: true, new: true }
         );
-        console.log(`✅ Created/Found county: ${countyName} in province: ${provinceName}`);
+        console.log(
+          `✅ Created/Found county: ${countyName} in province: ${provinceName}`
+        );
 
         for (const subCountyName of subCounties) {
           await SubCounty.findOneAndUpdate(
@@ -339,7 +336,9 @@ const populateProvincesCountiesAndSubCounties = async () => {
             { sub_county: subCountyName, city: county._id },
             { upsert: true, new: true }
           );
-          console.log(`✅ Created/Found sub-county: ${subCountyName} in county: ${countyName}`);
+          console.log(
+            `✅ Created/Found sub-county: ${subCountyName} in county: ${countyName}`
+          );
         }
       }
     }
@@ -353,5 +352,3 @@ const populateProvincesCountiesAndSubCounties = async () => {
 };
 
 populateProvincesCountiesAndSubCounties();
-
-

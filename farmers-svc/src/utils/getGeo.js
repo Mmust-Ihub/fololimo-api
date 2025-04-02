@@ -59,7 +59,7 @@ export const getGeo = async () => {
     "Wajir",
     "Nairobi",
   ];
-  config.apiKey = "ZaSbVlnEgmO275Ft2qwm";
+  config.apiKey = process.env.MAPTILER_API_KEY;
   for (const county of counties) {
     const result = geocoding
       .forward(county)
@@ -73,4 +73,4 @@ export const getGeo = async () => {
   }
   return "✅ Finished updating weather for all counties!";
 };
-getGeo();
+// getGeo();
