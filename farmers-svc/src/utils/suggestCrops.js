@@ -1,4 +1,4 @@
-import { Type } from "@google/genai";
+import { GoogleGenAI, Type } from "@google/genai";
 
 function generateCropPrompt(
   location,
@@ -6,8 +6,18 @@ function generateCropPrompt(
   nitrogen,
   phosphorus,
   potassium,
+  ph,
   farmingPurpose
 ) {
+  console.log(
+    location,
+    moisture,
+    nitrogen,
+    phosphorus,
+    potassium,
+    ph,
+    farmingPurpose
+  );
   return `
     You are an expert agricultural advisor. Based on the given farm location, soil properties, and the farmer's reason for farming, generate a list of the most suitable crops for cultivation.
   
@@ -24,9 +34,10 @@ function generateCropPrompt(
     ### **Farm Location:** ${location}
     ### **Soil Properties:**
     - **Moisture Level:** ${moisture || "moderate"}
-    - **Nitrogen (N) Level:** ${nitrogen || "moderate"}
-    - **Phosphorus (P) Level:** ${phosphorus || "moderate"}
-    - **Potassium (K) Level:** ${potassium || "moderate"}
+    - **Nitrogen (N) Level:** ${nitrogen} g/kg
+    - **Phosphorus (P) Level:** ${phosphorus} ppmm
+    - **Potassium (K) Level:** ${potassium} ppm
+    - **pH Level:** ${ph}
   
     **Guidelines:**
     - Recommend crops that align with the farmer’s goal (${farmingPurpose} farming).
@@ -52,6 +63,7 @@ export async function suggestCrop(
   nitrogen,
   phosphorus,
   potassium,
+  ph,
   farmingPurpose
 ) {
   const apiKey = process.env.GEMINI_API_KEY;

@@ -1,7 +1,13 @@
+import { validationResult } from "express-validator";
 import { Farm } from "../models/farm.model.js";
 import { farmResponse } from "../utils/responses.js";
 
 export const createFarm = async (req, res) => {
+  const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      res.status(400).json({ errors: errors.array()[0] });
+      return;
+    }
   try {
     const newFarm = { ...req.body, owner: req.user.id };
     const farm = new Farm(newFarm);

@@ -1,3 +1,4 @@
+import { validationResult } from "express-validator";
 import { User } from "../models/user.model.js";
 import jwt from "jsonwebtoken";
 
@@ -14,6 +15,11 @@ const generateRefreshToken = (user) => {
 };
 
 export const register = async (req, res) => {
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    res.status(400).json({ errors: errors.array()[0] });
+    return;
+  }
   try {
     const { username, email } = req.body;
 
@@ -37,11 +43,9 @@ export const login = async (req, res) => {
   let user;
   try {
     const { email, username, password } = req.body;
-    if (username) {
-      user = await User.findOne({ username });
-    }
-    if (email) {
-      user = await User.findOne({ email });
+    user = await User.findOne({ username });
+    if (!user) {
+      user = await User.findOne({ email: username });
     }
     if (!user) return res.status(400).json({ message: "Invalid credentials" });
 
@@ -98,15 +102,13 @@ export const getUser = async (req, res) => {
     if (!user) {
       return res.status(400).json({ error: "invalid user id" });
     }
-    res
-      .status(200)
-      .json({
-        ...user._doc,
-        refreshToken: undefined,
-        __v: undefined,
-        _id: undefined,
-        password:undefined
-      });
+    res.status(200).json({
+      ...user._doc,
+      refreshToken: undefined,
+      __v: undefined,
+      _id: undefined,
+      password: undefined,
+    });
   } catch (error) {
     res.status(500).json({ error: error.message });
   }

@@ -1,6 +1,6 @@
 import { model, Schema } from "mongoose";
 
-const weatherSchema = Schema({
+const weatherSchema = new Schema({
   location: {
     type: String,
     required: true,

@@ -32,7 +32,7 @@ app.get("", (req, res) => {
   });
 });
 app.use("/api/auth", userRouter);
-app.use("/api/schedule", auth, farmScheduleRouter);
+app.use("/api/ai/schedule", auth, farmScheduleRouter);
 app.use("/api/farm", auth, farmRouter);
 app.use("/api/inventory", auth, inventoryRouter);
 app.use("/api/ai", auth, aiRouter);

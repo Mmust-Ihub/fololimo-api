@@ -1,6 +1,12 @@
+import { validationResult } from "express-validator";
 import { Inventory } from "../models/Inventory.js";
 
 export const createInventory = async (req, res) => {
+  const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      res.status(400).json({ errors: errors.array()[0] });
+      return;
+    }
   try {
     const newInventory = new Inventory(req.body);
     newInventory.save();
