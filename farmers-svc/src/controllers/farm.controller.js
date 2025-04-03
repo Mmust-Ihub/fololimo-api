@@ -4,10 +4,10 @@ import { farmResponse } from "../utils/responses.js";
 
 export const createFarm = async (req, res) => {
   const errors = validationResult(req);
-    if (!errors.isEmpty()) {
-      res.status(400).json({ errors: errors.array()[0] });
-      return;
-    }
+  if (!errors.isEmpty()) {
+    res.status(400).json({ errors: errors.array()[0] });
+    return;
+  }
   try {
     const newFarm = { ...req.body, owner: req.user.id };
     const farm = new Farm(newFarm);
@@ -25,6 +25,16 @@ export const getFarm = async (req, res) => {
   const farmId = req.params.id;
   try {
     const farm = await Farm.findOne({ _id: farmId, owner: req.user.id });
+    if (!farm) return res.status(404).json({ message: "farm not found" });
+    res.status(200).json(farmResponse(farm._doc));
+  } catch (err) {
+    res.status(400).json({ message: err.message });
+  }
+};
+export const getFarmByPk = async (req, res) => {
+  const pk = req.params.pk;
+  try {
+    const farm = await Farm.findOne({ pk: pk });
     if (!farm) return res.status(404).json({ message: "farm not found" });
     res.status(200).json(farmResponse(farm._doc));
   } catch (err) {
