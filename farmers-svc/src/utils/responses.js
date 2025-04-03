@@ -1,6 +1,8 @@
 export const farmResponse = (farm) => {
+  console.log("farm: ", farm);
   return {
     id: farm._id,
+    pk: farm.pk,
     name: farm.name,
     owner: farm.owner,
     location: farm.location,
@@ -17,8 +19,6 @@ export const userResponse = (user) => {
     lastName: user.lastName,
   };
 };
-
-// helllo
 
 export const activityResponse = (activity) => {
   return {
