@@ -24,6 +24,7 @@ summaryRouter.get("/summary", async (req, res) => {
           _id: undefined,
           __v: undefined,
           farm: farm.name,
+          farmId: farm._id,
         };
       }
       return null; // Handle cases where location is not found
