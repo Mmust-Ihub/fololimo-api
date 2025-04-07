@@ -31,6 +31,7 @@ export const getFarm = async (req, res) => {
     res.status(400).json({ message: err.message });
   }
 };
+
 export const getFarmByPk = async (req, res) => {
   const pk = req.params.pk;
   try {
