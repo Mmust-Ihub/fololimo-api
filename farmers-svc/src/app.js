@@ -15,6 +15,7 @@ import { activityRouter } from "./routes/activities.routes.js";
 import { auth } from "./middleware/auth.js";
 import cookieParser from "cookie-parser";
 import { locatioRrouter } from "./routes/location.routes.js";
+import { summaryRouter } from "./routes/summery.route.js";
 config();
 const app = express();
 const PORT = process.env.PORT;
@@ -33,6 +34,7 @@ app.get("", (req, res) => {
 });
 app.use("/api/auth", userRouter);
 app.use("/api/ai/schedule", auth, farmScheduleRouter);
+app.use("/api/user", auth, summaryRouter);
 app.use("/api/farm", auth, farmRouter);
 app.use("/api/inventory", auth, inventoryRouter);
 app.use("/api/ai", auth, aiRouter);
