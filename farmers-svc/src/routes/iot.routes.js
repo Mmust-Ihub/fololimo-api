@@ -14,6 +14,7 @@ iotRouter.post("/data", async (req, res) => {
     }
     const handle = await notifyTask.trigger({
       farmId:farm._id,
+      userId: farm.owner,
       ph,
       nitrogen,
       moisture,
