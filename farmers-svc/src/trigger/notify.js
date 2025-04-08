@@ -2,17 +2,18 @@ import { logger, task, wait } from "@trigger.dev/sdk/v3";
 import { Notification } from "../models/Notification.js";
 import { suggestCrop } from "../utils/suggestCrops.js";
 import { createSuggestion } from "../utils/addSuggestion.js";
+import { CountTokensResponse } from "@google/genai";
 
 export const notifyTask = task({
   id: "notify-user",
   maxDuration: 500,
   run: async (payload, { ctx }) => {
     logger.log("notify-user", { payload, ctx });
-    // const token = await Notification.findOne({ user: payload.userId });
-    // if (!token) {
-    //   logger.log("notify-us: token not found");
-    //   return { message: "error, token does not exist" };
-    // }
+    const token = await Notification.findOne({ user: payload.userId });
+    if (!token) {
+      logger.log("notify-us: token not found");
+      return { message: "error, token does not exist" };
+    }
     // const expo = new Expo();
     try {
       const geminiRes = await suggestCrop(
@@ -32,7 +33,7 @@ export const notifyTask = task({
       console.log("suggestion saved");
       logger.log("notify-us: suggestion created");
       const message = {
-        to: "ExponentPushToken[w_B4-eIjLE2SROIFBqQckV]",
+        to: token.token,
         sound: "default",
         title: "Crops suggestion",
         body: "Your crops suggestion report is complete",
