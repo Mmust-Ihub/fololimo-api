@@ -16,6 +16,7 @@ import { auth } from "./middleware/auth.js";
 import cookieParser from "cookie-parser";
 import { locatioRrouter } from "./routes/location.routes.js";
 import { summaryRouter } from "./routes/summery.route.js";
+import { iotRouter } from "./routes/iot.routes.js";
 config();
 const app = express();
 const PORT = process.env.PORT;
@@ -42,6 +43,7 @@ app.use("/api/weather", weatherRouter);
 app.use("/api/agrovet", auth, agrovetRouter);
 app.use("/api/activity", auth, activityRouter);
 app.use("/api/location", locatioRrouter);
+app.use("/api/iot", iotRouter);
 
 mongoose
   .connect(MONGO_URI)

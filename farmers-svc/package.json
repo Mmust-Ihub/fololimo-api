@@ -15,10 +15,13 @@
   "dependencies": {
     "@google/genai": "^0.7.0",
     "@maptiler/client": "^2.2.0",
+    "@trigger.dev/sdk": "^3.3.17",
     "bcryptjs": "^3.0.2",
+    "bull": "^4.16.5",
     "cookie-parser": "^1.4.7",
     "cors": "^2.8.5",
     "dotenv": "^16.4.7",
+    "expo-server-sdk": "^3.14.0",
     "express": "^4.21.2",
     "express-validator": "^7.2.1",
     "jsonwebtoken": "^9.0.2",
@@ -26,6 +29,7 @@
     "morgan": "^1.10.0"
   },
   "devDependencies": {
+    "@trigger.dev/build": "^3.3.17",
     "nodemon": "^3.1.9"
   }
 }
