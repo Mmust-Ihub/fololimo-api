@@ -2,13 +2,14 @@ import { logger, task, wait } from "@trigger.dev/sdk/v3";
 import { Notification } from "../models/Notification.js";
 import { suggestCrop } from "../utils/suggestCrops.js";
 import { createSuggestion } from "../utils/addSuggestion.js";
+import { getToken } from "../utils/getToken.js";
 
 export const notifyTask = task({
   id: "notify-user",
   maxDuration: 500,
   run: async (payload, { ctx }) => {
     logger.log("notify-user", { payload, ctx });
-    const token = await Notification.findOne({ user: payload.userId });
+    const { token } = await getToken(payload.userId);
     if (!token) {
       logger.log("notify-us: token not found");
       return { message: "error, token does not exist" };
