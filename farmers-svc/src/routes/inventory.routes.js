@@ -13,4 +13,4 @@ export const inventoryRouter = express.Router();
 inventoryRouter.post("",validateInventory, createInventory);
 inventoryRouter.get("/my", paginate,getMyInventories);
 inventoryRouter.get("/my/:farmId", paginate,getFarmInventories);
-inventoryRouter.get(":id", getInventoryById);
+inventoryRouter.get("/:id", getInventoryById);
