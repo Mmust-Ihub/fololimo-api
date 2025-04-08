@@ -35,7 +35,7 @@ export const getFarmInventories = async (req, res) => {
 };
 
 export const getInventoryById = async (req, res) => {
-  const farmId = req.params.id;
+  const id = req.params.id;
   try {
     const inventory = await Inventory.find({ id: id });
     if (!inventory)
