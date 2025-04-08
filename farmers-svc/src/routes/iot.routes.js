@@ -21,6 +21,7 @@ iotRouter.post("/data", async (req, res) => {
       phosphorus,
       potassium,
       location: farm.location,
+      farmName: farm.name
     });
     return res.status(202).json({ taskId: handle.id });
   } catch (error) {

@@ -41,6 +41,7 @@ export const notifyTask = task({
           screen: "Notifications",
           farmId: payload.farmId,
           response: geminiRes,
+          farmName: payload.farmName
         },
       };
       console.log("suggestion sending");
