@@ -10,12 +10,21 @@ function generateCropPrompt(
   farmingPurpose
 ) {
   console.log(
+    "Data: location:",
     location,
+    "moisture",
     moisture,
+
+    "nitrogen",
     nitrogen,
+
+    "phosphorus",
     phosphorus,
+    "potassium",
     potassium,
+    "ph",
     ph,
+    "activity",
     farmingPurpose
   );
   return `
@@ -64,7 +73,7 @@ export async function suggestCrop(
   phosphorus,
   potassium,
   ph,
-  farmingPurpose
+  farmingPurpose = "economic"
 ) {
   const apiKey = process.env.GEMINI_API_KEY;
 
@@ -76,6 +85,7 @@ export async function suggestCrop(
       nitrogen,
       phosphorus,
       potassium,
+      ph,
       farmingPurpose
     );
     const response = await ai.models.generateContent({
@@ -115,7 +125,7 @@ export async function suggestCrop(
     if (!response || !response.text) {
       throw new Error("AI model returned an empty or invalid response.");
     }
-
+    console.log("gemini generated suggestion");
     return JSON.parse(response.text);
   } catch (error) {
     console.error("Error generating suggestion:", error);
