@@ -9,10 +9,10 @@ export const notifyTask = task({
   maxDuration: 500,
   run: async (payload, { ctx }) => {
     logger.log("notify-user", { payload, ctx });
-    const { token } = await getToken(payload.userId);
+    const { token, message } = await getToken(payload.userId);
     if (!token) {
       logger.log("notify-us: token not found");
-      return { message: "error, token does not exist" };
+      return { message };
     }
     // const expo = new Expo();
     try {
@@ -27,7 +27,9 @@ export const notifyTask = task({
 
       logger.log("notify-us: gemini  done");
       const resp = await createSuggestion(payload.farmId, geminiRes);
+      
       if (!resp.status) {
+        console.log("crete suggestion")
         throw new Error(resp.message);
       }
       console.log("suggestion saved");
@@ -41,7 +43,7 @@ export const notifyTask = task({
           screen: "Notifications",
           farmId: payload.farmId,
           response: geminiRes,
-          farmName: payload.farmName
+          farmName: payload.farmName,
         },
       };
       console.log("suggestion sending");

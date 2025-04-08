@@ -13,7 +13,7 @@ const connectDB = async () => {
 
 export const getToken = async (userId) => {
   try {
-    await connectDB(farmId, geminiRes);
+    await connectDB();
     const token = await Notification.findOne({ user: userId });
     if (!token) throw new Error("token not found");
     return { status: true, token };

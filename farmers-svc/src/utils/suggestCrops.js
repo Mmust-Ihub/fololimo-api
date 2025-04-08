@@ -109,6 +109,12 @@ export async function suggestCrop(
                   "A brief explanation of why the crop is suitable for the given soil and moisture conditions.",
                 nullable: false,
               },
+              additions: {
+                type: Type.STRING,
+                description:
+                  "Suggestion on what can be done to improve the productity",
+                nullable: false,
+              },
               suitabilityScore: {
                 type: Type.NUMBER,
                 description:

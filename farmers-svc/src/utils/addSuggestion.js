@@ -13,7 +13,7 @@ const connectDB = async () => {
 
 export const createSuggestion = async (farmId, geminiRes) => {
   try {
-    await connectDB(farmId, geminiRes);
+    await connectDB();
     const suggestion = new Suggestion({
       farmId: farmId,
       suggestion: geminiRes,
