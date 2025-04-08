@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-import { Suggestion } from "../models/Suggestions.js";
+import { Notification } from "../models/Notification.js";
 
 const connectDB = async () => {
   try {
