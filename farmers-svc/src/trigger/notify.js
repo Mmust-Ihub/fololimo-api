@@ -2,7 +2,6 @@ import { logger, task, wait } from "@trigger.dev/sdk/v3";
 import { Notification } from "../models/Notification.js";
 import { suggestCrop } from "../utils/suggestCrops.js";
 import { createSuggestion } from "../utils/addSuggestion.js";
-import { CountTokensResponse } from "@google/genai";
 
 export const notifyTask = task({
   id: "notify-user",
