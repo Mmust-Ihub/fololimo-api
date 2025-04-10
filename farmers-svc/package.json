@@ -14,10 +14,8 @@
   "type": "module",
   "dependencies": {
     "@google/genai": "^0.7.0",
-    "@maptiler/client": "^2.2.0",
     "@trigger.dev/sdk": "^3.3.17",
     "bcryptjs": "^3.0.2",
-    "bull": "^4.16.5",
     "cookie-parser": "^1.4.7",
     "cors": "^2.8.5",
     "dotenv": "^16.4.7",

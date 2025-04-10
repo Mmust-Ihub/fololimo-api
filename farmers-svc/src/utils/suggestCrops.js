@@ -145,7 +145,7 @@ export async function suggestCrop(
       console.error("Network error while accessing the AI model.");
     }
 
-    return { error: error.message || "An unexpected error occurred." };
+    throw new Error(error.message);
   }
 }
 
