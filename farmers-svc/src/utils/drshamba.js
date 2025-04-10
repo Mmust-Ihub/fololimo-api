@@ -18,9 +18,7 @@ const prompt =
 
 export async function drShamba(message, history = []) {
   const apiKey = process.env.GEMINI_API_KEY;
-  const genAI = new GoogleGenerativeAI(
-    "AIzaSyDmlNyg1KBmjQXmWPkunRLG2moyiD2Mkjc"
-  );
+  const genAI = new GoogleGenerativeAI(apiKey);
   try {
     const model = genAI.getGenerativeModel({
       model: "gemini-2.0-flash",
