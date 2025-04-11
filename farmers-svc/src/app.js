@@ -8,7 +8,7 @@ import { farmScheduleRouter } from "./routes/farmSchedule.routes.js";
 import { farmRouter } from "./routes/farm.routes.js";
 import { inventoryRouter } from "./routes/inventory.routes.js";
 import { userRouter } from "./routes/auth.routes.js";
-import { aiRouter } from "./routes/suggest.routes.js";
+import { aiRouter } from "./routes/ai.routes.js";
 import { weatherRouter } from "./routes/weather.routes.js";
 import { agrovetRouter } from "./routes/agrovet.routes.js";
 import { activityRouter } from "./routes/activities.routes.js";
