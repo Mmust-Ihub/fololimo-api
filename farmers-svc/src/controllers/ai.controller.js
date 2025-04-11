@@ -4,6 +4,7 @@ import { Farm } from "../models/farm.model.js";
 import { SoilData } from "../models/SoilData.js";
 import { drShamba } from "../utils/drshamba.js";
 import { suggestCrop } from "../utils/suggestCrops.js";
+import { analyseImage } from "../utils/imageProcess.js";
 
 export const suggestCrops = async (req, res) => {
   const { purpose, farm } = req.body;
@@ -133,6 +134,19 @@ export const getChats = async (req, res) => {
       lastMsg: chat.history[chat.history.length - 1].parts[0].text,
     }));
     return res.status(200).json(chats);
+  } catch (error) {
+    return res.status(500).json({ error: error.message });
+  }
+};
+
+export const analysis = async (req, res) => {
+  if (!req.file) return res.status(400).json({ message: "Image is required" });
+  const file = req.file;
+
+  try {
+    const blob = new Blob([file.buffer], { type: file.mimetype });
+    const resp = await analyseImage(blob, file.mimetype);
+    return res.status(200).json(JSON.parse(resp));
   } catch (error) {
     return res.status(500).json({ error: error.message });
   }

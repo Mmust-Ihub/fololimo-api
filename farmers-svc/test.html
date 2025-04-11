@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>File Upload Form</title>
+</head>
+<body>
+  <h2>File Upload Form</h2>
+
+  <form id="uploadForm" enctype="multipart/form-data">
+    <label for="fileInput">Choose a file:</label>
+    <input type="file" id="fileInput" name="file" required />
+    <button type="submit">Upload</button>
+  </form>
+
+  <div id="status"></div>
+
+  <script>
+    // Select the form and status elements
+    const form = document.getElementById('uploadForm');
+    const statusDiv = document.getElementById('status');
+
+    // Add event listener for form submission
+    form.addEventListener('submit', async function(event) {
+      event.preventDefault(); // Prevent the form from submitting the default way
+
+      // Get the file input
+      const fileInput = document.getElementById('fileInput');
+      const file = fileInput.files[0];
+
+      if (!file) {
+        statusDiv.innerText = 'Please select a file.';
+        return;
+      }
+
+      // Create a FormData object to send the file
+      const formData = new FormData();
+      formData.append('file', file);
+
+      try {
+        // Send the file to the API using fetch
+        const response = await fetch('http://localhost:5000/api/ai/analyse', {
+          method: 'POST',
+          headers:{
+            Authorization: "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3ZTJkMzYwZDAwZmFkMGQ1NjU5MmM0MiIsImlhdCI6MTc0NDM1MzUzOCwiZXhwIjoxNzQ0NTI2MzM4fQ.VXBCZbVui27DoOcKJmPPqHhQswf71Ie6G4uWhPoUmDk"
+          },
+          body: formData,
+        });
+
+        // Check if the upload was successful
+        if (response.ok) {
+          const result = await response.json();
+          statusDiv.innerText = 'File uploaded successfully!';
+          console.log(result); // Log the response from the server (optional)
+        } else {
+          const errorResult = await response.json();
+          statusDiv.innerText = `Upload failed: ${errorResult.error}`;
+        }
+      } catch (error) {
+        statusDiv.innerText = 'An error occurred while uploading the file.';
+        console.error('Error:', error);
+      }
+    });
+  </script>
+</body>
+</html>

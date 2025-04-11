@@ -94,35 +94,35 @@ export async function suggestCrop(
       config: {
         responseMimeType: "application/json",
         responseSchema: {
-          type: Type.ARRAY,
+          type: "array",
           items: {
-            type: Type.OBJECT,
+            type: "object",
             properties: {
               name: {
-                type: Type.STRING,
+                type: "string",
                 description: "Name of the crop",
                 nullable: false,
               },
               suitability: {
-                type: Type.STRING,
+                type: "string",
                 description:
                   "A brief explanation of why the crop is suitable for the given soil and moisture conditions.",
                 nullable: false,
               },
               additions: {
-                type: Type.STRING,
+                type: "string",
                 description:
-                  "Suggestion on what can be done to improve the productity",
+                  "Suggestion on what can be done to improve the productivity",
                 nullable: false,
               },
               suitabilityScore: {
-                type: Type.NUMBER,
+                type: "number",
                 description:
                   "A percentage score (0-100) indicating how well the crop matches the provided conditions.",
                 nullable: false,
               },
             },
-            required: ["name", "suitability", "suitabilityScore"],
+            required: ["name", "suitability", "suitabilityScore", "additions"],
           },
         },
       },
