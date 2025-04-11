@@ -5,7 +5,7 @@ import {
   Type,
 } from "@google/genai";
 
-export async function analyseImage(file, mimeType, language="english") {
+export async function analyseImage(file, mimeType, language = "english") {
   const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY });
   try {
     const image = await ai.files.upload({
@@ -16,9 +16,34 @@ export async function analyseImage(file, mimeType, language="english") {
     });
     const response = await ai.models.generateContent({
       model: "gemini-2.0-flash",
-      systemInstruction: `Analyze the uploaded photo of a plant showing signs of a problem. Identify whether the issue is a disease or a pest, and provide a detailed breakdown of the problem using the following schema:\n\n{\n  "problem_type": "disease or pest",\n  "common_name": "Name of the disease or pest",\n  "affected_crops": ["List of affected crops"],\n  "cause": ["Causes (if disease)", null if pest],\n  "life_cycle": ["Stages of development or infestation"],\n  "remedy": ["Remedies (if disease)", null if pest],\n  "treatment": ["Treatments (if pest)", null if disease],\n  "preventive_measures": ["Prevention strategies for future cases"],\n  "environment_conditions": ["Conditions that favor the problem"],\n  "nutrient_deficiency": ["Related nutrient issues", can be null],\n  "companion_planting": ["Helpful companion plants"],\n  "post_harvest_handling": ["Handling tips after harvest"],\n  "other_crops_infested": ["Other crops this disease affects", null if pest]\n}\nRequirements:\n\nBase your analysis solely on the visible symptoms in the image.\n\nUse agronomic and plant pathology knowledge to infer the likely cause.\n\nIf the problem cannot be confidently classified, use "problem_type": "unknown" and provide notes in a "notes" field (optional).\n\n\nPresent your findings strictly in the JSON format above. Use ${
-        language ? "Kiswahili" : "english"
-      } \n`,
+      systemInstruction: `Analyze the uploaded photo of a plant showing visible signs of a problem. Determine if the issue is caused by an **agricultural plant pest or disease** and provide a structured analysis using the following schema:
+
+{
+  "problem_type": "disease or pest",
+  "common_name": "Name of the disease or pest (must be agriculture-related)",
+  "affected_crops": ["List of crops typically affected"],
+  "cause": ["Causal agents such as fungi, bacteria, or viruses (only if disease)", null if pest],
+  "life_cycle": ["Development stages of the pest or disease progression"],
+  "remedy": ["Remedies for diseases", null if pest],
+  "treatment": ["Treatments for pests", null if disease],
+  "preventive_measures": ["Recommended prevention strategies"],
+  "environment_conditions": ["Favorable environmental conditions that promote this problem"],
+  "nutrient_deficiency": ["Related nutrient issues if present", can be null],
+  "companion_planting": ["Companion plants that help reduce or prevent the issue"],
+  "post_harvest_handling": ["Post-harvest handling recommendations to mitigate or prevent further spread"],
+  "other_crops_infested": ["Other agricultural crops this disease/pest commonly affects", null if not applicable]
+}
+
+Strict Requirements:
+
+1. Only include pests or diseases that affect **agricultural crops or food plants**.
+2. **Exclude** any human, animal, ornamental plant, or non-agricultural issues.
+3. Use visual plant pathology and entomology knowledge to make an informed classification.
+4. If classification is uncertain, use:
+   "problem_type": "unknown"
+   and optionally add a "notes" field to explain uncertainty.
+
+Output your findings **strictly in the JSON format above**, without any additional explanation or extra text.`,
       contents: [
         createUserContent([createPartFromUri(image.uri, image.mimeType)]),
       ],
