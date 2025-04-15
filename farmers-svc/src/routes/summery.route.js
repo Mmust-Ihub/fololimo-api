@@ -3,6 +3,7 @@ import { Farm } from "../models/farm.model.js";
 import { Activity } from "../models/Activity.js";
 import { SubCounty } from "../models/Location.js";
 import { Weather } from "../models/Weather.js";
+import { Inventory } from "../models/Inventory.js";
 
 export const summaryRouter = Router();
 
@@ -11,6 +12,7 @@ summaryRouter.get("/summary", async (req, res) => {
   try {
     const farms = await Farm.find({ owner: userId });
     const activities = await Activity.getActivitiesByUserId(userId);
+    const transactions = await Inventory.getFinancialSummary(userId);
     const weatherPromises = farms.map(async (farm) => {
       const location = await SubCounty.findOne({
         sub_county: farm.location,
@@ -33,7 +35,9 @@ summaryRouter.get("/summary", async (req, res) => {
     const weatherD = (await Promise.all(weatherPromises)).filter(Boolean); // filter out null values.
     console.log("data: ", weatherD);
 
-    return res.status(200).json({ activities, weather: weatherD });
+    return res
+      .status(200)
+      .json({ activities, weather: weatherD, transactions: transactions });
   } catch (error) {
     return res.status(500).json({ error: error.message });
   }
