@@ -3,6 +3,7 @@ import { Farm } from "../models/farm.model.js";
 import { notifyTask } from "../trigger/notify.js";
 import { Suggestion } from "../models/Suggestions.js";
 import { auth } from "../middleware/auth.js";
+import { FarmData } from "../models/FarmData.js";
 
 export const iotRouter = Router();
 
@@ -25,6 +26,15 @@ iotRouter.post("/data", async (req, res) => {
       location: farm.location,
       farmName: farm.name,
     });
+    const newFarmData = FarmData({
+      farmId: farm._id,
+      ph,
+      nitrogen,
+      phosphorus,
+      potassium,
+      moisture,
+    });
+    await newFarmData.save();
     return res.status(202).json({ taskId: handle.id });
   } catch (error) {
     return res.status(500).json({ error: error.message });
@@ -33,12 +43,12 @@ iotRouter.post("/data", async (req, res) => {
 
 iotRouter.get("/data/:id", auth, async (req, res) => {
   const farmId = req.params.id;
+
   try {
     const data = await Suggestion.find({ farmId }).sort({ createdAt: -1 });
-    return res.status(200).json(data[0]);
+    const iotData = await FarmData.find({ farmId }).sort({ createdAt: -1 });
+    return res.status(200).json({ data: data[0], iotData: iotData[0] });
   } catch (error) {
     return res.status(500).json({ error: error.message });
   }
 });
-
-//  ExponentPushToken[w_B4-eIjLE2SROIFBqQckV]

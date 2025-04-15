@@ -73,4 +73,19 @@ inventorySchema.statics.getInventoryBYFarmId = function (
   }
 };
 
+inventorySchema.statics.getFinancialSummary = async function (userId) {
+  const farmIds = await getFarmIdsByUserId(userId);
+
+  return this.aggregate([
+    { $match: { farmId: { $in: farmIds } } },
+    {
+      $group: {
+        _id: "$transactionType",
+        total: { $sum: "$cost" },
+      },
+    },
+  ]);
+};
+
+
 export const Inventory = model("Inventory", inventorySchema);
