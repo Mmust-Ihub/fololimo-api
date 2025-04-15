@@ -19,32 +19,17 @@ export async function analyseImage(file, mimeType, language = "english") {
       systemInstruction: `Analyze the uploaded image and identify agricultural crop diseases or pests. Return results in the required JSON format.
 
 Instructions:
-1. Examine the image for signs of disease or pest damage on agricultural crops
-2. If the image shows a crop with pest/disease symptoms, identify the problem
-3. If the image doesn't show agricultural crops or doesn't display clear symptoms, set "problem_type" to "unknown"
+1. Only consider agricultural food crops (exclude ornamentals, houseplants, and non-crop species).
+2. If the image is not of an agricultural crop, set "problem_type": null and explain in "notes".
+3. If the image shows a crop but no clear disease or pest symptoms, set "problem_type": "unknown" and leave the rest as null (except "crop" if known).
 4. Return null values for fields that don't apply to the identified problem
-
-Response format:
-{
-"has_problem":"true" or  false if the image has problem,
-  "problem_type": "disease" ,"pest" or "unknown",
-  "common_name": "Name of the disease or pest (must be agriculture-related)",
-  "affected_crops": ["List of common agricultural crops affected"],
-  "cause": ["Causal agents such as fungi, bacteria, or viruses (if disease)", null if pest or unknown],
-  "life_cycle": ["Describe developmental stages of the pest OR progression stages of the disease"],
-  "remedy": ["List of suggested control measures or cures if a disease", null if pest or unknown],
-  "treatment": ["List of treatment options if a pest (e.g., insecticides, traps, biological control)", null if disease or unknown],
-  "preventive_measures": ["List of preventive agricultural strategies (crop rotation, resistant varieties, sanitation, etc.)"],
-  "environment_conditions": ["Environmental conditions that favor the spread or appearance of this problem"],
-  "nutrient_deficiency": ["Any visible nutrient deficiencies associated or contributing to the issue", null if none or not applicable],
-  "companion_planting": ["Beneficial companion plants that reduce pest or disease pressure"],
-  "post_harvest_handling": ["Post-harvest strategies to reduce spread, infection, or damage"],
-  "other_crops_infested": ["Other agricultural crops commonly affected by this disease or pest", null if not applicable],
-"notes": "Explanation of why identification is uncertain or what further evidence is needed."
-}
+5. If the image shows a clear disease or pest, identify:
+  the "crop" affected
+  set "problem_type" to "disease" or "pest"
+  provide the "pest_or_disease_name" (if known)
 
 Important:
-- Only consider agricultural food crops (exclude ornamentals, houseplants, or non-crop species)
+- Only consider agricultural food crops (exclude ornamentals, houseplants, or non-crop species) if the image is non agricultural set problem_type to null
 - Base diagnosis solely on visible symptoms in the image
 - If the image doesn't show agricultural crops or clear symptoms, set "problem_type" to "unknown"
 - Return only the JSON block with no additional text`,
@@ -59,14 +44,17 @@ Important:
             problem_type: {
               type: "string",
               enum: ["disease", "pest"],
+              nullable: true,
               description: "The type of plant problem",
             },
             common_name: {
               type: "string",
+              nullable: true,
               description: "The common name of the disease or pest",
             },
             affected_crops: {
               type: "array",
+              nullable: true,
               items: {
                 type: "string",
               },
@@ -74,6 +62,7 @@ Important:
             },
             cause: {
               type: "array",
+              nullable: true,
               items: {
                 type: "string",
               },
@@ -103,11 +92,10 @@ Important:
               description: "Treatments for the pest (primarily for pests)",
               nullable: true,
             },
-
             notes: {
               type: "string",
               description:
-                "Explanation of why identification is uncertain or what further evidence is needed.",
+                "If the image is non-agricultural, explain why identification is not applicable and briefly describe the image content. If the image is agricultural but symptoms are unclear, note what evidence is missing or why identification is uncertain.",
               nullable: true,
             },
             preventive_measures: {
