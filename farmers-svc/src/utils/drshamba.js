@@ -6,10 +6,10 @@ const prompt =
 export async function drShamba(message, history = []) {
   const apiKey = process.env.GEMINI_API_KEY;
   const ai = new GoogleGenAI({
-    apiKey: "AIzaSyDmlNyg1KBmjQXmWPkunRLG2moyiD2Mkjc",
+    apiKey: apiKey,
   });
   try {
-    const chat = await ai.chats.create({
+    const chat = ai.chats.create({
       model: "gemini-2.0-flash",
       config: {
         systemInstruction: prompt,
@@ -17,7 +17,7 @@ export async function drShamba(message, history = []) {
       history: history,
     });
     const response = await chat.sendMessage({ message: message });
-    console.log(response.text)
+    console.log(response.text);
     return response.text;
   } catch (error) {
     console.log("gemini error", error.message);
