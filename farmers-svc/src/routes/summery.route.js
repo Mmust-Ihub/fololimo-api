@@ -11,25 +11,32 @@ summaryRouter.get("/summary", async (req, res) => {
   const userId = req.user.id;
   try {
     const farms = await Farm.find({ owner: userId });
-    const activities = await Activity.getActivitiesByUserId(userId);
+    if (!farms || farms.length === 0) {
+      console.log("No farms found for this user.");
+      return res.status(200).json({ activities: [], weather: [], transactions: { totalIncome: 0, totalExpenses: 0, netProfit: 0 } });
+    }
+    const farmIds = farms.map((farm) => farm._id);
+    const activities = await Activity.find({ farmId: { $in: farmIds } });
     const transactions = await Inventory.getFinancialSummary(userId);
     const weatherPromises = farms.map(async (farm) => {
       const location = await SubCounty.findOne({
         sub_county: farm.location,
       }).populate("city", "city");
-      if (location) {
+      if (location && location.city) {
         console.log("location:  ", location.city.city);
         const weather = await Weather.findOne({ location: location.city.city });
         console.log("weather: ", weather);
-        return {
-          ...weather._doc,
-          _id: undefined,
-          __v: undefined,
-          farm: farm.name,
-          farmId: farm._id,
-        };
+        if (weather) {
+          return {
+            ...weather._doc,
+            _id: undefined,
+            __v: undefined,
+            farm: farm.name,
+            farmId: farm._id,
+          };
+        }
       }
-      return null; // Handle cases where location is not found
+      return null; // Handle cases where location or weather is not found
     });
 
     const weatherD = (await Promise.all(weatherPromises)).filter(Boolean); // filter out null values.
