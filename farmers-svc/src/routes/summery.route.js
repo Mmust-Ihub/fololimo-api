@@ -13,10 +13,17 @@ summaryRouter.get("/summary", async (req, res) => {
     const farms = await Farm.find({ owner: userId });
     if (!farms || farms.length === 0) {
       console.log("No farms found for this user.");
-      return res.status(200).json({ activities: [], weather: [], transactions: { totalIncome: 0, totalExpenses: 0, netProfit: 0 } });
+      return res
+        .status(200)
+        .json({
+          activities: [],
+          weather: [],
+          transactions: { totalIncome: 0, totalExpenses: 0, netProfit: 0 },
+        });
     }
     const farmIds = farms.map((farm) => farm._id);
     const activities = await Activity.find({ farmId: { $in: farmIds } });
+    console.log("activities: ", activities);
     const transactions = await Inventory.getFinancialSummary(userId);
     const weatherPromises = farms.map(async (farm) => {
       const location = await SubCounty.findOne({
